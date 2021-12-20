@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/better-bookmarks-client/static/css/main.563762b6.css",
+    "main.js": "/better-bookmarks-client/static/js/main.d73613e0.js",
+    "static/js/787.cd697eeb.chunk.js": "/better-bookmarks-client/static/js/787.cd697eeb.chunk.js",
+    "index.html": "/better-bookmarks-client/index.html",
+    "main.563762b6.css.map": "/better-bookmarks-client/static/css/main.563762b6.css.map",
+    "main.d73613e0.js.map": "/better-bookmarks-client/static/js/main.d73613e0.js.map",
+    "787.cd697eeb.chunk.js.map": "/better-bookmarks-client/static/js/787.cd697eeb.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.563762b6.css",
+    "static/js/main.d73613e0.js"
+  ]
+}
