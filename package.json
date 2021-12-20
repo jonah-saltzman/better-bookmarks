@@ -1,5 +1,6 @@
 {
 	"name": "bookmarks-plus-client",
+  "homepage": "https://jonah-saltzman.github.io/better-bookmarks-client/",
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {
