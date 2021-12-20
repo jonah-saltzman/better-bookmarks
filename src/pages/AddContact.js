@@ -15,19 +15,10 @@ import {
   Col,
 } from "reactstrap";
 
-// to compress image before uploading to the server
-import { readAndCompressImage } from "browser-image-resizer";
-
-// configs for image resizing
-//TODO: DONE add image configurations
-import { imageConfig } from "../utils/config";
-
-import { MdAddCircleOutline } from "react-icons/md";
-
 import { v4 } from "uuid";
 
 // context stuffs
-import { ContactContext } from "../context/Context";
+import { AppContext } from "../context/Context";
 import { CONTACT_TO_UPDATE } from "../context/action.types";
 
 import { useHistory } from "react-router-dom";
@@ -41,7 +32,7 @@ import blob2 from "../blob2.svg";
 
 const AddContact = () => {
   // destructuring state and dispatch from context state
-  const { state, dispatch } = useContext(ContactContext);
+  const { state, dispatch } = useContext(AppContext);
 
   const { contactToUpdate, contactToUpdateKey } = state;
 
@@ -74,63 +65,6 @@ const AddContact = () => {
       setIsUpdate(true);
     }
   }, [contactToUpdate]);
-
-  // To upload image to firebase and then set the the image link in the state of the app
-  const imagePicker = async (e) => {
-    // TODO: upload image and set D-URL to state
-
-    try {
-      const file = e.target.files[0];
-
-      var metadata = {
-        contentType: file.type,
-      };
-
-      let resizedImage = await readAndCompressImage(file, imageConfig);
-
-      const storageRef = await firebase.storage().ref();
-      var uploadTask = storageRef
-        .child("images/" + file.name)
-        .put(resizedImage, metadata);
-
-      uploadTask.on(
-        firebase.storage.TaskEvent.STATE_CHANGED,
-        (snapshot) => {
-          setIsUploading(true);
-          var progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-
-          switch (snapshot.state) {
-            case firebase.storage.TaskState.PAUSED:
-              setIsUploading(false);
-              console.log("UPloading is paused");
-              break;
-            case firebase.storage.TaskState.RUNNING:
-              console.log("UPloading is in progress...");
-              break;
-          }
-          if (progress === 100) {
-            setIsUploading(false);
-            toast("uploaded", { type: "success" });
-          }
-        },
-        (error) => {
-          toast("something is wrong in state change", { type: "error" });
-        },
-        () => {
-          uploadTask.snapshot.ref
-            .getDownloadURL()
-            .then((downloadURL) => {
-              setDownloadUrl(downloadURL);
-            })
-            .catch((err) => console.log(err));
-        }
-      );
-    } catch (error) {
-      console.error(error);
-      toast("Something went wrong", { type: "error" });
-    }
-  };
 
   // setting contact to firebase DB
   const addContact = async () => {
@@ -205,30 +139,7 @@ const AddContact = () => {
       <Row>
         <Col md="8" className="offset-md-2 p-3 ">
           <Form className="formcard mb-5" onSubmit={handleSubmit}>
-            <div className="text-center">
-              {isUploading ? (
-                <Spinner type="grow" color="primary" />
-              ) : (
-                <div className="">
-                  <label htmlFor="imagepicker" className="">
-                    <img
-                      src={downloadUrl ? downloadUrl : usericon}
-                      alt=""
-                      className="profile"
-                    />
-                  </label>
-                  <input
-                    type="file"
-                    name="image"
-                    id="imagepicker"
-                    accept="image/*"
-                    multiple={false}
-                    onChange={(e) => imagePicker(e)}
-                    className="hidden"
-                  />
-                </div>
-              )}
-            </div>
+            
 
             <FormGroup className="mt-4">
               <input

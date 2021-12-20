@@ -11,12 +11,12 @@ import {
   CardSubtitle,
 } from "reactstrap";
 import { FaEnvelope, FaMapMarkerAlt, FaPhone } from "react-icons/fa";
-import { ContactContext } from "../context/Context";
+import { AppContext } from "../context/Context";
 import blob1 from "../blob1.svg";
 import blob2 from "../blob2.svg";
 
 const ViewContact = () => {
-  const { state } = useContext(ContactContext);
+  const { state } = useContext(AppContext);
   // destructuring contact from the state
   // and rendering it in state
   //FIXME: DONE destructure contact from state

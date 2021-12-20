@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
 import {
   Container,
@@ -10,16 +10,24 @@ import {
 import Contact from "../components/Contact";
 import { MdAdd } from "react-icons/md";
 import { useHistory } from "react-router-dom";
-import { ContactContext } from "../context/Context";
-import { CONTACT_TO_UPDATE } from "../context/action.types";
+import { AppContext } from "../context/Context";
+import { CONTACT_TO_UPDATE, SET_IN_AUTH } from "../context/action.types";
 import blob1 from "../blob1.svg";
 import blob2 from "../blob2.svg";
 
 const Contacts = () => {
-  const { state, dispatch } = useContext(ContactContext);
+  const { state, dispatch } = useContext(AppContext);
 
   // destructuring contacts and isLoading from state
-  const { contacts, isLoading } = state;
+  const { contacts, isLoading, inAuth } = state;
+  useEffect(() => {
+    if (inAuth) {
+			dispatch({
+				type: SET_IN_AUTH,
+				payload: false,
+			})
+		}
+  }, [])
 
   // history hooks from react router dom to get history
   const history = useHistory();
