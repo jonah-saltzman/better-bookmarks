@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/better-bookmarks-client/static/css/main.b71574f3.chunk.css",
+    "main.js": "/better-bookmarks-client/static/js/main.9b002455.chunk.js",
+    "main.js.map": "/better-bookmarks-client/static/js/main.9b002455.chunk.js.map",
+    "runtime-main.js": "/better-bookmarks-client/static/js/runtime-main.a3ff2f4b.js",
+    "runtime-main.js.map": "/better-bookmarks-client/static/js/runtime-main.a3ff2f4b.js.map",
+    "static/css/2.a304e6d6.chunk.css": "/better-bookmarks-client/static/css/2.a304e6d6.chunk.css",
+    "static/js/2.4da158ad.chunk.js": "/better-bookmarks-client/static/js/2.4da158ad.chunk.js",
+    "static/js/2.4da158ad.chunk.js.map": "/better-bookmarks-client/static/js/2.4da158ad.chunk.js.map",
+    "index.html": "/better-bookmarks-client/index.html",
+    "precache-manifest.f1ce335fc49baac93a9e2dc2c8368ce3.js": "/better-bookmarks-client/precache-manifest.f1ce335fc49baac93a9e2dc2c8368ce3.js",
+    "service-worker.js": "/better-bookmarks-client/service-worker.js",
+    "static/css/2.a304e6d6.chunk.css.map": "/better-bookmarks-client/static/css/2.a304e6d6.chunk.css.map",
+    "static/css/main.b71574f3.chunk.css.map": "/better-bookmarks-client/static/css/main.b71574f3.chunk.css.map",
+    "static/js/2.4da158ad.chunk.js.LICENSE.txt": "/better-bookmarks-client/static/js/2.4da158ad.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a3ff2f4b.js",
+    "static/css/2.a304e6d6.chunk.css",
+    "static/js/2.4da158ad.chunk.js",
+    "static/css/main.b71574f3.chunk.css",
+    "static/js/main.9b002455.chunk.js"
+  ]
+}
