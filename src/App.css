@@ -10,7 +10,7 @@
 html, body {
     max-width: 100%;
     overflow-x: hidden;
-    overflow-y: hidden;
+    /* overflow-y: hidden; */
 }
 
 html {
@@ -56,6 +56,18 @@ body {
   object-fit: cover;
 }
 
+.folder-list {
+  overflow: auto;
+}
+
+.tweet-list {
+  overflow: scroll;
+  height: 600px;
+  padding: 20px;
+  border-radius: 10px;
+  background: linear-gradient(110deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1));
+}
+
 .hidden {
   display: none;
 }
@@ -66,6 +78,20 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+
+.folderName {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-weight: 500;
+  font-size: 20px;
+  color: white;
+  letter-spacing: 1px;
+  font-weight: 700;
+  font-size: 32px;
+  letter-spacing: 2px;
 }
 
 .center-home {
@@ -133,6 +159,26 @@ body {
 }
 
 .listcard {
+  background: white;
+  background: linear-gradient(
+    to right bottom,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.06)
+  );
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background-clip: padding-box;
+  border-radius: 10px !important;
+  z-index: 2;
+  backdrop-filter: blur(20px);
+  padding: 30px;
+  padding-left: 40px;
+  padding-right: 60px;
+}
+
+.tweetcard {
   background: white;
   background: linear-gradient(
     to right bottom,

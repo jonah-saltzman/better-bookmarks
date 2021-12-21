@@ -34,7 +34,7 @@ const Header = () => {
 	}
 
 	return (
-		<Navbar className='nav'>
+		<Navbar sticky='top' className='nav'>
 			<NavbarBrand tag={Link} to='/' className='text-white navbrand'>
 				Better Bookmarks
 			</NavbarBrand>
