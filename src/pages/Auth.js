@@ -78,9 +78,9 @@ const Auth = () => {
 				toast(authResult.success, { type: 'success' })
 				setCredentials(email, authResult.token)
 			}
+			setIsLoading(false)
+			setIsSubmitting(false)
 		})()
-		setIsLoading(false)
-		setIsSubmitting(false)
 	}, [isSubmitting])
 
 	// Set credential variables in parent state
