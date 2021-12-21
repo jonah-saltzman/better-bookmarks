@@ -2,12 +2,16 @@ import React, { useContext, useEffect, useState } from 'react'
 
 import { useHistory } from 'react-router-dom'
 
+import { IoIosArrowBack } from 'react-icons/io'
+
 import {
 	Container,
 	ListGroup,
 	ListGroupItem,
 	Spinner,
 	Button,
+    Row,
+    Col
 } from 'reactstrap'
 
 import { AppContext } from '../context/Context'
@@ -22,11 +26,14 @@ import Tweet from '../components/Tweet'
 
 const OneFolder = () => {
     const { state, dispatch } = useContext(AppContext)
+    const history = useHistory()
     const { folder, folderName, loggedIn, token } = state
 
     const [ isLoading, setIsLoading ] = useState(true)
     const [ getTweets, setGetTweets ] = useState(true)
     const [ tweetsArr, setTweetsArr ] = useState([])
+
+    const [ embed, setEmbed ] = useState(true)
 
     useEffect(() => {
         console.log('single folder page useeffect: folder: ');
@@ -57,8 +64,11 @@ const OneFolder = () => {
                 }
             })()
         }
-
     })
+
+    const back = () => {
+        history.push('/folders')
+    }
 
     if (!loggedIn) {
         return (
@@ -77,11 +87,19 @@ const OneFolder = () => {
         return (
 					<>
 						{' '}
-						<div
-							className='folderName text-large tweetcard'
-							style={{
-								
-							}}>{folderName.toUpperCase()}</div>
+						<Container className='tweetcard'>
+							<Row>
+								<Col md='2'>
+									<div className='icon' onClick={() => back()}>
+										<IoIosArrowBack size={22} className=' text-white' />
+									</div>
+								</Col>
+								<Col md='8'>
+									<div className='folderName'>{folderName}</div>
+								</Col>
+								<Col md='2'></Col>
+							</Row>
+						</Container>
 						<Container scrollable={true} className='mt-4 mb-5 tweet-list'>
 							{tweetsArr.length === 0 && !isLoading ? (
 								<div
@@ -97,7 +115,7 @@ const OneFolder = () => {
 								<ListGroup>
 									{tweetsArr.map((tweet) => (
 										<ListGroupItem key={tweet.twtId} className='tweetcard mb-4'>
-											<Tweet tweet={tweet} tweetKey={tweet.twtId} />
+											<Tweet embed={embed} tweet={tweet} tweetKey={tweet.twtId} />
 										</ListGroupItem>
 									))}
 								</ListGroup>

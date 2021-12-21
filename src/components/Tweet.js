@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Row, Col } from 'reactstrap'
 
 import { MdDelete, MdEdit } from 'react-icons/md'
@@ -9,9 +9,11 @@ import { SET_SINGLE_FOLDER } from '../context/action.types'
 
 import { AppContext } from '../context/Context'
 
-const Tweet = ({tweet, twtId}) => {
+const Tweet = ({tweet, tweetKey, embed}) => {
 	const { state, dispatch } = useContext(AppContext)
 	const history = useHistory()
+
+    const [loadHtml, setLoadHtml] = useState(embed)
 
 	const deleteTweet = () => {
 		// Modal?
@@ -28,7 +30,7 @@ const Tweet = ({tweet, twtId}) => {
 					fontSize: '32px',
 					letterSpacing: '2px',
 				}}>
-				<div className='name'>{tweet.twtText}</div>
+				<div className='tweet'>{tweet.twtText}</div>
 			</Col>
 			<Col md='2' className='d-flex justify-content-center align-items-center'>
 				<div className='iconbtn mr-4 '>

@@ -245,6 +245,13 @@ body {
   letter-spacing: 1px;
 }
 
+.tweet {
+  font-weight: 500;
+  font-size: 20px;
+  color: white;
+  letter-spacing: 1px;
+}
+
 .phone {
   font-weight: 400;
   font-size: 16px;
