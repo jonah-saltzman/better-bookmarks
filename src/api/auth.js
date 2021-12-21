@@ -1,63 +1,15 @@
-const URL = 'https://betterbookmarks.herokuapp.com'
+const herokuURL = 'https://betterbookmarks.herokuapp.com'
 
-
-export const login = async (username, password, done) => {
-    console.log(`logging in ${username} with ${password}`)
-    const loginURL = URL + '/auth/login'
+export const authenticate = async (email, password, twtId, register) => {
+    const URL = herokuURL + '/auth' + (register ? '/signup' : '/login')
     const request = {
-        email: username,
-        password: password
-    }
-    try {
-        const response = await fetch(loginURL, {
-            method: 'POST',
-            //mode: 'cors',
-            cache: 'no-cache',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(request)
-        })
-        const status = response.status
-        console.log('status type: ', typeof status)
-        if (status !== 200) {
-            console.log('error logging in: ')
-            console.log(`status: ${status}`)
-            let message
-            switch (status) {
-                case 404:
-                    return done('Email not found')
-                case 401:
-                    return done('Incorrect password')
-                case 500:
-                    return done('Unknown server error')
-                default: 
-                    return done('Unknown error')
-            }
-        }
-        const body = await response.json()
-        return done(null, body.token)
-    } catch (error) {
-        console.error(error)
-    }
-}
-
-// 401 = already exists
-
-export const signup = async (username, password, passwordConfirm, twtId, done) => {
-    if (password !== passwordConfirm) {
-        return done('Passwords do not match')
-    }
-    const loginURL = URL + '/auth/signup'
-    const request = {
-        email: username,
+        email: email,
         password: password,
         twtId: twtId || null
     }
     try {
-        const response = await fetch(loginURL, {
+        const response = await fetch(URL, {
             method: 'POST',
-            //mode: 'cors',
             cache: 'no-cache',
             headers: {
                 'Content-Type': 'application/json'
@@ -65,14 +17,59 @@ export const signup = async (username, password, passwordConfirm, twtId, done) =
             body: JSON.stringify(request)
         })
         const status = response.status
-        if (status === 401) {
-            return done('Account already exists')
-        }
-        if (status === 200) {
-            const body = await response.json()
-            return done(null, body.user)
+        const data = await response.json()
+        if (!register) {
+            return {
+                error: status === 200 ? null : data,
+                success: status === 200 ? data.message : null,
+                token: data.token || null
+            }
+        } else {
+            if (status === 200) {
+                const login = await authenticate(email, password, null, false)
+                if (login.success) {
+                    return {
+                        error: null,
+                        success: `Account created & logged in!`,
+                        token: login.token
+                    }
+                } else {
+                    return { error: `User ${email} created but login failed.` }
+                }
+            } else {
+                return { error: data }
+            }
         }
     } catch(error) {
         console.error(error)
+        return {
+            error: "Unknown error"
+        }
     }
 }
+
+export const logout = async (token) => {
+    const URL = herokuURL + '/user/signout'
+    try {
+        const response = await fetch(URL, {
+            method: 'Get',
+            cache: 'no-cache',
+            headers: {
+                'Authorization': `JWT ${token}`
+            }
+        })
+        const status = response.status
+        if (status === 200) {
+            return {
+                error: null,
+                success: response.message,
+            }
+        } else {
+            return {
+                error: response.message
+            }
+        }
+    } catch(error) {
+        return { error: "Unknown error logging out." }
+    }
+} 

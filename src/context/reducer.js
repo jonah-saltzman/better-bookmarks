@@ -2,21 +2,28 @@
 
 import {
   SET_CONTACT,
-  SET_LOADING,
   CONTACT_TO_UPDATE,
   SET_SINGLE_CONTACT,
-  SET_IN_AUTH,
-  TOGGLE_AUTH,
-  SET_EMAIL,
+  //SET_IN_AUTH,
+  //TOGGLE_AUTH,
+  SET_USER,
   SET_TOKEN,
   SET_LOGIN,
   SET_FOLDERS,
-  RESET_SIGNIN
+  RESET_SIGNIN,
+  SET_SHOW_LOGOUT,
+  SET_PREV_USER
 } from "./action.types";
 
 //TODO: DONE use switch case
 export default (state, action) => {
   switch (action.type) {
+    case SET_PREV_USER:
+      return action.payload === null
+        ? { ...state, prevUser: null}
+        : { ...state, prevUser: action.payload}
+    case SET_SHOW_LOGOUT:
+      return { ...state, showLogout: action.payload }
     case RESET_SIGNIN:
       return { ...state, signIn: true}
     case SET_FOLDERS:
@@ -27,26 +34,18 @@ export default (state, action) => {
       return action.payload === null
         ? { ...state, loggedIn: false}
         : { ...state, loggedIn: action.payload}
-    case SET_EMAIL:
+    case SET_USER:
       return action.payload === null
-        ? { ...state, email: null}
-        : { ...state, email: action.payload}
+        ? { ...state, user: null}
+        : { ...state, user: action.payload}
     case SET_TOKEN:
       return action.payload === null || action.payload === false
         ? { ...state, token: null}
         : { ...state, token: action.payload}
-    case TOGGLE_AUTH:
-      return {...state, signIn: action.payload}
-    case SET_IN_AUTH:
-      return action.payload === null
-        ? { ...state, inAuth: false}
-        : { ...state, inAuth: action.payload}
     case SET_CONTACT:
-      return action.payload == null
+      return action.payload === null
         ? { ...state, contacts: [] }
         : { ...state, contacts: action.payload };
-    case SET_LOADING:
-      return { ...state, isLoading: action.payload };
     case CONTACT_TO_UPDATE:
       return {
         ...state,

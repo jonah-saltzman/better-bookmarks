@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import Nav from "reactstrap/lib/Nav";
 import { AppContext } from '../context/Context'
 import { login } from '../api/auth';
+import { Signout } from '../components/Signout'
 
 const Header = () => {
   const { state, dispatch } = useContext(AppContext)
@@ -26,7 +27,9 @@ const Header = () => {
 				Import
 			</NavLink>
 			<NavbarText className='text-white float-right navtxt'>
-				<NavLink className='text-white' to={loggedIn ? '/logout' : '/auth'}>
+				<NavLink
+					className='text-white text-large'
+					to={loggedIn ? '/logout' : '/auth'}>
 					{loggedIn ? 'Logout' : 'Login'}
 				</NavLink>
 			</NavbarText>

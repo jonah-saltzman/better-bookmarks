@@ -13,143 +13,93 @@ import {
 } from 'reactstrap'
 
 import { AppContext } from '../context/Context'
-import {
-	SET_EMAIL,
-	SET_IN_AUTH,
-	TOGGLE_AUTH,
-	SET_TOKEN,
-	SET_LOGIN,
-	RESET_SIGNIN,
-	SET_LOADING
-} from '../context/action.types'
+
+import { SET_USER, SET_TOKEN, SET_LOGIN } from '../context/action.types'
 
 import { toast } from 'react-toastify'
 
 import { Redirect } from 'react-router-dom'
 
-import { login, signup } from '../api/auth'
+import { authenticate } from '../api/auth'
 
 const Auth = () => {
-    const { state, dispatch } = useContext(AppContext)
+	// Get context and destructure loggedIn from state
+	const { state, dispatch } = useContext(AppContext)
+	const { loggedIn } = state
 
-    const { signIn, inAuth, loggedIn, isLoading } = state
-
+	// State for handling loading & triggering API calls
 	const [isSubmitting, setIsSubmitting] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
 
-    const toggleAuth = () => {
-        dispatch({
-            type: TOGGLE_AUTH,
-            payload: !signIn
-        })
-    }
+	// State variable representing input fields
+	const [signIn, setSignIn] = useState(true)
+	const [email, setEmail] = useState("")
+	const [password, setPassword] = useState("")
+	const [passwordConfirm, setPasswordConfirm] = useState("")
+	const [twtId, setTwtId] = useState("")
+	const [staySignedIn, setStaySignedIn] = useState(false)
 
-    useEffect(() => {
-        if (!inAuth) {
-					dispatch({
-						type: SET_IN_AUTH,
-						payload: true,
-					})
-				}
-    }, [])
+	// Toggle betweein sign-in and register forms
+	const toggleAuth = () => {
+		setSignIn(!signIn)
+	}
 
-	useEffect(() => {
-		if (!isSubmitting) {
-			return
-		}
-		if (signIn) {
-			dispatch({
-				type: SET_LOADING,
-				payload: true,
-			})
-			login(email, password, (err, token) => {
-				if (err) {
-					toast(`${err}`, { type: 'error' })
-				}
-				if (token) {
-					toast(`${email} logged in!`, { type: 'success' })
-					dispatch({
-						type: SET_EMAIL,
-						payload: email,
-					})
-					dispatch({
-						type: SET_TOKEN,
-						payload: token,
-					})
-					dispatch({
-						type: SET_LOGIN,
-						payload: true,
-					})
-				}
-				dispatch({
-					type: SET_LOADING,
-					payload: false,
-				})
-				setIsSubmitting(false)
-			})
-		} else {
-			dispatch({
-				type: SET_LOADING,
-				payload: true,
-			})
-			signup(email, password, passwordConfirm, twtId, (err, user) => {
-				if (err) {
-					toast(`${err}`, { type: 'error' })
-				} else if (user) {
-					login(email, password, (err, token) => {
-						if (err) {
-							toast(`Account created but sign-in failed. Try again.`, {
-								type: 'error',
-							})
-						}
-						if (token) {
-							toast(`Account created! Signed in as ${email}.`, {
-								type: 'success',
-							})
-							dispatch({
-								type: SET_EMAIL,
-								payload: email,
-							})
-							dispatch({
-								type: SET_TOKEN,
-								payload: token,
-							})
-							dispatch({
-								type: SET_LOGIN,
-								payload: true,
-							})
-						}
-						dispatch({
-							type: SET_LOADING,
-							payload: false,
-						})
-						setIsSubmitting(false)
-					})
-				} else {
-					dispatch({
-						type: SET_LOADING,
-						payload: false,
-					})
-					toast(`Unknown error.`, { type: 'error' })
-					setIsSubmitting(false)
-				}
-			})
-		}
-	})
-
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [passwordConfirm, setPasswordConfirm] = useState("")
-    const [twtId, setTwtId] = useState("")
-    const [staySignedIn, setStaySignedIn] = useState(false)
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-		if (email == "" || password == "" || (!signIn && passwordConfirm == "")) {
+	// Handle form submission & validate input
+	const handleSubmit = async (event) => {
+		event.preventDefault()
+		if (email === '' || password === '' || (!signIn && passwordConfirm === '')) {
 			toast(`Please complete all required fields.`, { type: 'error' })
 			return
 		}
-		isSubmitting(true)
-    }
+		if (!signIn && password !== passwordConfirm) {
+			toast(`Passwords do not match!`, { type: 'error' })
+			return
+		}
+		setIsLoading(true)
+		setIsSubmitting(true)
+	}
+
+	// If the form event handler validates input, call the auth API
+	useEffect(() => {
+		if (!isSubmitting) {
+			setIsLoading(false)
+			return
+		}
+		(async () => {
+			const authResult = await authenticate(
+				email,
+				password,
+				twtId,
+				!signIn
+			)
+			if (authResult.error) {
+				toast(authResult.error, { type: 'error' })
+			} else {
+				toast(authResult.success, { type: 'success' })
+				setCredentials(email, authResult.token)
+			}
+		})()
+		setIsLoading(false)
+		setIsSubmitting(false)
+	}, [isSubmitting])
+
+	// Set credential variables in parent state
+	const setCredentials = (email, token) => {
+		dispatch({
+			type: SET_USER,
+			payload: email,
+		})
+		dispatch({
+			type: SET_TOKEN,
+			payload: token,
+		})
+		dispatch({
+			type: SET_LOGIN,
+			payload: true,
+		})
+	}
+
+	// Render spinner while waiting for API
 	if (isLoading) {
 		return (
 			<div className='Center'>
@@ -158,24 +108,18 @@ const Auth = () => {
 			</div>
 		)
 	}
+
+	// If logged in, redirect to /folders, else, render auth forms
 	if (loggedIn) {
-		dispatch({
-			type: SET_IN_AUTH,
-			payload: false,
-		})
-		dispatch({
-			type: RESET_SIGNIN
-		})
-		return (
-			<Redirect to='/folders'></Redirect>
-		)
+		return <Redirect to='/folders'></Redirect>
 	} else {
 		return (
 			<Container fluid className='mt-5 '>
 				<Row>
 					<Col md='8' className='offset-md-2 p-3 '>
-						<Form className='formcard mb-5' onSubmit={handleSubmit}>
-							<FormGroup className='mt-4'>
+						<Form className='formcard auth-form' onSubmit={handleSubmit}>
+							<FormGroup
+								className='mt-4'>
 								<input
 									className='input'
 									type='email'
@@ -263,11 +207,12 @@ const Auth = () => {
 					<Col md='8' className='offset-md-8'>
 						<Button
 							onClick={toggleAuth}
+							type='button'
+							className='text-uppercase button-static'
 							style={{
 								padding: '15px',
 								fontSize: '18px',
-							}}
-							className='text-uppercase button-secondary'>
+							}}>
 							{signIn ? 'Register' : 'Sign in'}
 						</Button>
 					</Col>
@@ -275,7 +220,6 @@ const Auth = () => {
 			</Container>
 		)
 	}
-    
 }
 
 export default Auth

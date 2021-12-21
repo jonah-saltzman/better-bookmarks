@@ -68,10 +68,35 @@ body {
   flex-direction: column;
 }
 
+.center-home {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
 .fab {
   position: fixed;
   bottom: 50px;
   right: 50px;
+  border-radius: 10px;
+  background: linear-gradient(110deg, rgba(187, 20, 226), rgba(21, 32, 227));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-color: none;
+  border: none;
+  padding: 15px;
+  padding-left: 40px;
+  padding-right: 40px;
+  color: #f9f9f9;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  z-index: 3;
+}
+
+.card-fab {
   border-radius: 10px;
   background: linear-gradient(110deg, rgba(187, 20, 226), rgba(21, 32, 227));
   display: flex;
@@ -104,7 +129,7 @@ body {
 }
 
 .card {
-  margin-top: 125px;
+  margin-top: 75px;
 }
 
 .listcard {
@@ -125,6 +150,10 @@ body {
   padding: 30px;
   padding-left: 40px;
   padding-right: 60px;
+}
+
+.auth-form {
+  margin-bottom: 1rem;
 }
 
 /* for home page */
@@ -225,6 +254,27 @@ body {
 .Toastify__progress-bar--info {
   background: #e3d39f !important;
   color: #e3d39f;
+}
+
+.homecard {
+  background: white;
+  background: linear-gradient(
+    to right bottom,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.06)
+  );
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background-clip: padding-box;
+  border-radius: 10px !important;
+  z-index: 2;
+  backdrop-filter: blur(20px);
+  padding: 60px;
+  padding-bottom: 70px;
+  padding-left: 80px;
+  padding-right: 80px;
 }
 
 .formcard, .importcard {
@@ -359,7 +409,8 @@ background: linear-gradient(
   z-index: 3;
 }
 
-.button-secondary {
+
+.button-static {
   border-radius: 10px;
   background: rgb(31, 45, 172);
   display: flex;
@@ -377,8 +428,8 @@ background: linear-gradient(
   z-index: 3;
 }
 
-.button:hover {
-  color: #f9f9f9;
+.btn-secondary:focus, .btn-secondary:hover {
+  background: rgb(31, 45, 172);
 }
 
 .showcontact {

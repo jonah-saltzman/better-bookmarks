@@ -18,6 +18,7 @@ import Header from "./layout/Header"
 import Footer from "./layout/Footer"
 import PageNotFound from "./pages/PageNotFound"
 import Auth from "./pages/Auth"
+import Home from "./pages/Home"
 import Signout from './components/Signout'
 
 // context api stuffs
@@ -28,17 +29,17 @@ import { SET_CONTACT, SET_LOADING } from "./context/action.types";
 
 // first state to provide in react reducer
 const initialState = {
-  isLoading: false,
+  showLogout: false,
   inAuth: false,
   loggedIn: false,
-  signIn: true,
   twtAuth: {
     authed: false,
     twtId: null,
     twtToken: null,
     twtSecret: null
   },
-  email: null,
+  user: null,
+  prevUser: null,
   token: null,
   folders: [],
 };
@@ -52,11 +53,6 @@ const App = () => {
     // GetFolders
   };
 
-  useEffect(() => {
-    console.log(`state updated: `)
-    console.log(state)
-  }, [state])
-
   return (
     <Router>
       <AppContext.Provider value={{ state, dispatch }}>
@@ -66,7 +62,7 @@ const App = () => {
           <Switch>
             <Route exact path="/auth" component={Auth} />
             <Route exact path="/logout" component={Signout} />
-            <Route exact path="/" component={PageNotFound} />
+            <Route exact path="/" component={Home} />
             <Route exact path="*" component={PageNotFound} />
           </Switch>
         </Container>
