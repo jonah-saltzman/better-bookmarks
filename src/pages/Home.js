@@ -27,23 +27,6 @@ import { Redirect } from 'react-router-dom'
 
 const Home = () => {
     const { state, dispatch } = useContext(AppContext)
-    const { showLogout, prevUser } = state
-
-    console.log(`top of Home: showLogout: ${showLogout}, prevUser: ${prevUser}`)
-
-    const [showedLogout, setShowedLogout] = useState(false)
-
-    useEffect(() => {
-        console.log(`show logout? ${showLogout}; showED logout? ${showedLogout}`)
-        if (showedLogout) {
-            return
-        }
-        if (showLogout) {
-            toast(`Logged out ${prevUser}!`, { type: 'success' })
-        }
-        setShowedLogout(false)
-        console.log(`show logout? ${showLogout}; showED logout? ${showedLogout}`)
-    }, [showedLogout])
     
     return (
 			<div className='center-home'>

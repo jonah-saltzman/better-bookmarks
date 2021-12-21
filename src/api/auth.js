@@ -59,14 +59,17 @@ export const logout = async (token) => {
             }
         })
         const status = response.status
+        console.log(`in logout, response:`)
+        const data = await response.json()
+        console.log(data)
         if (status === 200) {
             return {
                 error: null,
-                success: response.message,
+                success: data.message,
             }
         } else {
             return {
-                error: response.message
+                error: data.message
             }
         }
     } catch(error) {

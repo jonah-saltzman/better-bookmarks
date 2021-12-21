@@ -1,18 +1,39 @@
 //TODO: DONE set NavbarBrand to go to home page and export Header
 
 import React, { useContext } from 'react'
-import { Navbar, NavbarBrand, NavbarText, Button } from "reactstrap";
+import { Navbar, NavbarBrand, NavbarText, Button } from 'reactstrap'
 import { NavLink } from 'react-router-dom'
-import { Link } from "react-router-dom";
-import Nav from "reactstrap/lib/Nav";
+import { Link } from 'react-router-dom'
+import Nav from 'reactstrap/lib/Nav'
 import { AppContext } from '../context/Context'
-import { login } from '../api/auth';
-import { Signout } from '../components/Signout'
+
+import { SET_USER, SET_LOGIN, SET_TOKEN, SET_FOLDERS } from '../context/action.types'
+
+
+import { toast } from 'react-toastify'
+
+import { logout } from '../api/auth'
 
 const Header = () => {
-  const { state, dispatch } = useContext(AppContext)
-  const { inAuth, signIn, loggedIn } = state
-  return (
+	const { state, dispatch } = useContext(AppContext)
+	const { inAuth, signIn, loggedIn, token } = state
+
+	const signout = async () => {
+		if (!token) {
+			toast('No user to logout!', { type: 'error' })
+			return
+		}
+		const signoutResult = await logout(token)
+		if (signoutResult.error) {
+			toast(signoutResult.error, { type: 'error' })
+			return
+		}
+		toast(signoutResult.success, { type: 'success' })
+		const actions = [SET_USER, SET_LOGIN, SET_TOKEN, SET_FOLDERS]
+		actions.forEach((action) => dispatch({ type: action, payload: null }))
+	}
+
+	return (
 		<Navbar className='nav'>
 			<NavbarBrand tag={Link} to='/' className='text-white navbrand'>
 				Better Bookmarks
@@ -27,14 +48,18 @@ const Header = () => {
 				Import
 			</NavLink>
 			<NavbarText className='text-white float-right navtxt'>
-				<NavLink
-					className='text-white text-large'
-					to={loggedIn ? '/logout' : '/auth'}>
-					{loggedIn ? 'Logout' : 'Login'}
-				</NavLink>
+				{loggedIn ? (
+					<span onClick={signout} className='text-white text-large logout'>
+						Logout
+					</span>
+				) : (
+					<NavLink className='text-white text-large' to='/auth'>
+						Login
+					</NavLink>
+				)}
 			</NavbarText>
 		</Navbar>
 	)
-};
+}
 
-export default Header;
+export default Header

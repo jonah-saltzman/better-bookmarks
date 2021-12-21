@@ -156,6 +156,11 @@ body {
   margin-bottom: 1rem;
 }
 
+.logout:hover {
+  cursor:pointer;
+  text-decoration:underline;
+}
+
 /* for home page */
 .cirlce1 {
   height: 20rem;

@@ -61,7 +61,6 @@ const App = () => {
         <Container>
           <Switch>
             <Route exact path="/auth" component={Auth} />
-            <Route exact path="/logout" component={Signout} />
             <Route exact path="/" component={Home} />
             <Route exact path="*" component={PageNotFound} />
           </Switch>
