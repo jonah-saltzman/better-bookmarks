@@ -7,8 +7,6 @@ import { Row, Col } from "reactstrap";
 import { FaRegStar, FaStar } from "react-icons/fa";
 import { MdDelete, MdEdit } from "react-icons/md";
 
-//TODO: DONE add firebase
-import firebase from "firebase/app";
 
 // context stuffs
 //TODO: DONE import context and action: update and single_contact
@@ -31,34 +29,12 @@ const Contact = ({ contact, contactKey }) => {
   // to delete the contact when delete contact is clicked
   const deleteContact = () => {
     //TODO: DONE create this method from firebase
-    firebase
-      .database()
-      .ref(`/contacts/${contactKey}`)
-      .remove()
-      .then(() => {
-        toast("Deleted Successfully", { type: "warning" });
-      })
-      .catch((err) => console.log(err));
   };
 
   // update the star/important contact ,ie, star it or unstar the single contact
   const updateImpContact = () => {
     //TODO: DONE update (star) contact, use contactKey
-    firebase
-      .database()
-      .ref(`/contacts/${contactKey}`)
-      .update(
-        {
-          star: !contact.star,
-        },
-        (err) => {
-          console.log(err);
-        }
-      )
-      .then(() => {
-        toast("Contact Updated", { type: "info" });
-      })
-      .catch((err) => console.log(err));
+    
   };
 
   // when the update icon/ pen ion is clicked

@@ -6,11 +6,11 @@ import { NavLink } from 'react-router-dom'
 import { Link } from "react-router-dom";
 import Nav from "reactstrap/lib/Nav";
 import { AppContext } from '../context/Context'
+import { login } from '../api/auth';
 
 const Header = () => {
   const { state, dispatch } = useContext(AppContext)
-  const { inAuth, signIn } = state
-  console.log(`inAuth: ${inAuth}`)
+  const { inAuth, signIn, loggedIn } = state
   return (
 		<Navbar className='nav'>
 			<NavbarBrand tag={Link} to='/' className='text-white navbrand'>
@@ -19,8 +19,16 @@ const Header = () => {
 			<NavLink to='/folders' className='text-white'>
 				Folders
 			</NavLink>
+			<NavLink to='/likes' className='text-white'>
+				Likes
+			</NavLink>
+			<NavLink to='/import' className='text-white'>
+				Import
+			</NavLink>
 			<NavbarText className='text-white float-right navtxt'>
-				<NavLink to='/auth'>{state.loggedIn ? 'Logout' : 'Login'}</NavLink>
+				<NavLink className='text-white' to={loggedIn ? '/logout' : '/auth'}>
+					{loggedIn ? 'Logout' : 'Login'}
+				</NavLink>
 			</NavbarText>
 		</Navbar>
 	)

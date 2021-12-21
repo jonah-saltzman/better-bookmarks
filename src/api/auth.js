@@ -65,6 +65,13 @@ export const signup = async (username, password, passwordConfirm, twtId, done) =
             body: JSON.stringify(request)
         })
         const status = response.status
+        if (status === 401) {
+            return done('Account already exists')
+        }
+        if (status === 200) {
+            const body = await response.json()
+            return done(null, body.user)
+        }
     } catch(error) {
         console.error(error)
     }

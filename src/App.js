@@ -14,13 +14,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 // components
-import AddContact from "./pages/AddContact";
-import Contacts from "./pages/Contacts";
-import Header from "./layout/Header";
-import Footer from "./layout/Footer";
-import ViewContact from "./pages/ViewContact";
-import PageNotFound from "./pages/PageNotFound";
+import Header from "./layout/Header"
+import Footer from "./layout/Footer"
+import PageNotFound from "./pages/PageNotFound"
 import Auth from "./pages/Auth"
+import Signout from './components/Signout'
 
 // context api stuffs
 //TODO: DONE  import reducers and contexts
@@ -30,21 +28,19 @@ import { SET_CONTACT, SET_LOADING } from "./context/action.types";
 
 // first state to provide in react reducer
 const initialState = {
-  contacts: [],
-  contact: {},
-  contactToUpdate: null,
-  contactToUpdateKey: null,
   isLoading: false,
-  // Mine
   inAuth: false,
   loggedIn: false,
   signIn: true,
-  twtAuth: false,
+  twtAuth: {
+    authed: false,
+    twtId: null,
+    twtToken: null,
+    twtSecret: null
+  },
   email: null,
   token: null,
   folders: [],
-  folderToUpdate: null,
-  folderIdToUpdate: null,
 };
 
 const App = () => {
@@ -52,19 +48,14 @@ const App = () => {
 
   const { token } = state
 
-  // will get contacts from firebase and set it on state contacts array
   const getFolders = async () => {
     // GetFolders
   };
 
-  // getting contact  when component did mount
   useEffect(() => {
-    getFolders();
-  }, [state.loggedIn]);
-
-  useEffect(() => {
-    console.log(`new token : ${token}`)
-  }, [token])
+    console.log(`state updated: `)
+    console.log(state)
+  }, [state])
 
   return (
     <Router>
@@ -73,10 +64,9 @@ const App = () => {
         <Header />
         <Container>
           <Switch>
-            <Route exact path="/auth" component={Auth}></Route>
-            <Route exact path="/contact/add" component={AddContact} />
-            <Route exact path="/contact/view" component={ViewContact} />
-            <Route exact path="/" component={Contacts} />
+            <Route exact path="/auth" component={Auth} />
+            <Route exact path="/logout" component={Signout} />
+            <Route exact path="/" component={PageNotFound} />
             <Route exact path="*" component={PageNotFound} />
           </Switch>
         </Container>

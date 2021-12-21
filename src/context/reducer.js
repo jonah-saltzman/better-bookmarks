@@ -8,24 +8,37 @@ import {
   SET_IN_AUTH,
   TOGGLE_AUTH,
   SET_EMAIL,
-  SET_TOKEN
+  SET_TOKEN,
+  SET_LOGIN,
+  SET_FOLDERS,
+  RESET_SIGNIN
 } from "./action.types";
 
 //TODO: DONE use switch case
 export default (state, action) => {
   switch (action.type) {
+    case RESET_SIGNIN:
+      return { ...state, signIn: true}
+    case SET_FOLDERS:
+      return action.payload === null
+        ? { ...state, folders: []}
+        : { ...state, folders: action.payload}
+    case SET_LOGIN:
+      return action.payload === null
+        ? { ...state, loggedIn: false}
+        : { ...state, loggedIn: action.payload}
     case SET_EMAIL:
-      return action.payload == null
+      return action.payload === null
         ? { ...state, email: null}
         : { ...state, email: action.payload}
     case SET_TOKEN:
-      return action.payload == null || action.payload == false
+      return action.payload === null || action.payload === false
         ? { ...state, token: null}
         : { ...state, token: action.payload}
     case TOGGLE_AUTH:
       return {...state, signIn: action.payload}
     case SET_IN_AUTH:
-      return action.payload == null
+      return action.payload === null
         ? { ...state, inAuth: false}
         : { ...state, inAuth: action.payload}
     case SET_CONTACT:

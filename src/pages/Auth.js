@@ -13,16 +13,28 @@ import {
 } from 'reactstrap'
 
 import { AppContext } from '../context/Context'
-import { SET_EMAIL, SET_IN_AUTH, TOGGLE_AUTH, SET_TOKEN } from '../context/action.types'
+import {
+	SET_EMAIL,
+	SET_IN_AUTH,
+	TOGGLE_AUTH,
+	SET_TOKEN,
+	SET_LOGIN,
+	RESET_SIGNIN,
+	SET_LOADING
+} from '../context/action.types'
 
 import { toast } from 'react-toastify'
 
-import { login } from '../api/auth'
+import { Redirect } from 'react-router-dom'
+
+import { login, signup } from '../api/auth'
 
 const Auth = () => {
     const { state, dispatch } = useContext(AppContext)
 
-    const { signIn, inAuth } = state
+    const { signIn, inAuth, loggedIn, isLoading } = state
+
+	const [isSubmitting, setIsSubmitting] = useState(false)
 
     const toggleAuth = () => {
         dispatch({
@@ -30,6 +42,7 @@ const Auth = () => {
             payload: !signIn
         })
     }
+
     useEffect(() => {
         if (!inAuth) {
 					dispatch({
@@ -39,6 +52,90 @@ const Auth = () => {
 				}
     }, [])
 
+	useEffect(() => {
+		if (!isSubmitting) {
+			return
+		}
+		if (signIn) {
+			dispatch({
+				type: SET_LOADING,
+				payload: true,
+			})
+			login(email, password, (err, token) => {
+				if (err) {
+					toast(`${err}`, { type: 'error' })
+				}
+				if (token) {
+					toast(`${email} logged in!`, { type: 'success' })
+					dispatch({
+						type: SET_EMAIL,
+						payload: email,
+					})
+					dispatch({
+						type: SET_TOKEN,
+						payload: token,
+					})
+					dispatch({
+						type: SET_LOGIN,
+						payload: true,
+					})
+				}
+				dispatch({
+					type: SET_LOADING,
+					payload: false,
+				})
+				setIsSubmitting(false)
+			})
+		} else {
+			dispatch({
+				type: SET_LOADING,
+				payload: true,
+			})
+			signup(email, password, passwordConfirm, twtId, (err, user) => {
+				if (err) {
+					toast(`${err}`, { type: 'error' })
+				} else if (user) {
+					login(email, password, (err, token) => {
+						if (err) {
+							toast(`Account created but sign-in failed. Try again.`, {
+								type: 'error',
+							})
+						}
+						if (token) {
+							toast(`Account created! Signed in as ${email}.`, {
+								type: 'success',
+							})
+							dispatch({
+								type: SET_EMAIL,
+								payload: email,
+							})
+							dispatch({
+								type: SET_TOKEN,
+								payload: token,
+							})
+							dispatch({
+								type: SET_LOGIN,
+								payload: true,
+							})
+						}
+						dispatch({
+							type: SET_LOADING,
+							payload: false,
+						})
+						setIsSubmitting(false)
+					})
+				} else {
+					dispatch({
+						type: SET_LOADING,
+						payload: false,
+					})
+					toast(`Unknown error.`, { type: 'error' })
+					setIsSubmitting(false)
+				}
+			})
+		}
+	})
+
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [passwordConfirm, setPasswordConfirm] = useState("")
@@ -47,25 +144,33 @@ const Auth = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const result = await login(email, password, (err, token) => {
-            if (err) {
-                toast(`${err}`, { type: 'error' })
-            }
-            if (token) {
-                toast(`${email} logged in!`, { type: 'success' })
-                dispatch({
-                    type: SET_EMAIL,
-                    payload: email
-                })
-                dispatch({
-                    type: SET_TOKEN,
-                    payload: token
-                })
-            }
-        })
+		if (email == "" || password == "" || (!signIn && passwordConfirm == "")) {
+			toast(`Please complete all required fields.`, { type: 'error' })
+			return
+		}
+		isSubmitting(true)
     }
-
-    return (
+	if (isLoading) {
+		return (
+			<div className='Center'>
+				<Spinner color='primary' />
+				<div className='text-primary'>Loading...</div>
+			</div>
+		)
+	}
+	if (loggedIn) {
+		dispatch({
+			type: SET_IN_AUTH,
+			payload: false,
+		})
+		dispatch({
+			type: RESET_SIGNIN
+		})
+		return (
+			<Redirect to='/folders'></Redirect>
+		)
+	} else {
+		return (
 			<Container fluid className='mt-5 '>
 				<Row>
 					<Col md='8' className='offset-md-2 p-3 '>
@@ -116,7 +221,7 @@ const Auth = () => {
 								</FormGroup>
 							) : (
 								[
-									<FormGroup key="password-confirm">
+									<FormGroup key='password-confirm'>
 										<input
 											className='input mt-2'
 											type='password'
@@ -127,7 +232,7 @@ const Auth = () => {
 											placeholder='Confirm password'
 										/>
 									</FormGroup>,
-									<FormGroup key="twtId">
+									<FormGroup key='twtId'>
 										<input
 											className='input mt-2'
 											type='text'
@@ -156,13 +261,21 @@ const Auth = () => {
 				</Row>
 				<Row>
 					<Col md='8' className='offset-md-8'>
-						<Button onClick={toggleAuth}>
+						<Button
+							onClick={toggleAuth}
+							style={{
+								padding: '15px',
+								fontSize: '18px',
+							}}
+							className='text-uppercase button-secondary'>
 							{signIn ? 'Register' : 'Sign in'}
 						</Button>
 					</Col>
 				</Row>
 			</Container>
 		)
+	}
+    
 }
 
 export default Auth
