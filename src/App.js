@@ -29,8 +29,6 @@ import reducer from "./context/reducer";
 import { AppContext } from "./context/Context";
 import { SET_CONTACT, SET_LOADING } from "./context/action.types";
 
-const PREFIX = ''
-
 // first state to provide in react reducer
 const initialState = {
   showLogout: false,

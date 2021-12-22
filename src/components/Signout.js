@@ -2,8 +2,6 @@ import React, { useState, useContext, useEffect } from 'react'
 import { AppContext } from '../context/Context'
 import { toast } from 'react-toastify'
 
-import PREFIX from '../prefix'
-
 import { logout } from '../api/auth'
 
 import { Spinner } from 'reactstrap'
@@ -58,7 +56,7 @@ const Signout = () => {
 
     if (signedOut) {
         return (
-            <Redirect to={PREFIX + '/'} />
+            <Redirect to='/' />
         )
     } else {
         return (
