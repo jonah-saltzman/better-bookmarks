@@ -1,9 +1,9 @@
-const DEV = true
-
-const herokuURL = DEV ? 'http://127.0.0.1:4000' : 'https://betterbookmarks.herokuapp.com'
+import { BB_URL } from "../constants"
 
 export const authenticate = async (email, password, twtId, register) => {
-    const URL = herokuURL + '/auth' + (register ? '/signup' : '/login')
+    const URL = BB_URL + '/auth' + (register ? '/signup' : '/login')
+    console.log(`authenticating with url: `)
+    console.log(URL)
     const request = {
         email: email,
         password: password,
@@ -52,7 +52,7 @@ export const authenticate = async (email, password, twtId, register) => {
 }
 
 export const logout = async (token) => {
-    const URL = herokuURL + '/user/signout'
+    const URL = BB_URL + '/user/signout'
     try {
         const response = await fetch(URL, {
             method: 'Get',

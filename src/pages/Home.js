@@ -19,6 +19,8 @@ import {
 
 import { AppContext } from '../context/Context'
 
+import { TWTAUTH_PREFIX, TWTAUTH_SUFFIX } from '../constants'
+
 import { Link } from 'react-router-dom'
 
 import { SET_USER, SET_TOKEN, SET_LOGIN } from '../context/action.types'
@@ -26,15 +28,6 @@ import { SET_USER, SET_TOKEN, SET_LOGIN } from '../context/action.types'
 import { toast } from 'react-toastify'
 
 import { Redirect } from 'react-router-dom'
-
-const TWT_URL =
-	'https://twitter.com/i/oauth2/authorize?response_type=code&client_id=YnEzOGs2Y2pLMWRUTXM2X3dYU1g6MTpjaQ&redirect_uri=http://127.0.0.1:4000/twtauth&scope=tweet.read%20like.read&state=state&code_challenge=InSomnia&code_challenge_method=plain'
-
-const TWTAUTH_PREFIX =
-	'https://twitter.com/i/oauth2/authorize?response_type=code&client_id=YnEzOGs2Y2pLMWRUTXM2X3dYU1g6MTpjaQ&redirect_uri='
-
-const TWTAUTH_SUFFIX =
-	'&scope=tweet.read%20like.read&state=state&code_challenge=InSomnia&code_challenge_method=plain'
 
 const Home = () => {
     const { state, dispatch } = useContext(AppContext)
@@ -49,7 +42,7 @@ const Home = () => {
 
 	useEffect(() => {
 		if (loggedIn && userId) {
-			setTwtAuthUrl(TWTAUTH_PREFIX + `http://127.0.0.1:4000/twtauth?user=${userId}` + TWTAUTH_SUFFIX)
+			setTwtAuthUrl(TWTAUTH_PREFIX + userId + TWTAUTH_SUFFIX)
 			setShowTwtAuth(true)
 		}
 	},[loggedIn])
@@ -72,15 +65,5 @@ const Home = () => {
 			</div>
 		)
 }
-
-//<a href={twtAuthUrl} target="_blank" rel="noopener noreferrer">Login with Twitter</a>
-
-// ;<Route
-// 	path='/privacy-policy'
-// 	component={() => {
-// 		window.location.href = 'https://example.com/1234'
-// 		return null
-// 	}}
-// />
 
 export default Home
