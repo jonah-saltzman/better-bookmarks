@@ -67,7 +67,7 @@ const App = () => {
   };
 
   return (
-		<Router basename='better-bookmarks-client'>
+		<Router basename='better-bookmarks'>
 			<AppContext.Provider value={{ state, dispatch }}>
 				<ToastContainer theme='dark' />
 				<Header />
