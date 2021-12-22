@@ -16,10 +16,7 @@ export const BB_URL = isDev
 
 export const TWTAUTH_PREFIX =
 	'https://twitter.com/i/oauth2/authorize?response_type=code&client_id=YnEzOGs2Y2pLMWRUTXM2X3dYU1g6MTpjaQ&redirect_uri=' +
-	(isDev
-		? 'http://127.0.0.1:4000/'
-		: 'https://betterbookmarks.herokuapp.com/') +
-	'/twtauth?user='
+	BB_URL + '/twtauth?user='
 
 export const TWTAUTH_SUFFIX =
 	'&scope=tweet.read%20like.read&state=state&code_challenge=InSomnia&code_challenge_method=plain'
