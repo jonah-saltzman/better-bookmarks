@@ -1,12 +1,12 @@
-import React, { useReducer, useEffect, useState } from "react";
+import React, { useReducer } from "react";
 
-import { Container, Col, Row } from "reactstrap";
+import { Container } from "reactstrap";
 
 // react-router-dom3
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 // react toastify stuffs
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // bootstrap css
@@ -21,15 +21,10 @@ import Auth from "./pages/Auth"
 import Home from "./pages/Home"
 import Folders from "./pages/Folders"
 import OneFolder from './pages/OneFolder'
-import Signout from './components/Signout'
 
-// context api stuffs
-//TODO: DONE  import reducers and contexts
 import reducer from "./context/reducer";
 import { AppContext } from "./context/Context";
-import { SET_CONTACT, SET_LOADING } from "./context/action.types";
 
-// first state to provide in react reducer
 const initialState = {
   showLogout: false,
   inAuth: false,
@@ -53,17 +48,6 @@ const initialState = {
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const { token } = state
-
-  useEffect(() => {
-    console.log('state updated')
-    console.log(state)
-  }, [state])
-
-  const getFolders = async () => {
-    // GetFolders
-  };
-
   return (
 		<Router basename='better-bookmarks'>
 			<AppContext.Provider value={{ state, dispatch }}>
@@ -78,6 +62,7 @@ const App = () => {
 						<Route exact path='*' component={PageNotFound} />
 					</Switch>
 				</Container>
+        {/* <Footer /> */}
 			</AppContext.Provider>
 		</Router>
 	)

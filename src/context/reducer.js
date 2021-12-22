@@ -1,11 +1,4 @@
-//TODO: DONE create contact using all actions
-
 import {
-	SET_CONTACT,
-	CONTACT_TO_UPDATE,
-	SET_SINGLE_CONTACT,
-	//SET_IN_AUTH,
-	//TOGGLE_AUTH,
 	SET_USER,
 	SET_TOKEN,
 	SET_LOGIN,
@@ -17,13 +10,11 @@ import {
 	SET_SINGLE_FOLDER_NAME,
 } from './action.types'
 
-//TODO: DONE use switch case
 export default (state, action) => {
   switch (action.type) {
     case SET_SINGLE_FOLDER_NAME:
       return { ...state, folderName: action.payload}
     case SET_SINGLE_FOLDER:
-      console.log(`setting single folder to ${action.payload}`)
       return { ...state, folder: action.payload}
     case SET_PREV_USER:
       return action.payload === null
@@ -49,23 +40,7 @@ export default (state, action) => {
       return action.payload === null || action.payload === false
         ? { ...state, token: null}
         : { ...state, token: action.payload}
-    case SET_CONTACT:
-      return action.payload === null
-        ? { ...state, contacts: [] }
-        : { ...state, contacts: action.payload };
-    case CONTACT_TO_UPDATE:
-      return {
-        ...state,
-        contactToUpdate: action.payload,
-        contactToUpdateKey: action.key,
-      };
-    case SET_SINGLE_CONTACT:
-      return {
-        ...state,
-        contact: action.payload,
-      };
-
     default:
-      return state;
+      return state
   }
-};
+}
