@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "d68e16c010dc7d41f1c54f10a8882d5f",
+    "revision": "d849b1db985563ad16896669a54d6ff8",
     "url": "/better-bookmarks/index.html"
   },
   {
-    "revision": "931a12b3107e1d3569be",
+    "revision": "af012959bccc82cf2049",
     "url": "/better-bookmarks/static/css/2.a304e6d6.chunk.css"
   },
   {
-    "revision": "f35b8b2cd3f400f7ef2f",
+    "revision": "f19eb5373c9808650525",
     "url": "/better-bookmarks/static/css/main.e57890dd.chunk.css"
   },
   {
-    "revision": "931a12b3107e1d3569be",
-    "url": "/better-bookmarks/static/js/2.ab35e4ce.chunk.js"
+    "revision": "af012959bccc82cf2049",
+    "url": "/better-bookmarks/static/js/2.6a0669e6.chunk.js"
   },
   {
     "revision": "3453b8997016469371284a28c0e873e2",
-    "url": "/better-bookmarks/static/js/2.ab35e4ce.chunk.js.LICENSE.txt"
+    "url": "/better-bookmarks/static/js/2.6a0669e6.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "f35b8b2cd3f400f7ef2f",
-    "url": "/better-bookmarks/static/js/main.a79abfa8.chunk.js"
+    "revision": "f19eb5373c9808650525",
+    "url": "/better-bookmarks/static/js/main.54e44d52.chunk.js"
   },
   {
     "revision": "b0c1b0507167678b4d2c",
