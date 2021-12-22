@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "72b561979b4f9a89bf7b5189d815aeec",
+    "revision": "092b9772405388faa1ff74b366c7f338",
     "url": "/better-bookmarks-client/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/better-bookmarks-client/static/css/2.a304e6d6.chunk.css"
   },
   {
-    "revision": "24b4a13ad2f84c7dbc3a",
+    "revision": "fcd35b9ff9a607bb719a",
     "url": "/better-bookmarks-client/static/css/main.b71574f3.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/better-bookmarks-client/static/js/2.4da158ad.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "24b4a13ad2f84c7dbc3a",
-    "url": "/better-bookmarks-client/static/js/main.0df0cd2e.chunk.js"
+    "revision": "fcd35b9ff9a607bb719a",
+    "url": "/better-bookmarks-client/static/js/main.c44bc43e.chunk.js"
   },
   {
     "revision": "262bab9846ed6809d68d",
