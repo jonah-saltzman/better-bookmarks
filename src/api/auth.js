@@ -1,4 +1,6 @@
-const herokuURL = 'https://betterbookmarks.herokuapp.com'
+const DEV = true
+
+const herokuURL = DEV ? 'http://127.0.0.1:4000' : 'https://betterbookmarks.herokuapp.com'
 
 export const authenticate = async (email, password, twtId, register) => {
     const URL = herokuURL + '/auth' + (register ? '/signup' : '/login')
@@ -22,7 +24,8 @@ export const authenticate = async (email, password, twtId, register) => {
             return {
                 error: status === 200 ? null : data,
                 success: status === 200 ? data.message : null,
-                token: data.token || null
+                token: data.token || null,
+                userId: data.userId || null
             }
         } else {
             if (status === 200) {

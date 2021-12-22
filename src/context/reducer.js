@@ -8,10 +8,15 @@ import {
 	SET_PREV_USER,
 	SET_SINGLE_FOLDER,
 	SET_SINGLE_FOLDER_NAME,
+  SET_USER_ID
 } from './action.types'
 
 export default (state, action) => {
   switch (action.type) {
+    case SET_USER_ID:
+      return action.payload === null
+        ? { ...state, userId: null}
+        : { ...state, userId: action.payload}
     case SET_SINGLE_FOLDER_NAME:
       return { ...state, folderName: action.payload}
     case SET_SINGLE_FOLDER:

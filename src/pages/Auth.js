@@ -14,7 +14,12 @@ import {
 
 import { AppContext } from '../context/Context'
 
-import { SET_USER, SET_TOKEN, SET_LOGIN } from '../context/action.types'
+import {
+	SET_USER,
+	SET_TOKEN,
+	SET_LOGIN,
+	SET_USER_ID,
+} from '../context/action.types'
 
 import { toast } from 'react-toastify'
 
@@ -76,7 +81,9 @@ const Auth = () => {
 				toast(authResult.error, { type: 'error' })
 			} else {
 				toast(authResult.success, { type: 'success' })
-				setCredentials(email, authResult.token)
+				console.log(`authResult:`)
+				console.log(authResult)
+				setCredentials(email, authResult.token, authResult.userId)
 			}
 			setIsLoading(false)
 			setIsSubmitting(false)
@@ -84,7 +91,9 @@ const Auth = () => {
 	}, [isSubmitting])
 
 	// Set credential variables in parent state
-	const setCredentials = (email, token) => {
+	const setCredentials = (email, token, userId) => {
+		console.log(`setting credentials: `)
+		console.log(email, token, userId)
 		dispatch({
 			type: SET_USER,
 			payload: email,
@@ -96,6 +105,10 @@ const Auth = () => {
 		dispatch({
 			type: SET_LOGIN,
 			payload: true,
+		})
+		dispatch({
+			type: SET_USER_ID,
+			payload: userId
 		})
 	}
 

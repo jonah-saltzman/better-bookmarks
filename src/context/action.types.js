@@ -1,4 +1,5 @@
 export const SET_USER = "SET_USER"
+export const SET_USER_ID = 'SET_USER_ID'
 export const SET_FOLDERS = "SET_FOLDERS"
 export const SET_LOGIN = "SET_LOGIN"
 export const SET_TOKEN = "SET_TOKEN"

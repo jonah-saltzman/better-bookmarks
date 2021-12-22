@@ -36,8 +36,6 @@ const OneFolder = () => {
     const [ embed, setEmbed ] = useState(true)
 
     useEffect(() => {
-        console.log('single folder page useeffect: folder: ');
-        console.log(folder);
         if (!getTweets) {
             return
         }
@@ -45,8 +43,6 @@ const OneFolder = () => {
             return
         }
         if (loggedIn) {
-            console.log(`attempting to get single folder: `);
-            console.log(folder);
             (async () => {
                 const tweets = await getOneFolder(folder, token)
                 if (tweets.error) {

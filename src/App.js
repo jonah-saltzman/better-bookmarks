@@ -36,6 +36,7 @@ const initialState = {
     twtSecret: null
   },
   user: null,
+  userId: null,
   prevUser: null,
   token: null,
   folders: [],
@@ -44,6 +45,11 @@ const initialState = {
   folderToUpdate: null,
   folderIdToUpdate: null
 };
+
+const Close = () => {
+  window.close()
+  return (<></>)
+}
 
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -58,11 +64,12 @@ const App = () => {
 						<Route exact path='/auth' component={Auth} />
 						<Route exact path='/folders' component={Folders} />
 						<Route exact path='/onefolder' component={OneFolder} />
+						<Route exact path='/close' component={Close} />
 						<Route exact path='/' component={Home} />
 						<Route exact path='*' component={PageNotFound} />
 					</Switch>
 				</Container>
-        {/* <Footer /> */}
+				{/* <Footer /> */}
 			</AppContext.Provider>
 		</Router>
 	)

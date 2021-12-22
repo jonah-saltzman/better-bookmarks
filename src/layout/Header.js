@@ -7,7 +7,13 @@ import { Link } from 'react-router-dom'
 import Nav from 'reactstrap/lib/Nav'
 import { AppContext } from '../context/Context'
 
-import { SET_USER, SET_LOGIN, SET_TOKEN, SET_FOLDERS } from '../context/action.types'
+import {
+	SET_USER,
+	SET_LOGIN,
+	SET_TOKEN,
+	SET_FOLDERS,
+	SET_USER_ID,
+} from '../context/action.types'
 
 
 import { toast } from 'react-toastify'
@@ -29,7 +35,7 @@ const Header = () => {
 			return
 		}
 		toast(signoutResult.success, { type: 'success' })
-		const actions = [SET_USER, SET_LOGIN, SET_TOKEN, SET_FOLDERS]
+		const actions = [SET_USER, SET_LOGIN, SET_TOKEN, SET_FOLDERS, SET_USER_ID]
 		actions.forEach((action) => dispatch({ type: action, payload: null }))
 	}
 
