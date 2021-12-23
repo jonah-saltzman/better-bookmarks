@@ -24,7 +24,9 @@ import { TWTAUTH_PREFIX, TWTAUTH_SUFFIX } from '../constants'
 const Home = (props) => {
 
 	const location = props.location
+	console.log(`in home, location.search: ${location.search}`)
 	if (location.search === '?close') {
+		console.log('closing window')
 		window.close()
 	}
 
