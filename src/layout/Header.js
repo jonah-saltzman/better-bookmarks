@@ -22,7 +22,7 @@ import { logout } from '../api/auth'
 
 const Header = () => {
 	const { state, dispatch } = useContext(AppContext)
-	const { inAuth, signIn, loggedIn, token } = state
+	const { loggedIn, token } = state
 
 	const signout = async () => {
 		if (!token) {
@@ -55,7 +55,7 @@ const Header = () => {
 			</NavLink>
 			<NavbarText className='text-white float-right navtxt'>
 				{loggedIn ? (
-					<span onClick={signout} className='text-white text-large logout'>
+					<span onClick={signout} className='text-white text-large link'>
 						Logout
 					</span>
 				) : (

@@ -21,15 +21,11 @@ import { AppContext } from '../context/Context'
 
 import { TWTAUTH_PREFIX, TWTAUTH_SUFFIX } from '../constants'
 
-import { Link } from 'react-router-dom'
+const Home = (props) => {
 
-import { SET_USER, SET_TOKEN, SET_LOGIN } from '../context/action.types'
+	const location = props.location
+	console.log('home: ', location)
 
-import { toast } from 'react-toastify'
-
-import { Redirect } from 'react-router-dom'
-
-const Home = () => {
     const { state, dispatch } = useContext(AppContext)
     const { loggedIn, userId } = state
 
@@ -52,14 +48,12 @@ const Home = () => {
 				<Card className='homecard card-fab'>
 					<CardTitle>Welcome to Better Bookmarks</CardTitle>
 					<CardBody>
-						<CardText>
 							<ul>
-								<li>Organize your favorite Tweets into folders.</li>
+								<li>Organize your favorite Tweets into folders</li>
 								<li>Share folders with anyone</li>
-								<li>No more "This Tweet has been deleted</li>
+								<li>No more "This Tweet has been deleted"</li>
 							</ul>
-							{showTwtAuth ? <span onClick={twtPopup}>Login with Twitter</span> : null}
-						</CardText>
+							{showTwtAuth ? <span className='link' onClick={twtPopup}>Login with Twitter</span> : null}
 					</CardBody>
 				</Card>
 			</div>
