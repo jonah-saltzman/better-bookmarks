@@ -8,11 +8,16 @@ import {
 	SET_PREV_USER,
 	SET_SINGLE_FOLDER,
 	SET_SINGLE_FOLDER_NAME,
-  SET_USER_ID
+	SET_USER_ID,
+	SET_TWT_CHALLENGE,
 } from './action.types'
 
 export default (state, action) => {
   switch (action.type) {
+    case SET_TWT_CHALLENGE:
+      return action.payload === null
+        ? { ...state, twtChallenge: null}
+        : { ...state, twtChallenge: action.payload}
     case SET_USER_ID:
       return action.payload === null
         ? { ...state, userId: null}

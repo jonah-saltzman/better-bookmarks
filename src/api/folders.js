@@ -57,6 +57,6 @@ export const getOneFolder = async (folderId, token) => {
         }
 	} catch (error) {
 		console.error(error)
-        return null
+        return {error: error}
 	}
 }

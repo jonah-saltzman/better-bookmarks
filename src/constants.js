@@ -18,5 +18,8 @@ export const TWTAUTH_PREFIX =
 	'https://twitter.com/i/oauth2/authorize?response_type=code&client_id=YnEzOGs2Y2pLMWRUTXM2X3dYU1g6MTpjaQ&redirect_uri=' +
 	BB_URL + '/twtauth?user='
 
-export const TWTAUTH_SUFFIX =
-	'&scope=tweet.read%20like.read&state=state&code_challenge=InSomnia&code_challenge_method=plain'
+export const TWTAUTH_STATE = '&scope=tweet.read%20like.read&state='
+
+export const TWTAUTH_CHALLENGE = '&code_challenge='
+
+export const TWTAUTH_SUFFIX = '&code_challenge_method=plain'

@@ -2,6 +2,8 @@ import React, { useReducer } from "react";
 
 import { Container } from "reactstrap";
 
+import { randomBytes } from 'crypto'
+
 // react-router-dom3
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -37,6 +39,8 @@ const initialState = {
   },
   user: null,
   userId: null,
+  twtChallenge: null,
+  twtState: randomBytes(48).toString('hex'),
   prevUser: null,
   token: null,
   folders: [],

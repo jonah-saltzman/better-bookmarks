@@ -19,6 +19,7 @@ import {
 	SET_TOKEN,
 	SET_LOGIN,
 	SET_USER_ID,
+	SET_TWT_CHALLENGE,
 } from '../context/action.types'
 
 import { toast } from 'react-toastify'
@@ -83,7 +84,7 @@ const Auth = () => {
 				toast(authResult.success, { type: 'success' })
 				console.log(`authResult:`)
 				console.log(authResult)
-				setCredentials(email, authResult.token, authResult.userId)
+				setCredentials(email, authResult)
 			}
 			setIsLoading(false)
 			setIsSubmitting(false)
@@ -91,24 +92,28 @@ const Auth = () => {
 	}, [isSubmitting])
 
 	// Set credential variables in parent state
-	const setCredentials = (email, token, userId) => {
+	const setCredentials = (email, authResult) => {
 		console.log(`setting credentials: `)
-		console.log(email, token, userId)
+		console.log(email, authResult.token, authResult.userId, authResult.twtChallenge)
 		dispatch({
 			type: SET_USER,
 			payload: email,
 		})
 		dispatch({
 			type: SET_TOKEN,
-			payload: token,
+			payload: authResult.token,
+		})
+		dispatch({
+			type: SET_USER_ID,
+			payload: authResult.userId
+		})
+		dispatch({
+			type: SET_TWT_CHALLENGE,
+			payload: authResult.twtChallenge
 		})
 		dispatch({
 			type: SET_LOGIN,
 			payload: true,
-		})
-		dispatch({
-			type: SET_USER_ID,
-			payload: userId
 		})
 	}
 

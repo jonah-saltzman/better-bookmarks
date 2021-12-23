@@ -1,25 +1,14 @@
 import React, { useState, useContext, useEffect } from 'react'
 
 import {
-	Container,
     Card,
-    CardHeader,
     CardBody,
     CardTitle,
-    CardText,
-	Form,
-	FormGroup,
-	Label,
-	Input,
-	Button,
-	Spinner,
-	Row,
-	Col,
 } from 'reactstrap'
 
 import { AppContext } from '../context/Context'
 
-import { TWTAUTH_PREFIX, TWTAUTH_SUFFIX } from '../constants'
+import getTwtUrl from '../newtwturl'
 
 const Home = (props) => {
 
@@ -31,7 +20,7 @@ const Home = (props) => {
 	}
 
     const { state, dispatch } = useContext(AppContext)
-    const { loggedIn, userId } = state
+    const { loggedIn, userId, twtChallenge, twtState } = state
 
 	const [showTwtAuth, setShowTwtAuth] = useState(false)
 	const [twtAuthUrl, setTwtAuthUrl] = useState("")
@@ -42,8 +31,10 @@ const Home = (props) => {
 
 	useEffect(() => {
 		if (loggedIn && userId) {
-			setTwtAuthUrl(TWTAUTH_PREFIX + userId + TWTAUTH_SUFFIX)
+			setTwtAuthUrl(getTwtUrl(userId, twtChallenge, twtState))
 			setShowTwtAuth(true)
+			console.log(`twtChallenge: ${twtChallenge}`)
+			console.log(`twtState: ${twtState}`)
 		}
 	},[loggedIn])
 

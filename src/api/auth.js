@@ -25,7 +25,8 @@ export const authenticate = async (email, password, twtId, register) => {
                 error: status === 200 ? null : data,
                 success: status === 200 ? data.message : null,
                 token: data.token || null,
-                userId: data.userId || null
+                userId: data.userId || null,
+                twtChallenge: data.twtChallenge || null
             }
         } else {
             if (status === 200) {
@@ -34,7 +35,9 @@ export const authenticate = async (email, password, twtId, register) => {
                     return {
                         error: null,
                         success: `Account created & logged in!`,
-                        token: login.token
+                        token: login.token,
+                        userId: login.userId,
+                        twtChallenge: login.twtChallenge
                     }
                 } else {
                     return { error: `User ${email} created but login failed.` }
