@@ -3,6 +3,10 @@ import { Row, Col } from 'reactstrap'
 
 import { MdDelete, MdEdit } from 'react-icons/md'
 
+import { TwitterTweetEmbed } from 'react-twitter-embed'
+
+import { Tweet as EmbTweet } from 'react-twitter-widgets'
+
 import { useHistory } from 'react-router-dom'
 
 import { AppContext } from '../context/Context'
@@ -26,7 +30,10 @@ const Tweet = ({tweet, tweetKey, embed}) => {
 					fontSize: '32px',
 					letterSpacing: '2px',
 				}}>
-				<div className='tweet'>{tweet.twtText}</div>
+				<div className='tweet'>{embed 
+					? <EmbTweet tweetId={tweet.twtId} /> 
+					: tweet.twtText}
+				</div>
 			</Col>
 			<Col md='2' className='d-flex justify-content-center align-items-center'>
 				<div className='iconbtn'>

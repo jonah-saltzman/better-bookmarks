@@ -35,6 +35,9 @@ const Home = (props) => {
 			setShowTwtAuth(true)
 			console.log(`twtChallenge: ${twtChallenge}`)
 			console.log(`twtState: ${twtState}`)
+		} else {
+			setTwtAuthUrl("")
+			setShowTwtAuth(false)
 		}
 	},[loggedIn])
 
