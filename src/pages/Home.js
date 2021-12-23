@@ -24,7 +24,9 @@ import { TWTAUTH_PREFIX, TWTAUTH_SUFFIX } from '../constants'
 const Home = (props) => {
 
 	const location = props.location
-	console.log('home: ', location)
+	if (location.search === '?close') {
+		window.close()
+	}
 
     const { state, dispatch } = useContext(AppContext)
     const { loggedIn, userId } = state

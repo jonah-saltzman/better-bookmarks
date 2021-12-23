@@ -46,16 +46,9 @@ const initialState = {
   folderIdToUpdate: null
 };
 
-const Close = () => {
-  window.close()
-  return (<></>)
-}
-
-const App = (props) => {
+const App = () => {
+  
   const [state, dispatch] = useReducer(reducer, initialState);
-
-  const location = props.location
-	console.log('app: ', location)
 
   return (
 		<Router basename='better-bookmarks'>
@@ -67,7 +60,6 @@ const App = (props) => {
 						<Route exact path='/auth' component={Auth} />
 						<Route exact path='/folders' component={Folders} />
 						<Route exact path='/onefolder' component={OneFolder} />
-						<Route exact path='/?close' component={Close} />
 						<Route exact path='/' component={Home} />
 						<Route exact path='*' component={PageNotFound} />
 					</Switch>
