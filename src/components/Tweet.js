@@ -30,9 +30,11 @@ const Tweet = ({tweet, tweetKey, embed}) => {
 					fontSize: '32px',
 					letterSpacing: '2px',
 				}}>
-				<div className='tweet'>{embed 
-					? <EmbTweet tweetId={tweet.twtId} /> 
-					: tweet.twtText}
+				<div hidden={embed ? false : true} className='tweet'>
+					<EmbTweet tweetId={tweet.twtId} />
+				</div>
+				<div hidden={embed ? true : false} className='tweet'>
+					{tweet.twtText}
 				</div>
 			</Col>
 			<Col md='2' className='d-flex justify-content-center align-items-center'>

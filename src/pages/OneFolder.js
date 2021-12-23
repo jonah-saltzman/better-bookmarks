@@ -62,9 +62,18 @@ const OneFolder = () => {
         }
     })
 
+	// TODO: Render spinner while waiting for embedded tweets
+	useEffect(() => {
+		return
+	})
+
     const back = () => {
         history.push('/folders')
     }
+
+	const toggleEmbed = () => {
+		setEmbed(!embed)
+	}
 
     if (!loggedIn) {
         return (
@@ -112,7 +121,11 @@ const OneFolder = () => {
 								<Col md='8'>
 									<div className='folderName'>{folderName}</div>
 								</Col>
-								<Col md='2'></Col>
+								<Col onClick={() => toggleEmbed()} md='2'>
+									<div className='text-white float-right text-large link'>
+										{embed ? "Text" : "Embedded"}
+									</div>
+								</Col>
 							</Row>
 						</Container>
 						<Container scrollable={true} className='mt-4 mb-5 tweet-list'>
