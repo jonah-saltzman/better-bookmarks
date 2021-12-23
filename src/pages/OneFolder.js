@@ -122,7 +122,7 @@ const OneFolder = () => {
 									<div className='folderName'>{folderName}</div>
 								</Col>
 								<Col onClick={() => toggleEmbed()} md='2'>
-									<div className='text-white float-right text-large link'>
+									<div className='text-white text-large link'>
 										{embed ? "Text" : "Embedded"}
 									</div>
 								</Col>
