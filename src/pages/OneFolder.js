@@ -24,6 +24,10 @@ import { getOneFolder } from '../api/folders'
 
 import Tweet from '../components/Tweet'
 
+const myRow = ({ index }) => {
+	<Row className='col-md-6'>{index}</Row>
+}
+
 const OneFolder = () => {
     const { state, dispatch } = useContext(AppContext)
     const history = useHistory()
@@ -107,19 +111,21 @@ const OneFolder = () => {
 									}}>
 									No Tweets (yet)!
 								</div>
-							) : (
-								<ListGroup>
-									{tweetsArr.map((tweet) => (
-										<ListGroupItem key={tweet.twtId} className='tweetcard mb-4'>
-											<Tweet embed={embed} tweet={tweet} tweetKey={tweet.twtId} />
-										</ListGroupItem>
-									))}
-								</ListGroup>
-							)}
+							) : null}
 						</Container>
 					</>
 				)
         }
 }
+
+
+	/* <ListGroup>
+									{tweetsArr.map((tweet) => (
+										<ListGroupItem key={tweet.twtId} className='tweetcard mb-4'>
+											<Tweet embed={embed} tweet={tweet} tweetKey={tweet.twtId} />
+										</ListGroupItem>
+									))}
+								</ListGroup> */
+
 
 export default OneFolder
