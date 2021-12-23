@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/better-bookmarks/static/css/main.bdadd33f.chunk.css",
-    "main.js": "/better-bookmarks/static/js/main.c901bcf2.chunk.js",
-    "main.js.map": "/better-bookmarks/static/js/main.c901bcf2.chunk.js.map",
+    "main.js": "/better-bookmarks/static/js/main.f04a5518.chunk.js",
+    "main.js.map": "/better-bookmarks/static/js/main.f04a5518.chunk.js.map",
     "runtime-main.js": "/better-bookmarks/static/js/runtime-main.910ba65b.js",
     "runtime-main.js.map": "/better-bookmarks/static/js/runtime-main.910ba65b.js.map",
     "static/css/2.a304e6d6.chunk.css": "/better-bookmarks/static/css/2.a304e6d6.chunk.css",
     "static/js/2.f931072e.chunk.js": "/better-bookmarks/static/js/2.f931072e.chunk.js",
     "static/js/2.f931072e.chunk.js.map": "/better-bookmarks/static/js/2.f931072e.chunk.js.map",
     "index.html": "/better-bookmarks/index.html",
-    "precache-manifest.e506fb9ddec5e39287bc890f2e124598.js": "/better-bookmarks/precache-manifest.e506fb9ddec5e39287bc890f2e124598.js",
+    "precache-manifest.9469df0e224405164b24e05e4e356385.js": "/better-bookmarks/precache-manifest.9469df0e224405164b24e05e4e356385.js",
     "service-worker.js": "/better-bookmarks/service-worker.js",
     "static/css/2.a304e6d6.chunk.css.map": "/better-bookmarks/static/css/2.a304e6d6.chunk.css.map",
     "static/css/main.bdadd33f.chunk.css.map": "/better-bookmarks/static/css/main.bdadd33f.chunk.css.map",
@@ -20,6 +20,6 @@
     "static/css/2.a304e6d6.chunk.css",
     "static/js/2.f931072e.chunk.js",
     "static/css/main.bdadd33f.chunk.css",
-    "static/js/main.c901bcf2.chunk.js"
+    "static/js/main.f04a5518.chunk.js"
   ]
 }
