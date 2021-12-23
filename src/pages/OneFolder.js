@@ -24,10 +24,6 @@ import { getOneFolder } from '../api/folders'
 
 import Tweet from '../components/Tweet'
 
-const myRow = ({ index }) => {
-	<Row className='col-md-6'>{index}</Row>
-}
-
 const OneFolder = () => {
     const { state, dispatch } = useContext(AppContext)
     const history = useHistory()
@@ -82,8 +78,27 @@ const OneFolder = () => {
 			</div>
 		)
     } else {
-        console.log('rendering tweets: ')
-        console.log(tweetsArr)
+		const [colA, colB] = [[], []]
+		tweetsArr.forEach((tweet, i) => {
+			i % 2 === 0
+				? colA.push(
+						<ListGroupItem key={tweet.twtId} className='tweetcard mb-4'>
+							<Tweet tweet={tweet} embed={embed} tweetKey={tweet.twtId}></Tweet>
+						</ListGroupItem>
+				  )
+				: colB.push(
+						<ListGroupItem key={tweet.twtId} className='tweetcard mb-4'>
+							<Tweet tweet={tweet} embed={embed} tweetKey={tweet.twtId}></Tweet>
+						</ListGroupItem>
+				  )
+		})
+		const rows = []
+		for (let i = 0; i < colA.length; i++) {
+			rows.push((<Row>
+				<Col>{colA[i]}</Col>
+				<Col>{colB[i] ? colB[i] : null}</Col>
+			</Row>))
+		}
         return (
 					<>
 						{' '}
@@ -111,7 +126,11 @@ const OneFolder = () => {
 									}}>
 									No Tweets (yet)!
 								</div>
-							) : null}
+							) : (
+								<ListGroup>
+									<Container>{rows}</Container>
+								</ListGroup>
+							)}
 						</Container>
 					</>
 				)
