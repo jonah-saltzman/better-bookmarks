@@ -82,8 +82,6 @@ const Auth = () => {
 				toast(authResult.error, { type: 'error' })
 			} else {
 				toast(authResult.success, { type: 'success' })
-				console.log(`authResult:`)
-				console.log(authResult)
 				setCredentials(email, authResult)
 			}
 			setIsLoading(false)
@@ -93,8 +91,6 @@ const Auth = () => {
 
 	// Set credential variables in parent state
 	const setCredentials = (email, authResult) => {
-		console.log(`setting credentials: `)
-		console.log(email, authResult.token, authResult.userId, authResult.twtChallenge)
 		dispatch({
 			type: SET_USER,
 			payload: email,

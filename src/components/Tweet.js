@@ -53,7 +53,6 @@ const Tweet = (props) => {
 
 
 	const loaded = () => {
-		console.log(`tweet ${tweet.twtId} is loaded`)
 		setIsLoading(false)
 	}
 
@@ -84,7 +83,6 @@ const Tweet = (props) => {
 					{enteredView ? (
 						<><div className='tweet'>
 							<EmbTweet onLoad={() => {
-								console.log(`loaded tweet ${tweet.twtId}`)
 								loaded()
 								}} tweetId={tweet.twtId} />
 						</div><div hidden={!isLoading} className='tweet'>

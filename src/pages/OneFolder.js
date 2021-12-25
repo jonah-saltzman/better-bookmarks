@@ -26,28 +26,30 @@ import { getOneFolder } from '../api/folders'
 
 import Tweet from '../components/Tweet'
 
-const OneFolder = () => {
+const OneFolder = ({folder}) => {
     const { state, dispatch } = useContext(AppContext)
-    const history = useHistory()
-    const { folder, folderName, loggedIn, token } = state
+    //const history = useHistory()
+    const { loggedIn, token } = state
 
+	const [ prevFolder, setPrevFolder ] = useState({})
     const [ isLoading, setIsLoading ] = useState(true)
     const [ getTweets, setGetTweets ] = useState(true)
     const [ tweetsArr, setTweetsArr ] = useState([])
 
     const [ embed, setEmbed ] = useState(true)
 
+	const [tweetRows, setTweetRows] = useState([])
+
     useEffect(() => {
-        if (!getTweets) {
-            return
-        }
-        if (!folder) {
-			back()
-            return
-        }
+		if (!folder) {
+			return
+		}
+		console.log(`folder updated... getting ${folder.folderName}`)
         if (loggedIn) {
             (async () => {
-                const tweets = await getOneFolder(folder, token)
+				console.log(`getting folder:`)
+				console.log(folder)
+                const tweets = await getOneFolder(folder.folderId, token)
                 if (tweets.error) {
                     toast(`Error: ${tweets.error}`)
                     setGetTweets(false)
@@ -55,32 +57,45 @@ const OneFolder = () => {
                     return
                 }
                 if (tweets.tweets) {
-                    console.log('got tweets: ')
-                    console.log(tweets.tweets)
                     setTweetsArr(tweets.tweets)
                     setGetTweets(false)
 					setIsLoading(false)
+					setPrevFolder(folder)
                 }
             })()
         }
     }, [folder])
 
-	// TODO: Render spinner while waiting for embedded tweets
 	useEffect(() => {
-		return
-	})
-
-    const back = () => {
-		dispatch({
-			type: SET_SINGLE_FOLDER,
-			payload: null
+		if (tweetsArr.length === 0) {
+			setTweetRows([])
+			return
+		}
+		const [colA, colB] = [[], []]
+		tweetsArr.forEach((tweet, i) => {
+			i % 2 === 0
+				? colA.push(
+						<ListGroupItem key={tweet.twtId} className='tweetcard mb-4'>
+							<Tweet tweet={tweet} embed={true} tweetKey={tweet.twtId}></Tweet>
+						</ListGroupItem>
+				  )
+				: colB.push(
+						<ListGroupItem key={tweet.twtId} className='tweetcard mb-4'>
+							<Tweet tweet={tweet} embed={true} tweetKey={tweet.twtId}></Tweet>
+						</ListGroupItem>
+				  )
 		})
-		dispatch({
-			type: SET_SINGLE_FOLDER_NAME,
-			payload: null
-		})
-        history.push('/folders')
-    }
+		const rows = []
+		for (let i = 0; i < colA.length; i++) {
+			rows.push(
+				<Row key={i}>
+					<Col>{colA[i]}</Col>
+					<Col>{colB[i] ? colB[i] : null}</Col>
+				</Row>
+			)
+		}
+		setTweetRows(rows)
+	}, [tweetsArr])
 
 	const toggleEmbed = () => {
 		setEmbed(!embed)
@@ -98,41 +113,14 @@ const OneFolder = () => {
 			</div>
 		)
     } else {
-		const [colA, colB] = [[], []]
-		tweetsArr.forEach((tweet, i) => {
-			i % 2 === 0
-				? colA.push(
-						<ListGroupItem key={tweet.twtId} className='tweetcard mb-4'>
-							<Tweet tweet={tweet} embed={true} tweetKey={tweet.twtId}></Tweet>
-						</ListGroupItem>
-				  )
-				: colB.push(
-						<ListGroupItem key={tweet.twtId} className='tweetcard mb-4'>
-							<Tweet tweet={tweet} embed={true} tweetKey={tweet.twtId}></Tweet>
-						</ListGroupItem>
-				  )
-		})
-		const rows = []
-		for (let i = 0; i < colA.length; i++) {
-			rows.push((<Row key={i}>
-				<Col>{colA[i]}</Col>
-				<Col>{colB[i] ? colB[i] : null}</Col>
-			</Row>))
-		}
         return (
 					<>
 						{' '}
-						<Container className='tweetcard'>
-							<Row>
-								<Col md='2'>
-									<div className='icon' onClick={() => back()}>
-										<IoIosArrowBack size={22} className=' text-white' />
-									</div>
+						<Container className='folder-title'>
+							<Row className='justify-content-md-center'>
+								<Col md='auto'>
+									<div className='folderName'>{folder.folderName}</div>
 								</Col>
-								<Col md='8'>
-									<div className='folderName'>{folderName}</div>
-								</Col>
-								
 							</Row>
 						</Container>
 						<Container scrollable={`true`} className='mt-4 mb-5 tweet-list'>
@@ -148,7 +136,7 @@ const OneFolder = () => {
 								</div>
 							) : (
 								<ListGroup>
-									<Container>{rows}</Container>
+									<Container>{tweetRows}</Container>
 								</ListGroup>
 							)}
 						</Container>

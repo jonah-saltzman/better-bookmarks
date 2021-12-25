@@ -7,8 +7,6 @@ const isDev = Boolean(
 		)
 )
 
-console.log(`isDev: ${isDev}`)
-
 export const BB_URL = isDev
 	? 'http://127.0.0.1:4000'
 	: 'https://betterbookmarks.herokuapp.com'

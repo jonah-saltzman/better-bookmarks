@@ -1,5 +1,5 @@
-import React, { useContext } from 'react'
-import { Row, Col } from 'reactstrap'
+import React, { useContext, useEffect, useState } from 'react'
+import { Row, Col, Container, Form, FormGroup } from 'reactstrap'
 
 import { MdDelete, MdEdit } from 'react-icons/md'
 
@@ -9,9 +9,19 @@ import { SET_SINGLE_FOLDER, SET_SINGLE_FOLDER_NAME } from '../context/action.typ
 
 import { AppContext } from '../context/Context'
 
-const Folder = ({folder, folderKey}) => {
+import { newFolder as createFolder } from '../api/folders'
+
+import { toast } from 'react-toastify'
+
+const Folder = ({folder, folderKey, newFolder, refresh, selectFolder}) => {
     const { state, dispatch } = useContext(AppContext)
+	const { token } = state
     const history = useHistory()
+	const [editable, setEditable] = useState(false)
+	const [folderName, setFolderName] = useState(newFolder ? "" : folder.folderName)
+	const [callingAPI, setCallingAPI] = useState(false)
+	const [creatingFolder, setCreatingFolder] = useState(false)
+	const [editingFolder, setEditingFolder] = useState(false)
 
     const updateFolder = () => {
         // Modal?
@@ -23,51 +33,107 @@ const Folder = ({folder, folderKey}) => {
         return
     }
 
+	const editName = () => {
+		if (editable) {
+			return
+		}
+		setEditable(true)
+	}
+
+	const cancelEdit = () => {
+		if (!editable) {
+			return
+		}
+		setEditable(false)
+		setFolderName(newFolder ? "" : folder.folderName)
+	}
+
+	const handleNewFolder = async (event) => {
+		event.preventDefault()
+		setEditable(false)
+		setCreatingFolder(true)
+		setCallingAPI(true)
+	}
+
+	useEffect(() => {
+		if (!callingAPI) {
+			return
+		}
+		(async () => {
+			switch (true) {
+				case creatingFolder:
+					console.log(`attempting to create folder: ${folderName}`)
+					setCreatingFolder(false)
+					setCallingAPI(false)
+					setFolderName("")
+					const created = await createFolder(folderName, token)
+					if (created.error) {
+						toast(created.error, { type: 'error' })
+					} else {
+						toast(created.message, { type: 'success' })
+						refresh()
+					}
+			}
+		})()
+	})
+
     const viewFolder = (folderId) => {
-        dispatch({
-					type: SET_SINGLE_FOLDER,
-					payload: folderId,
-				})
-		dispatch({
-				type: SET_SINGLE_FOLDER_NAME,
-				payload: folder.folderName,
-		})
-        history.push('/onefolder')
+        selectFolder(folderId)
+        //history.push('/onefolder')
     }
 
+	const nameForm = (
+		<Form onSubmit={handleNewFolder}>
+			<input
+				className='folder-input'
+				type='text'
+				name='folderName'
+				id='folderName'
+				placeholder={`${folder.folderName}`}
+				value={folderName}
+				onChange={(e) => setFolderName(e.target.value)}
+				onBlur={() => {cancelEdit()}}
+				autoFocus
+			/>
+		</Form>
+	)
+
     return (
-			<Row>
-				<Col
-					onClick={() => viewFolder(folderKey)}
-					md='10'
-					className='d-flex justify-content-center align-items-center text-large cardtxt'
-					style={{
-						fontWeight: '700',
-						fontSize: '32px',
-						letterSpacing: '2px',
-					}}>
-					<div className='name'>{folder.folderName}</div>
-				</Col>
-				<Col
-					md='2'
-					className='d-flex justify-content-center align-items-center'>
-					<div className='iconbtn mr-4 '>
+			<Container>
+				<Row>
+					<Col
+						onClick={newFolder ? () => editName() : () => viewFolder(folderKey)}
+						md={'auto'}
+						className='justify-content-center align-items-center text-large cardtxt'
+						style={{
+							fontWeight: '300',
+							fontSize: '16px',
+							letterSpacing: '1px',
+						}}>
+						{editable ? nameForm : folder.folderName}
+					</Col>
+					<Col
+						hidden={newFolder}
+						className='justify-content-right align-items-right float-right'
+						md={{ span: 4, offset: 3 }}>
 						<MdDelete
 							onClick={() => deleteFolder()}
 							color='#FF6370'
 							className=' icon'
-							style={{ zIndex: '1' }}
+							style={{
+								zIndex: '1',
+								display: 'inline-block',
+							}}
 						/>
-					</div>
-					<div className='iconbtn mr-5' style={{ marginRight: '30px' }}>
 						<MdEdit
 							className='icon '
 							color='#54eafe'
+							style={{ display: 'inline-block'}}
 							onClick={() => updateFolder()}
 						/>{' '}
-					</div>
-				</Col>
-			</Row>
+					</Col>
+				</Row>
+			</Container>
 		)
 }
 

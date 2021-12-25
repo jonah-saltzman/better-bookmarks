@@ -46,6 +46,11 @@ body {
   letter-spacing: 1px;
 }
 
+.container {
+  padding-right: 0;
+  padding-left: 0;
+}
+
 .profile {
   border-radius: 50%;
   border-color: none !important;
@@ -56,16 +61,18 @@ body {
   object-fit: cover;
 }
 
-.folder-list {
-  overflow: auto;
-}
-
 .tweet-list {
   overflow: scroll;
   height: 600px;
   padding: 20px;
   border-radius: 10px;
   background: linear-gradient(110deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1));
+}
+
+.folder-list {
+  overflow: scroll;
+  height: 685px;
+  border-radius: 10px;
 }
 
 .hidden {
@@ -178,6 +185,28 @@ body {
   padding-right: 60px;
 }
 
+.folder-listcard {
+  display: flex;
+  background: white;
+  background: linear-gradient(
+    to right bottom,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.06)
+  );
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background-clip: padding-box;
+  border-radius: 10px !important;
+  z-index: 2;
+  backdrop-filter: blur(20px);
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 0;
+}
+
 .tweetcard {
   background: white;
   background: linear-gradient(
@@ -196,6 +225,25 @@ body {
   padding: 30px;
   padding-left: 40px;
   padding-right: 60px;
+}
+
+.folder-title {
+  background: white;
+  background: linear-gradient(
+    to right bottom,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.06)
+  );
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background-clip: padding-box;
+  border-radius: 10px !important;
+  z-index: 2;
+  backdrop-filter: blur(20px);
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 .auth-form {
@@ -232,13 +280,15 @@ li {
   padding: 13px;
   background-color: #1e1d2b;
   border-radius: 12px;
-  margin-right: 10px;
+  margin-right: 0px;
+  margin-left: 35px;
   backdrop-filter: blur(30px);
   background: linear-gradient(
     to right bottom,
     rgba(30, 29, 43, 1),
     rgba(30, 29, 43, 0.8)
   );
+  display: inline;
 }
 
 .name {
@@ -388,6 +438,35 @@ li {
   backdrop-filter: blur(40px);
 }
 
+.folder-input {
+  font-weight: 400;
+  outline: none !important;
+  border-radius: 8px !important;
+  height: 100%;
+  width: 100%;
+  color: #f9f9f9;
+  /* padding-left: 20px;
+  padding-right: 10px;
+  padding-top: 12px;
+  padding-bottom: 12px; */
+  padding: 5px;
+
+  background: white;
+  background: linear-gradient(
+    to right bottom,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.06)
+  );
+  border-top: 2px solid rgba(255, 255, 255, 0.5);
+  border-left: 2px solid rgba(255, 255, 255, 0.5);
+  border-right: 2px solid rgba(255, 255, 255, 0.5);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+  background-clip: padding-box;
+  border-radius: 10px !important;
+  z-index: 4;
+  backdrop-filter: blur(40px);
+}
+
 .input:focus {
   font-weight: 400;
   outline: none !important;
@@ -400,6 +479,36 @@ li {
   padding-right: 10px;
   padding-top: 12px;
   padding-bottom: 12px;
+
+  background: white;
+  background: linear-gradient(
+    to right bottom,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.06)
+  );
+  border-top: 2px solid rgba(255, 255, 255, 0.5);
+  border-left: 2px solid rgba(255, 255, 255, 0.5);
+  border-right: 2px solid rgba(255, 255, 255, 0.5);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+  background-clip: padding-box;
+  border-radius: 10px !important;
+  z-index: 4;
+  backdrop-filter: blur(40px);
+}
+
+.folder-input:focus {
+  font-weight: 400;
+  outline: none !important;
+  border-radius: 8px !important;
+  box-shadow: none;
+  height: 100%;
+  width: 100%;
+  color: #f9f9f9;
+  padding: 5px;
+  /* padding-left: 20px;
+  padding-right: 10px;
+  padding-top: 12px;
+  padding-bottom: 12px; */
 
   background: white;
   background: linear-gradient(
@@ -437,6 +546,7 @@ textarea:-moz-placeholder {
 
   font-weight: 300 !important;
 }
+
 
 
 /* 
