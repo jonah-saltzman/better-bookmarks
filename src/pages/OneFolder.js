@@ -14,6 +14,8 @@ import {
     Col
 } from 'reactstrap'
 
+import { SET_SINGLE_FOLDER, SET_SINGLE_FOLDER_NAME } from '../context/action.types'
+
 import { AppContext } from '../context/Context'
 
 import { toast } from 'react-toastify'
@@ -40,6 +42,7 @@ const OneFolder = () => {
             return
         }
         if (!folder) {
+			back()
             return
         }
         if (loggedIn) {
@@ -60,7 +63,7 @@ const OneFolder = () => {
                 }
             })()
         }
-    })
+    }, [folder])
 
 	// TODO: Render spinner while waiting for embedded tweets
 	useEffect(() => {
@@ -68,6 +71,14 @@ const OneFolder = () => {
 	})
 
     const back = () => {
+		dispatch({
+			type: SET_SINGLE_FOLDER,
+			payload: null
+		})
+		dispatch({
+			type: SET_SINGLE_FOLDER_NAME,
+			payload: null
+		})
         history.push('/folders')
     }
 

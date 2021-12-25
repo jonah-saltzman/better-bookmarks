@@ -24,7 +24,6 @@ const Folder = ({folder, folderKey}) => {
     }
 
     const viewFolder = (folderId) => {
-		console.log(`clicked folder ${folderId}`)
         dispatch({
 					type: SET_SINGLE_FOLDER,
 					payload: folderId,
