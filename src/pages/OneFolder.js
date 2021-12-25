@@ -103,12 +103,12 @@ const OneFolder = () => {
 			i % 2 === 0
 				? colA.push(
 						<ListGroupItem key={tweet.twtId} className='tweetcard mb-4'>
-							<Tweet tweet={tweet} embed={embed} tweetKey={tweet.twtId}></Tweet>
+							<Tweet tweet={tweet} embed={true} tweetKey={tweet.twtId}></Tweet>
 						</ListGroupItem>
 				  )
 				: colB.push(
 						<ListGroupItem key={tweet.twtId} className='tweetcard mb-4'>
-							<Tweet tweet={tweet} embed={embed} tweetKey={tweet.twtId}></Tweet>
+							<Tweet tweet={tweet} embed={true} tweetKey={tweet.twtId}></Tweet>
 						</ListGroupItem>
 				  )
 		})
@@ -132,11 +132,7 @@ const OneFolder = () => {
 								<Col md='8'>
 									<div className='folderName'>{folderName}</div>
 								</Col>
-								<Col onClick={() => toggleEmbed()} md='2'>
-									<div className='text-white text-large link'>
-										{embed ? "Text" : "Embedded"}
-									</div>
-								</Col>
+								
 							</Row>
 						</Container>
 						<Container scrollable={`true`} className='mt-4 mb-5 tweet-list'>
