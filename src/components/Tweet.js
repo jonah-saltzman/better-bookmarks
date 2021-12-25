@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { Row, Col } from 'reactstrap'
+import React, { useContext, useEffect, useState, useRef } from 'react'
+import { Row, Col, Spinner } from 'reactstrap'
 
 import { MdDelete, MdEdit } from 'react-icons/md'
 
@@ -10,25 +10,60 @@ import { Tweet as EmbTweet } from 'react-twitter-widgets'
 import { useHistory } from 'react-router-dom'
 
 import { AppContext } from '../context/Context'
+import { useInViewport } from 'react-in-viewport'
 
-const Tweet = ({tweet, tweetKey, embed}) => {
+const Tweet = (props) => {
 	const { state, dispatch } = useContext(AppContext)
 	const history = useHistory()
 
-	const [isLoaded, setIsLoaded] = useState(false)
-	const [showTweet, setShowTweet] = useState(false)
+	const { tweet } = props
 
-	const loaded = () => {
-		setIsLoaded(true)
-	}
+	const [enteredView, setEnteredView] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
+	const [isLoaded, setisLoaded] = useState(false)
+
+	const tweetRef = useRef()
+	const config = { disconnectOnLeave: false}
+	const { inViewport, enterCount } = useInViewport(
+		tweetRef,
+		config,
+		props
+	)
 
 	useEffect(() => {
-		if (isLoaded) {
+		if (enteredView || enterCount > 1 || !inViewport) {
 			return
 		}
-		setIsLoaded(true)
-		setShowTweet(true)
-	}, [isLoaded])
+		if (inViewport) {
+			setEnteredView(true)
+			return
+		}
+	}, [inViewport])
+
+	useEffect(() => {
+		if (!enteredView) {
+			return
+		}
+		if (enteredView) {
+			setIsLoading(true)
+			return
+		}
+	},[enteredView])
+
+
+
+	const loaded = () => {
+		console.log(`tweet ${tweet.twtId} is loaded`)
+		setIsLoading(false)
+	}
+
+	// useEffect(() => {
+	// 	if (isLoaded) {
+	// 		return
+	// 	}
+	// 	setIsLoaded(true)
+	// 	setShowTweet(true)
+	// }, [isLoaded])
 
 	const deleteTweet = () => {
 		// Modal?
@@ -36,8 +71,8 @@ const Tweet = ({tweet, tweetKey, embed}) => {
 	}
 
 	return (
-		<div hidden={!showTweet}>
-			<Row hidden={!showTweet}>
+		<div ref={tweetRef}>
+			<Row>
 				<Col
 					md='10'
 					className='d-flex justify-content-center align-items-center text-large cardtxt'
@@ -46,12 +81,18 @@ const Tweet = ({tweet, tweetKey, embed}) => {
 						fontSize: '32px',
 						letterSpacing: '2px',
 					}}>
-					<div hidden={embed ? false : true} className='tweet'>
-						<EmbTweet onLoad={() => {loaded()}} tweetId={tweet.twtId} />
-					</div>
-					<div hidden={embed ? true : false} className='tweet'>
-						{tweet.twtText}
-					</div>
+					{enteredView ? (
+						<><div className='tweet'>
+							<EmbTweet onLoad={() => {
+								console.log(`loaded tweet ${tweet.twtId}`)
+								loaded()
+								}} tweetId={tweet.twtId} />
+						</div><div hidden={!isLoading} className='tweet'>
+								<Spinner color='primary' />
+							</div></>
+					) : (
+						<div className='tweet'>{tweet.twtText}</div>
+					)}
 				</Col>
 				<Col
 					md='2'

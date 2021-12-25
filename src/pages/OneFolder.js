@@ -114,7 +114,7 @@ const OneFolder = () => {
 		})
 		const rows = []
 		for (let i = 0; i < colA.length; i++) {
-			rows.push((<Row>
+			rows.push((<Row key={i}>
 				<Col>{colA[i]}</Col>
 				<Col>{colB[i] ? colB[i] : null}</Col>
 			</Row>))
@@ -139,7 +139,7 @@ const OneFolder = () => {
 								</Col>
 							</Row>
 						</Container>
-						<Container scrollable={true} className='mt-4 mb-5 tweet-list'>
+						<Container scrollable={`true`} className='mt-4 mb-5 tweet-list'>
 							{tweetsArr.length === 0 && !isLoading ? (
 								<div
 									className='Center text-large cardtxt'
