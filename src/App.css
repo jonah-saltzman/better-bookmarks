@@ -205,6 +205,30 @@ body {
   padding-bottom: 10px;
   padding-left: 20px;
   padding-right: 0;
+  width: 100%;
+}
+
+.selected-folder {
+  display: flex;
+  background: white;
+  background: linear-gradient(
+    to right bottom,
+    rgba(255, 255, 255, 0.5),
+    rgba(255, 255, 255, 0.452)
+  );
+  border-top: 2px solid rgba(255, 255, 255, 0.3);
+  border-left: 2px solid rgba(255, 255, 255, 0.3);
+  border-right: 2px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  background-clip: padding-box;
+  border-radius: 10px !important;
+  z-index: 2;
+  backdrop-filter: blur(20px);
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 0;
+  width: 100%;
 }
 
 .tweetcard {
@@ -625,6 +649,13 @@ background: linear-gradient(
 .cardtxt {
   color: #f9f9f9;
   letter-spacing: 1px;
+}
+
+.selected-text {
+  color: #f9f9f9;
+  letter-spacing: 1px;
+  font-size: 18px;
+  font-weight: 600;
 }
 
 .cirlce3 {

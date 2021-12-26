@@ -2,10 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 
 import {
 	Container,
-	ListGroup,
-	ListGroupItem,
 	Spinner,
-	Button,
     Row,
     Col
 } from 'reactstrap'
@@ -22,8 +19,6 @@ import Folder from '../components/Folder'
 
 import OneFolder from './OneFolder'
 
-// import {  } from '../context/action.types'
-
 const Folders = () => {
     const { state, dispatch } = useContext(AppContext)
 
@@ -34,10 +29,9 @@ const Folders = () => {
     const [ foldersArr, setFoldersArr ] = useState([])
     const [ currentFolder, setCurrentFolder] = useState(null)
     const [ prevFolder, setPrevFolder ] = useState(null)
-    const [ oneFolder, setOneFolder ] = useState(null)
+    const [ oneFolder, setOneFolder ] = useState({folderId: null})
 
     const refreshFolders = () => {
-        console.log('refreshing folders...')
         setGotFolders(false)
         setIsLoading(true)
     }
@@ -46,43 +40,28 @@ const Folders = () => {
         if (prevFolder.folderId === folderId) {
             return
         }
-        console.log(`selecting folder ${folderId}`)
         setCurrentFolder(foldersArr.find(folder => folder.folderId === folderId))
     }
 
     useEffect(() => {
-        console.log(`currentFolder useeffect called on: `)
-        console.log(currentFolder)
         if (!currentFolder) {
-            console.log('first render')
             return
         }
         if (prevFolder) {
-            console.log(`there was a prev folder...`)
-            console.log(prevFolder)
             if (
                     currentFolder.folderId === prevFolder.folderId &&
                     currentFolder.tweets.length === prevFolder.tweets.length
                 ) {
-                    console.log('prev folder is the same as selected folder')
                     return
                 } else {
-                    console.log('prev folder not the same as selected folder')
                     setOneFolder(currentFolder)
                     setPrevFolder(currentFolder)
                 }
         } else {
-            console.log('there was not a previous folder')
-            console.log('setting onefolder as: ')
-            console.log(currentFolder)
             setOneFolder(currentFolder)
             setPrevFolder(currentFolder)
         }
     }, [currentFolder])
-
-    useEffect(() => {
-        console.log('oneFolder updated')
-    },[oneFolder])
 
     useEffect(() => {
         if (gotFolders) {
@@ -108,11 +87,8 @@ const Folders = () => {
 
     useEffect(() => {
         if (foldersArr.length === 0) {
-            console.log('empty folders array, returning')
             return
         }
-        console.log('foldersArr updated:')
-        console.log(foldersArr)
         setCurrentFolder(
 					prevFolder
 						? foldersArr.find(
@@ -124,7 +100,7 @@ const Folders = () => {
 
     if (!loggedIn) {
         return (
-            <Redirect to='/auth'></Redirect>
+            <Redirect to='/auth' />
         )
     } else {
         return (
@@ -138,7 +114,7 @@ const Folders = () => {
 								<Col md={3}>
 									<Container
 										scrollable={`true`}
-										className='folder-list pt-4'>
+										className='folder-list pt-4 container-fluid no-padding'>
 										{foldersArr.length === 0 && !isLoading ? (
 											<div
 												className='Center text-large cardtxt'
@@ -151,26 +127,32 @@ const Folders = () => {
 											</div>
 										) : (
 											<>
-												{foldersArr.map((folder) => (
-													<div
-														key={folder.folderId}
-														className='folder-listcard mb-4'>
-														<Folder
-															folder={folder}
-															folderKey={folder.folderId}
-															newFolder={false}
-															refresh={refreshFolders}
-															selectFolder={selectFolder}
-														/>
-													</div>
-												))}
-												<div key='newFolder' className='folder-listcard mt-4'>
+												<div className='folder-listcard mb-4'>
 													<Folder
 														folder={{ folderName: 'New Folder' }}
+                                                        key={'newFolder'}
 														newFolder={true}
 														refresh={refreshFolders}
 													/>
 												</div>
+												{foldersArr.map((folder) => (
+													<div
+														className={
+															'mb-4 ' +
+															(folder.folderId === oneFolder.folderId
+																? 'selected-folder'
+																: 'folder-listcard')
+														}>
+														<Folder
+															folder={folder}
+															key={folder.folderId}
+															newFolder={false}
+															refresh={refreshFolders}
+															selectFolder={selectFolder}
+															selected={folder.folderId === oneFolder.folderId}
+														/>
+													</div>
+												))}
 											</>
 										)}
 									</Container>

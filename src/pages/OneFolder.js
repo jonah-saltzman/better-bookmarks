@@ -41,7 +41,7 @@ const OneFolder = ({folder}) => {
 	const [tweetRows, setTweetRows] = useState([])
 
     useEffect(() => {
-		if (!folder) {
+		if (!folder || folder.folderId === null) {
 			return
 		}
 		console.log(`folder updated... getting ${folder.folderName}`)
@@ -144,15 +144,5 @@ const OneFolder = ({folder}) => {
 				)
         }
 }
-
-
-	/* <ListGroup>
-									{tweetsArr.map((tweet) => (
-										<ListGroupItem key={tweet.twtId} className='tweetcard mb-4'>
-											<Tweet embed={embed} tweet={tweet} tweetKey={tweet.twtId} />
-										</ListGroupItem>
-									))}
-								</ListGroup> */
-
 
 export default OneFolder

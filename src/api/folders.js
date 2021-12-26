@@ -90,3 +90,66 @@ export const newFolder = async (folderName, token) => {
 			return { error: error }
 		}
 }
+
+export const deleteFolder = async (folderId, token) => {
+	const deleteFolderURL = URL + '/user/folders/' + folderId
+	try {
+		const response = await fetch(deleteFolderURL, {
+			method: 'DELETE',
+			cache: 'no-cache',
+			headers: {
+				Authorization: `JWT ${token}`
+			}
+		})
+		const status = response.status
+		const data = await response.json()
+		if (status === 200) {
+			return {
+				error: null,
+				message: `Deleted folder ${data.folder.folderName}!`,
+			}
+		} else {
+			return {
+				error: data.message,
+			}
+		}
+	} catch (error) {
+		console.error(error)
+		return { error: error }
+	}
+}
+
+export const changeFolderName = async (folderId, newName, token) => {
+	console.log(`changing folder ${folderId} to ${newName}`)
+	const changeNameURL = URL + '/user/folders/' + folderId
+	const reqData = JSON.stringify({
+		newName: `${newName}`,
+	})
+	try {
+		const response = await fetch(changeNameURL, {
+			method: 'POST',
+			cache: 'no-cache',
+			headers: {
+				Authorization: `JWT ${token}`,
+				'Content-Type': 'application/json',
+			},
+			body: reqData,
+		})
+		const status = response.status
+		const data = await response.json()
+		console.log(data.message)
+		if (status === 201) {
+			return {
+				error: null,
+				message: data.message
+			}
+		} else {
+			return {
+				error: data.message,
+			}
+		}
+	} catch (error) {
+		console.error(error)
+		return { error: error }
+	}
+}
