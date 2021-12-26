@@ -22,7 +22,6 @@ import PageNotFound from "./pages/PageNotFound"
 import Auth from "./pages/Auth"
 import Home from "./pages/Home"
 import Folders from "./pages/Folders"
-import OneFolder from './pages/OneFolder'
 
 import reducer from "./context/reducer";
 import { AppContext } from "./context/Context";

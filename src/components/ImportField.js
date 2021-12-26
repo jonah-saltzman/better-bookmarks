@@ -4,18 +4,13 @@ const ImportField = (props) => {
     const { fieldNumber, setValue, valid, validate } = props
     const [ inputValue, setInputValue ] = useState("")
     const [ validity, setValidity ] = useState(null)
-    console.log(`field #${fieldNumber}.valid=${valid}`)
 
     useEffect(() => {
-        //console.log(`field${fieldNumber} valid=${valid}`)
-        //console.log(`setting validity to ${valid}`)
+        console.log(`field #${fieldNumber}.valid=${valid}`)
         setValidity(valid)
     }, [valid])
 
     const resetValidity = () => {
-        if (!validity) {
-            return
-        }
         if (validity === 'valid') {
             return
         }
@@ -24,6 +19,7 @@ const ImportField = (props) => {
     
     const checkValidity = () => {
         validate()
+        setValidity(valid)
     }
 
     useEffect(() => {

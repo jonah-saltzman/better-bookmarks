@@ -12,16 +12,15 @@ import ImportField from '../components/ImportField'
 
 
 const Import = ({folder}) => {
+
+    const getInitialFields = () => {
+			return [0, 1, 2, 3, 4].map((n) => ({ number: n, value: '', valid: null }))
+		}
+    
     const { state, dispatch } = useContext(AppContext)
     const { token } = state
     const [ callingApi, setCallingApi ] = useState(false)
-    const [inputObjs, setInputObjs] = useState(
-			[0, 1, 2, 3, 4].map((n) => ({ number: n, value: "" , valid: null}))
-		)
-
-    const resetFields = () => {
-        setInputObjs([0, 1, 2, 3, 4].map((n) => ({ number: n, value: '' , valid: null})))
-    }
+    const [inputObjs, setInputObjs] = useState(getInitialFields())
 
     const validateInputs = () => {
         setInputObjs(inputObjs.map(input => {
@@ -53,7 +52,6 @@ const Import = ({folder}) => {
             }
             setInputObjs([...inputObjs, newObj])
         }
-        console.log(inputObjs)
     }, [inputObjs])
 
     const updateValue = (inputNumber, value) => {
