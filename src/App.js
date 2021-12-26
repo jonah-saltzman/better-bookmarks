@@ -62,8 +62,7 @@ const App = () => {
 				<Container className='h-75'>
 					<Switch>
 						<Route exact path='/auth' component={Auth} />
-						<Route exact path='/folders' component={Folders} />
-						<Route exact path='/onefolder' component={OneFolder} />
+						<Route path='/folders' component={Folders} />
 						<Route exact path='/' component={Home} />
 						<Route exact path='*' component={PageNotFound} />
 					</Switch>

@@ -125,7 +125,7 @@ const Auth = () => {
 
 	// If logged in, redirect to /folders, else, render auth forms
 	if (loggedIn) {
-		return <Redirect to='/folders'></Redirect>
+		return <Redirect to='/folders/view'></Redirect>
 	} else {
 		return (
 			<Container fluid className='mt-5 '>

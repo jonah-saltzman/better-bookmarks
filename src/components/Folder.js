@@ -28,11 +28,6 @@ const Folder = (props) => {
 	const [showDelete, setShowDelete] = useState(false)
 	const [deletingFolder, setDeletingFolder] = useState(false)
 
-    const updateFolder = () => {
-        // Modal?
-        return
-    }
-
     const startDeleteFolder = () => {
 		if (showDelete) {
 			return
@@ -113,7 +108,7 @@ const Folder = (props) => {
 			}
 			refresh()
 		})()
-	})
+	}, [callingAPI])
 
     const viewFolder = (folderId) => {
         selectFolder(folderId)

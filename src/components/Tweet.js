@@ -18,6 +18,9 @@ const Tweet = (props) => {
 
 	const { tweet } = props
 
+	console.log('rendering tweet: ')
+	console.log(tweet)
+
 	const [enteredView, setEnteredView] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
 	const [isLoaded, setisLoaded] = useState(false)

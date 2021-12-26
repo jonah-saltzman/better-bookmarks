@@ -21,3 +21,6 @@ export const TWTAUTH_STATE = '&scope=tweet.read%20like.read&state='
 export const TWTAUTH_CHALLENGE = '&code_challenge='
 
 export const TWTAUTH_SUFFIX = '&code_challenge_method=plain'
+
+export const twtREOne = new RegExp(/(?:\/)(\d+)(?:\/|\?|$)/)
+export const twtRETwo = new RegExp(/^\d+$/)

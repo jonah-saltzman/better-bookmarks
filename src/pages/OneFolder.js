@@ -47,8 +47,6 @@ const OneFolder = ({folder}) => {
 		console.log(`folder updated... getting ${folder.folderName}`)
         if (loggedIn) {
             (async () => {
-				console.log(`getting folder:`)
-				console.log(folder)
                 const tweets = await getOneFolder(folder.folderId, token)
                 if (tweets.error) {
                     toast(`Error: ${tweets.error}`)

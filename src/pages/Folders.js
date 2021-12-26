@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 import {
 	Container,
@@ -18,6 +19,7 @@ import { getFolders } from '../api/folders'
 import Folder from '../components/Folder'
 
 import OneFolder from './OneFolder'
+import Import from './Import'
 
 const Folders = () => {
     const { state, dispatch } = useContext(AppContext)
@@ -130,7 +132,7 @@ const Folders = () => {
 												<div className='folder-listcard mb-4'>
 													<Folder
 														folder={{ folderName: 'New Folder' }}
-                                                        key={'newFolder'}
+														key={'newFolder'}
 														newFolder={true}
 														refresh={refreshFolders}
 													/>
@@ -158,7 +160,14 @@ const Folders = () => {
 									</Container>
 								</Col>
 								<Col md={9}>
-									<OneFolder folder={oneFolder}></OneFolder>
+									<Switch>
+										<Route exact path='/folders/view'>
+											<OneFolder folder={oneFolder}></OneFolder>
+										</Route>
+                                        <Route exact path='/folders/import'>
+                                            <Import folder={oneFolder}></Import>
+                                        </Route>
+									</Switch>
 								</Col>
 							</Row>
 						</div>

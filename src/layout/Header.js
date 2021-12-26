@@ -44,13 +44,13 @@ const Header = () => {
 			<NavbarBrand tag={Link} to='/' className='text-white navbrand'>
 				Better Bookmarks
 			</NavbarBrand>
-			<NavLink to='/folders' className='text-white'>
+			<NavLink to='/folders/view' className='text-white'>
 				Folders
 			</NavLink>
 			<NavLink to='/likes' className='text-white'>
 				Likes
 			</NavLink>
-			<NavLink to='/import' className='text-white'>
+			<NavLink to='/folders/import' className='text-white'>
 				Import
 			</NavLink>
 			<NavbarText className='text-white float-right navtxt'>

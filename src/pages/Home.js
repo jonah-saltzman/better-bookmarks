@@ -12,10 +12,7 @@ import getTwtUrl from '../newtwturl'
 
 const Home = (props) => {
 
-	const location = props.location
-	console.log(`in home, location.search: ${location.search}`)
-	if (location.search === '?close') {
-		console.log('closing window')
+	if (props.location.search === '?close') {
 		window.close()
 	}
 
