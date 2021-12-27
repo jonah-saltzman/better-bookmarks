@@ -508,7 +508,7 @@ li {
   background: white;
   background: linear-gradient(
     to right bottom,
-    rgb(253 57 57 / 50%),
+    rgb(253 57 57 / 25%),
     rgba(255, 118, 118, 0.1)
   );
   border: 2px solid rgb(255 0 0 / 50%);
@@ -530,7 +530,7 @@ li {
   background: white;
   background: linear-gradient(
     to right bottom,
-    rgba(57, 253, 67, 0.5),
+    rgba(57, 253, 67, 0.25),
     rgba(129, 255, 118, 0.1)
   );
   border: 2px solid rgba(21, 255, 0, 0.5);

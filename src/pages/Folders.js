@@ -31,7 +31,7 @@ const Folders = () => {
     const [ foldersArr, setFoldersArr ] = useState([])
     const [ currentFolder, setCurrentFolder] = useState(null)
     const [ prevFolder, setPrevFolder ] = useState(null)
-    const [ oneFolder, setOneFolder ] = useState({folderId: null})
+    const [ selectedFolder, setSelectedFolder ] = useState({folderId: null})
 
     const refreshFolders = () => {
         setGotFolders(false)
@@ -56,11 +56,11 @@ const Folders = () => {
                 ) {
                     return
                 } else {
-                    setOneFolder(currentFolder)
+                    setSelectedFolder(currentFolder)
                     setPrevFolder(currentFolder)
                 }
         } else {
-            setOneFolder(currentFolder)
+            setSelectedFolder(currentFolder)
             setPrevFolder(currentFolder)
         }
     }, [currentFolder])
@@ -141,7 +141,7 @@ const Folders = () => {
 													<div
 														className={
 															'mb-4 ' +
-															(folder.folderId === oneFolder.folderId
+															(folder.folderId === selectedFolder.folderId
 																? 'selected-folder'
 																: 'folder-listcard')
 														}>
@@ -151,7 +151,7 @@ const Folders = () => {
 															newFolder={false}
 															refresh={refreshFolders}
 															selectFolder={selectFolder}
-															selected={folder.folderId === oneFolder.folderId}
+															selected={folder.folderId === selectedFolder.folderId}
 														/>
 													</div>
 												))}
@@ -162,10 +162,10 @@ const Folders = () => {
 								<Col md={9}>
 									<Switch>
 										<Route exact path='/folders/view'>
-											<OneFolder folder={oneFolder}></OneFolder>
+											<OneFolder folder={selectedFolder}></OneFolder>
 										</Route>
                                         <Route exact path='/folders/import'>
-                                            <Import folder={oneFolder}></Import>
+                                            <Import folder={selectedFolder}></Import>
                                         </Route>
 									</Switch>
 								</Col>

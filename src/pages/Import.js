@@ -25,7 +25,7 @@ const Import = ({folder}) => {
     const validateInputs = () => {
         setInputObjs(inputObjs.map(input => {
             return input.value.length === 0
-                ? input
+                ? {...input, valid: null}
                 : (twtREOne.test(input.value) || twtRETwo.test(input.value))
                 ? {...input, valid: 'valid'}
                 : {...input, valid: 'invalid'}
