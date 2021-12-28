@@ -6,8 +6,8 @@ import {
 	ListGroupItem,
 	Spinner,
 	Button,
-    Row,
-    Col
+	Row,
+	Col,
 } from 'reactstrap'
 
 import { AppContext } from '../context/Context'
@@ -21,7 +21,7 @@ import { deleteTweet as remove } from '../api/tweets'
 
 import Tweet from '../components/Tweet'
 
-const OneFolder = ({folder}) => {
+const OneFolder = ({ folder }) => {
 	const { state, dispatch } = useContext(AppContext)
 	const { loggedIn, token } = state
 
@@ -36,13 +36,14 @@ const OneFolder = ({folder}) => {
 
 	const [embed, setEmbed] = useState(true)
 
-	const [tweetCols, setTweetCols] = useState({colA: [], colB: []})
+	const [tweetCols, setTweetCols] = useState({ colA: [], colB: [] })
+
+	window.twttr.events.bind('rendered', (event) => {
+		setLoadedTweet(event.target.children[0].dataset.tweetId)
+	})
 
 	const loadTweet = (elementId) => {
 		window.twttr.widgets.load(document.getElementById(`${elementId}`))
-		window.twttr.events.bind('rendered', (event) => {
-			setLoadedTweet(event.target.children[0].dataset.tweetId)
-		})
 	}
 
 	const deleteTweet = (twtId) => {
@@ -56,7 +57,7 @@ const OneFolder = ({folder}) => {
 		if (!deletingTweet) {
 			return
 		} else {
-			(async () => {
+			;(async () => {
 				const result = await remove(folder.folderId, deletingTweet, token)
 				if (result.error) {
 					toast('Failed to delete Tweet', { type: 'error' })
@@ -72,10 +73,8 @@ const OneFolder = ({folder}) => {
 		if (!eraseTweet) {
 			return
 		} else {
-			const newObjs = [...twtObjs].map(obj => {
-				return obj.twtId === deletingTweet
-					? {...obj, display: false}
-					: obj
+			const newObjs = [...twtObjs].map((obj) => {
+				return obj.twtId === deletingTweet ? { ...obj, display: false } : obj
 			})
 			setTwtObjs(newObjs)
 			setDeletingTweet(null)
@@ -95,11 +94,10 @@ const OneFolder = ({folder}) => {
 	}, [loadedTweet])
 
 	useEffect(() => {
-		const newObjs = [...twtObjs].map(obj => 
-			(loadedTweets.some(twtId => obj.twtId === twtId)
-				? {...obj, loaded: true}
+		const newObjs = [...twtObjs].map((obj) =>
+			loadedTweets.some((twtId) => obj.twtId === twtId)
+				? { ...obj, loaded: true }
 				: obj
-				)
 		)
 		setTwtObjs(newObjs)
 	}, [loadedTweets])
@@ -110,6 +108,10 @@ const OneFolder = ({folder}) => {
 			setNoFolder(true)
 			return
 		}
+		setTwtObjs(twtObjs.map(obj => {
+			return {...obj, display: false}
+		}))
+		setLoadedTweets([])
 		if (loggedIn) {
 			;(async () => {
 				const tweets = await getOneFolder(folder.folderId, token)
@@ -129,18 +131,18 @@ const OneFolder = ({folder}) => {
 
 	useEffect(() => {
 		if (tweetsArr.length === 0) {
-			setTweetCols({colA: [], colB: []})
+			setTweetCols({ colA: [], colB: [] })
 			return
 		}
-		if (twtObjs.length !== 0) {
-			return
-		}
+		// if (twtObjs.length !== 0) {
+		// 	return
+		// }
 		setTwtObjs(
 			tweetsArr.map((tweet) => ({
 				twtId: tweet.twtId,
 				loaded: false,
 				tweet: tweet,
-				display: true
+				display: true,
 			}))
 		)
 	}, [tweetsArr])
@@ -149,36 +151,37 @@ const OneFolder = ({folder}) => {
 		if (twtObjs.length === 0) {
 			return
 		}
-		twtObjs.forEach(obj => console.log(obj))
 		const [colA, colB] = [[], []]
-		twtObjs.filter(obj => obj.display === true).forEach((tweet, i) => {
-			i % 2 === 0
-				? colA.push(
-						<ListGroupItem key={tweet.twtId} className='tweetcard mb-4'>
-							<Tweet
-								load={loadTweet}
-								tweet={tweet.tweet}
-								embed={tweet.loaded}
-								key={tweet.twtId}
-								remove={deleteTweet}
-								display={tweet.display}
-							/>
-						</ListGroupItem>
-				  )
-				: colB.push(
-						<ListGroupItem key={tweet.twtId} className='tweetcard mb-4'>
-							<Tweet
-								load={loadTweet}
-								tweet={tweet.tweet}
-								embed={tweet.loaded}
-								key={tweet.twtId}
-								remove={deleteTweet}
-								display={tweet.display}
-							/>
-						</ListGroupItem>
-				  )
-		})
-		setTweetCols({colA: colA, colB: colB})
+		twtObjs
+			.filter((obj) => obj.display === true)
+			.forEach((tweet, i) => {
+				i % 2 === 0
+					? colA.push(
+							<ListGroupItem key={tweet.twtId} className='tweetcard mb-4'>
+								<Tweet
+									load={loadTweet}
+									tweet={tweet.tweet}
+									embed={tweet.loaded}
+									key={tweet.twtId}
+									remove={deleteTweet}
+									display={tweet.display}
+								/>
+							</ListGroupItem>
+					  )
+					: colB.push(
+							<ListGroupItem key={tweet.twtId} className='tweetcard mb-4'>
+								<Tweet
+									load={loadTweet}
+									tweet={tweet.tweet}
+									embed={tweet.loaded}
+									key={tweet.twtId}
+									remove={deleteTweet}
+									display={tweet.display}
+								/>
+							</ListGroupItem>
+					  )
+			})
+		setTweetCols({ colA: colA, colB: colB })
 	}, [twtObjs])
 
 	const toggleEmbed = () => {
