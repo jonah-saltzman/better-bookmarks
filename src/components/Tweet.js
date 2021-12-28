@@ -1,7 +1,9 @@
 import React, { useEffect, useState, createRef } from 'react'
-import { Row, Col, Spinner } from 'reactstrap'
+import { Row, Col, Spinner, Container } from 'reactstrap'
 
 import { MdDelete } from 'react-icons/md'
+
+import { MdClose } from 'react-icons/md'
 
 import { twtEmbedRE  } from '../constants'
 
@@ -9,7 +11,7 @@ import { useInViewport } from 'react-in-viewport'
 
 const Tweet = (props) => {
 
-	const { tweet, load, embed } = props
+	const { tweet, load, embed, remove, display } = props
 
 	const [enteredView, setEnteredView] = useState(false)
 	const [ twtUrl, setTwtUrl ] = useState(tweet.twtHtml.match(twtEmbedRE)[0])
@@ -24,6 +26,7 @@ const Tweet = (props) => {
 	)
 
 	const tweetDOMId = `twt-${tweet.twtId}`
+	const divDOMId = `div-${tweet.twtId}`
 
 	useEffect(() => {
 		if (enteredView || enterCount > 1 || !inViewport) {
@@ -46,6 +49,14 @@ const Tweet = (props) => {
 			return
 		}
 	},[enteredView])
+
+	useEffect(() => {
+		if (!enteredView || !display) {
+			return
+		} else {
+			load(tweetDOMId)
+		}
+	}, [display])
 
 	// useEffect(() => {
 	// 	if (Object.keys(compHtml).length !== 0) {
@@ -75,44 +86,31 @@ const Tweet = (props) => {
 	// }, [isLoaded])
 
 	const deleteTweet = () => {
-		// Modal?
 		return
 	}
 
 	return (
-		<div id={`div-${tweet.twtId}`} ref={divRef}>
-			<div>
-				<Row>
-					<Col md='10'>
-						<div className='center' hidden={embed}>
-							<Spinner color='primary' />
-						</div>
-						<div ref={tweetRef}>
-							<blockquote
-								id={tweetDOMId}
-								className='twitter-tweet'
-								data-conversation='none'
-								data-dnt='true'
-								data-theme='dark'>
-								<a href={twtUrl}></a>
-							</blockquote>
-						</div>
-					</Col>
-					<Col
-						md='2'
-						className='d-flex justify-content-center align-items-center'>
-						<div className='iconbtn'>
-							<MdDelete
-								onClick={() => deleteTweet()}
-								color='#FF6370'
-								className=' icon'
-								style={{ zIndex: '1' }}
-							/>
-						</div>
-					</Col>
-				</Row>
+		<>
+			<div ref={divRef} className='center' hidden={embed}>
+				<Spinner color='primary' />
 			</div>
-		</div>
+			<MdDelete
+				onClick={() => {
+					remove(tweet.twtId)
+				}}
+				className={'delete-tweet ' + (embed ? '' : 'hidden')}
+			/>
+			<div id={divDOMId} ref={tweetRef} className='tweet-div'>
+				<blockquote
+					id={tweetDOMId}
+					className='twitter-tweet'
+					data-conversation='none'
+					data-dnt='true'
+					data-theme='dark'>
+					<a href={twtUrl}></a>
+				</blockquote>
+			</div>
+		</>
 	)
 }
 

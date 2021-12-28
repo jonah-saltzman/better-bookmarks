@@ -17,6 +17,7 @@ import { toast } from 'react-toastify'
 import { Redirect } from 'react-router-dom'
 
 import { getOneFolder } from '../api/folders'
+import { deleteTweet as remove } from '../api/tweets'
 
 import Tweet from '../components/Tweet'
 
@@ -30,10 +31,12 @@ const OneFolder = ({folder}) => {
 	const [noFolder, setNoFolder] = useState(false)
 	const [loadedTweets, setLoadedTweets] = useState([])
 	const [loadedTweet, setLoadedTweet] = useState('')
+	const [deletingTweet, setDeletingTweet] = useState(null)
+	const [eraseTweet, setEraseTweet] = useState(false)
 
 	const [embed, setEmbed] = useState(true)
 
-	const [tweetRows, setTweetRows] = useState([])
+	const [tweetCols, setTweetCols] = useState({colA: [], colB: []})
 
 	const loadTweet = (elementId) => {
 		window.twttr.widgets.load(document.getElementById(`${elementId}`))
@@ -41,6 +44,45 @@ const OneFolder = ({folder}) => {
 			setLoadedTweet(event.target.children[0].dataset.tweetId)
 		})
 	}
+
+	const deleteTweet = (twtId) => {
+		if (deletingTweet) {
+			return
+		}
+		setDeletingTweet(twtId)
+	}
+
+	useEffect(() => {
+		if (!deletingTweet) {
+			return
+		} else {
+			(async () => {
+				const result = await remove(folder.folderId, deletingTweet, token)
+				if (result.error) {
+					toast('Failed to delete Tweet', { type: 'error' })
+				} else {
+					toast(result.message + folder.folderName, { type: 'success' })
+				}
+			})()
+		}
+		setEraseTweet(true)
+	}, [deletingTweet])
+
+	useEffect(() => {
+		if (!eraseTweet) {
+			return
+		} else {
+			const newObjs = [...twtObjs].map(obj => {
+				return obj.twtId === deletingTweet
+					? {...obj, display: false}
+					: obj
+			})
+			setTwtObjs(newObjs)
+			setDeletingTweet(null)
+			setEraseTweet(false)
+			window.twttr.widgets.load()
+		}
+	}, [eraseTweet])
 
 	useEffect(() => {
 		if (loadedTweets.includes(loadedTweet) || loadedTweet === '') {
@@ -87,7 +129,7 @@ const OneFolder = ({folder}) => {
 
 	useEffect(() => {
 		if (tweetsArr.length === 0) {
-			setTweetRows([])
+			setTweetCols({colA: [], colB: []})
 			return
 		}
 		if (twtObjs.length !== 0) {
@@ -98,6 +140,7 @@ const OneFolder = ({folder}) => {
 				twtId: tweet.twtId,
 				loaded: false,
 				tweet: tweet,
+				display: true
 			}))
 		)
 	}, [tweetsArr])
@@ -106,8 +149,9 @@ const OneFolder = ({folder}) => {
 		if (twtObjs.length === 0) {
 			return
 		}
+		twtObjs.forEach(obj => console.log(obj))
 		const [colA, colB] = [[], []]
-		twtObjs.forEach((tweet, i) => {
+		twtObjs.filter(obj => obj.display === true).forEach((tweet, i) => {
 			i % 2 === 0
 				? colA.push(
 						<ListGroupItem key={tweet.twtId} className='tweetcard mb-4'>
@@ -116,6 +160,8 @@ const OneFolder = ({folder}) => {
 								tweet={tweet.tweet}
 								embed={tweet.loaded}
 								key={tweet.twtId}
+								remove={deleteTweet}
+								display={tweet.display}
 							/>
 						</ListGroupItem>
 				  )
@@ -126,20 +172,13 @@ const OneFolder = ({folder}) => {
 								tweet={tweet.tweet}
 								embed={tweet.loaded}
 								key={tweet.twtId}
+								remove={deleteTweet}
+								display={tweet.display}
 							/>
 						</ListGroupItem>
 				  )
 		})
-		const rows = []
-		for (let i = 0; i < colA.length; i++) {
-			rows.push(
-				<Row key={i}>
-					<Col>{colA[i]}</Col>
-					<Col>{colB[i] ? colB[i] : null}</Col>
-				</Row>
-			)
-		}
-		setTweetRows(rows)
+		setTweetCols({colA: colA, colB: colB})
 	}, [twtObjs])
 
 	const toggleEmbed = () => {
@@ -159,13 +198,15 @@ const OneFolder = ({folder}) => {
 		return (
 			<>
 				{' '}
-				{!noFolder ? (<Container className='folder-title'>
-					<Row className='justify-content-md-center'>
-						<Col md='auto'>
-							<div className='folderName'>{folder.folderName}</div>
-						</Col>
-					</Row>
-				</Container>) : null}
+				{!noFolder ? (
+					<Container className='folder-title'>
+						<Row className='justify-content-md-center'>
+							<Col md='auto'>
+								<div className='folderName'>{folder.folderName}</div>
+							</Col>
+						</Row>
+					</Container>
+				) : null}
 				<Container scrollable={`true`} className='mt-4 mb-5 tweet-list'>
 					{tweetsArr.length === 0 && !isLoading ? (
 						<div
@@ -178,9 +219,10 @@ const OneFolder = ({folder}) => {
 							No Tweets (yet)!
 						</div>
 					) : (
-						<ListGroup>
-							<Container>{tweetRows}</Container>
-						</ListGroup>
+						<Row>
+							<Col>{tweetCols.colA}</Col>
+							<Col>{tweetCols.colB}</Col>
+						</Row>
 					)}
 				</Container>
 			</>

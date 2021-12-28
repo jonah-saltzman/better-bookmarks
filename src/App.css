@@ -74,6 +74,20 @@ article {
   background: linear-gradient(110deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1));
 }
 
+.delete-tweet {
+  position: absolute;
+  left:95.5%;
+  top:6px;
+  color:#ff001580;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.tweet-div {
+  margin:0;
+  padding:0;
+}
+
 .folder-list {
   overflow: scroll;
   height: 685px;
@@ -267,9 +281,7 @@ blockquote {
   border-radius: 10px !important;
   z-index: 2;
   backdrop-filter: blur(20px);
-  padding: 30px;
-  padding-left: 40px;
-  padding-right: 60px;
+  padding: 20px;
 }
 
 .folder-title {
