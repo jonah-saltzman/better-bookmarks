@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 
 import { Container } from "reactstrap";
 
@@ -52,6 +52,7 @@ const initialState = {
 const App = () => {
   
   const [state, dispatch] = useReducer(reducer, initialState);
+  const {loggedIn} = state
 
   return (
 		<Router basename='better-bookmarks'>

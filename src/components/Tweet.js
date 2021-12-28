@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useRef } from 'react'
+import React, { useContext, useEffect, useState, useRef, createRef } from 'react'
 import { Row, Col, Spinner } from 'reactstrap'
 
 import { MdDelete, MdEdit } from 'react-icons/md'
@@ -9,29 +9,33 @@ import { Tweet as EmbTweet } from 'react-twitter-widgets'
 
 import { useHistory } from 'react-router-dom'
 
+import { twtEmbedRE, twtEmbedPrefix, twtEmbedSuffix } from '../constants'
+
 import { AppContext } from '../context/Context'
 import { useInViewport } from 'react-in-viewport'
 
 const Tweet = (props) => {
 	const { state, dispatch } = useContext(AppContext)
-	const history = useHistory()
 
-	const { tweet } = props
-
-	console.log('rendering tweet: ')
-	console.log(tweet)
+	const { tweet, load, embed } = props
 
 	const [enteredView, setEnteredView] = useState(false)
-	const [isLoading, setIsLoading] = useState(false)
-	const [isLoaded, setisLoaded] = useState(false)
+	const [ twtUrl, setTwtUrl ] = useState(tweet.twtHtml.match(twtEmbedRE)[0])
 
-	const tweetRef = useRef()
+	const tweetRef = createRef()
+	const divRef = createRef()
 	const config = { disconnectOnLeave: false}
 	const { inViewport, enterCount } = useInViewport(
-		tweetRef,
+		divRef,
 		config,
 		props
 	)
+
+	const tweetDOMId = `twt-${tweet.twtId}`
+
+	// console.log(`rendering tweet: ${tweet.twtId}, embed=${embed}`)
+	// console.log(`twt-${tweet.twtId} REF: `)
+	// console.log(tweetRef)
 
 	useEffect(() => {
 		if (enteredView || enterCount > 1 || !inViewport) {
@@ -48,16 +52,31 @@ const Tweet = (props) => {
 			return
 		}
 		if (enteredView) {
-			setIsLoading(true)
+			console.log('div entered view:')
+			console.log(divRef)
+			load(tweet.twtId, true, tweetDOMId)
 			return
 		}
 	},[enteredView])
 
+	// useEffect(() => {
+	// 	if (Object.keys(compHtml).length !== 0) {
+	// 		return
+	// 	}
+	// 	const url = tweet.twtHtml.match(twtEmbedRE)[0]
+	// 	// const html =
+	// 	// 	twtEmbedPrefix.slice(0, 12) +
+	// 	// 	`id="${tweetDOMId}" ` +
+	// 	// 	twtEmbedPrefix.slice(12) +
+	// 	// 	url +
+	// 	// 	twtEmbedSuffix
+	// 	// console.log(html)
+	// 	// setCompHtml({ __html: html })
+	// }, [compHtml])
 
-
-	const loaded = () => {
-		setIsLoading(false)
-	}
+	// const loaded = () => {
+	// 	setIsLoading(false)
+	// }
 
 	// useEffect(() => {
 	// 	if (isLoaded) {
@@ -73,41 +92,31 @@ const Tweet = (props) => {
 	}
 
 	return (
-		<div ref={tweetRef}>
-			<Row>
-				<Col
-					md='10'
-					className='d-flex justify-content-center align-items-center text-large cardtxt'
-					style={{
-						fontWeight: '700',
-						fontSize: '32px',
-						letterSpacing: '2px',
-					}}>
-					{enteredView ? (
-						<><div className='tweet'>
-							<EmbTweet onLoad={() => {
-								loaded()
-								}} tweetId={tweet.twtId} />
-						</div><div hidden={!isLoading} className='tweet'>
-								<Spinner color='primary' />
-							</div></>
-					) : (
-						<div className='tweet'>{tweet.twtText}</div>
-					)}
-				</Col>
-				<Col
-					md='2'
-					className='d-flex justify-content-center align-items-center'>
-					<div className='iconbtn'>
-						<MdDelete
-							onClick={() => deleteTweet()}
-							color='#FF6370'
-							className=' icon'
-							style={{ zIndex: '1' }}
-						/>
-					</div>
-				</Col>
-			</Row>
+		<div id={`div-${tweet.twtId}`} ref={divRef}>
+			<div className='center' hidden={embed}>
+				<Spinner color='primary' />
+			</div>
+			<div >
+				<Row>
+					<Col md='10'>
+						<div ref={tweetRef}>
+								<blockquote id={tweetDOMId} className="twitter-tweet" data-dnt="true" data-theme="dark"><a href={twtUrl}></a></blockquote>
+							</div>
+					</Col>
+					<Col
+						md='2'
+						className='d-flex justify-content-center align-items-center'>
+						<div className='iconbtn'>
+							<MdDelete
+								onClick={() => deleteTweet()}
+								color='#FF6370'
+								className=' icon'
+								style={{ zIndex: '1' }}
+							/>
+						</div>
+					</Col>
+				</Row>
+			</div>
 		</div>
 	)
 }

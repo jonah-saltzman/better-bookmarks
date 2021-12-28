@@ -33,6 +33,14 @@ const Folders = () => {
     const [ prevFolder, setPrevFolder ] = useState(null)
     const [ selectedFolder, setSelectedFolder ] = useState({folderId: null})
 
+    // useEffect(() => {
+    //     const twtScript = document.createElement('script')
+    //     twtScript.src = 'https://platform.twitter.com/widgets.js'
+    //     twtScript.async = false
+    //     console.log('mounting twitter script')
+    //     document.body.appendChild(twtScript)
+    // }, [])
+
     const refreshFolders = () => {
         setGotFolders(false)
         setIsLoading(true)
@@ -117,17 +125,6 @@ const Folders = () => {
 									<Container
 										scrollable={`true`}
 										className='folder-list pt-4 container-fluid no-padding'>
-										{foldersArr.length === 0 && !isLoading ? (
-											<div
-												className='Center text-large cardtxt'
-												style={{
-													fontWeight: '700',
-													fontSize: '32px',
-													letterSpacing: '2px',
-												}}>
-												No folders found!
-											</div>
-										) : (
 											<>
 												<div className='folder-listcard mb-4'>
 													<Folder
@@ -156,7 +153,6 @@ const Folders = () => {
 													</div>
 												))}
 											</>
-										)}
 									</Container>
 								</Col>
 								<Col md={9}>

@@ -1,9 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
 
-import { useHistory } from 'react-router-dom'
-
-import { IoIosArrowBack } from 'react-icons/io'
-
 import {
 	Container,
 	ListGroup,
@@ -13,8 +9,6 @@ import {
     Row,
     Col
 } from 'reactstrap'
-
-import { SET_SINGLE_FOLDER, SET_SINGLE_FOLDER_NAME } from '../context/action.types'
 
 import { AppContext } from '../context/Context'
 
@@ -27,59 +21,112 @@ import { getOneFolder } from '../api/folders'
 import Tweet from '../components/Tweet'
 
 const OneFolder = ({folder}) => {
-    const { state, dispatch } = useContext(AppContext)
-    //const history = useHistory()
-    const { loggedIn, token } = state
+	const { state, dispatch } = useContext(AppContext)
+	const { loggedIn, token } = state
 
-	const [ prevFolder, setPrevFolder ] = useState({})
-    const [ isLoading, setIsLoading ] = useState(true)
-    const [ getTweets, setGetTweets ] = useState(true)
-    const [ tweetsArr, setTweetsArr ] = useState([])
+	const [isLoading, setIsLoading] = useState(true)
+	const [tweetsArr, setTweetsArr] = useState([])
+	const [twtObjs, setTwtObjs] = useState([])
+	const [noFolder, setNoFolder] = useState(false)
+	const [loadedTweets, setLoadedTweets] = useState([])
+	const [loadedTweet, setLoadedTweet] = useState('')
 
-    const [ embed, setEmbed ] = useState(true)
+	const [embed, setEmbed] = useState(true)
 
 	const [tweetRows, setTweetRows] = useState([])
 
-    useEffect(() => {
+	const loadTweet = (twtId, loaded, ref) => {
+		window.twttr.widgets.load(document.getElementById(`${ref}`))
+		window.twttr.events.bind('rendered', (event) => {
+			setLoadedTweet(event.target.children[0].dataset.tweetId)
+		})
+	}
+
+	useEffect(() => {
+		if (loadedTweets.includes(loadedTweet) || loadedTweet === '') {
+			return
+		} else {
+			const newArr = [...loadedTweets]
+			newArr.push(loadedTweet)
+			setLoadedTweets(newArr)
+		}
+	}, [loadedTweet])
+
+	useEffect(() => {
+		const newObjs = [...twtObjs].map(obj => 
+			(loadedTweets.some(twtId => obj.twtId === twtId)
+				? {...obj, loaded: true}
+				: obj
+				)
+		)
+		setTwtObjs(newObjs)
+	}, [loadedTweets])
+
+	useEffect(() => {
 		if (!folder || folder.folderId === null) {
+			setIsLoading(false)
+			setNoFolder(true)
 			return
 		}
-		console.log(`folder updated... getting ${folder.folderName}`)
-        if (loggedIn) {
-            (async () => {
-                const tweets = await getOneFolder(folder.folderId, token)
-                if (tweets.error) {
-                    toast(`Error: ${tweets.error}`)
-                    setGetTweets(false)
-                    setIsLoading(false)
-                    return
-                }
-                if (tweets.tweets) {
-                    setTweetsArr(tweets.tweets)
-                    setGetTweets(false)
+		if (loggedIn) {
+			;(async () => {
+				const tweets = await getOneFolder(folder.folderId, token)
+				if (tweets.error) {
+					toast(`Error: ${tweets.error}`)
 					setIsLoading(false)
-					setPrevFolder(folder)
-                }
-            })()
-        }
-    }, [folder])
+					return
+				}
+				if (tweets.tweets) {
+					setNoFolder(false)
+					setTweetsArr(tweets.tweets)
+					setIsLoading(false)
+				}
+			})()
+		}
+	}, [folder])
 
 	useEffect(() => {
 		if (tweetsArr.length === 0) {
 			setTweetRows([])
 			return
 		}
+		if (twtObjs.length !== 0) {
+			return
+		}
+		setTwtObjs(
+			tweetsArr.map((tweet) => ({
+				twtId: tweet.twtId,
+				loaded: false,
+				tweet: tweet,
+			}))
+		)
+	}, [tweetsArr])
+
+	useEffect(() => {
+		if (twtObjs.length === 0) {
+			return
+		}
 		const [colA, colB] = [[], []]
-		tweetsArr.forEach((tweet, i) => {
+		twtObjs.forEach((tweet, i) => {
 			i % 2 === 0
 				? colA.push(
 						<ListGroupItem key={tweet.twtId} className='tweetcard mb-4'>
-							<Tweet tweet={tweet} embed={true} tweetKey={tweet.twtId}></Tweet>
+							<Tweet
+								load={loadTweet}
+								tweet={tweet.tweet}
+								embed={tweet.loaded}
+								key={tweet.twtId}
+							/>
 						</ListGroupItem>
 				  )
 				: colB.push(
 						<ListGroupItem key={tweet.twtId} className='tweetcard mb-4'>
-							<Tweet tweet={tweet} embed={true} tweetKey={tweet.twtId}></Tweet>
+							<Tweet
+								load={loadTweet}
+								tweet={tweet.tweet}
+								embed={tweet.loaded}
+								key={tweet.twtId}
+							/>
 						</ListGroupItem>
 				  )
 		})
@@ -93,54 +140,52 @@ const OneFolder = ({folder}) => {
 			)
 		}
 		setTweetRows(rows)
-	}, [tweetsArr])
+	}, [twtObjs])
 
 	const toggleEmbed = () => {
 		setEmbed(!embed)
 	}
 
-    if (!loggedIn) {
-        return (
-            <Redirect to='/auth'></Redirect>
-        )
-    } else if (isLoading) {
-        return (
+	if (!loggedIn) {
+		return <Redirect to='/auth'></Redirect>
+	} else if (isLoading) {
+		return (
 			<div className='Center'>
 				<Spinner color='primary' />
 				<div className='text-primary'>Loading...</div>
 			</div>
 		)
-    } else {
-        return (
-					<>
-						{' '}
-						<Container className='folder-title'>
-							<Row className='justify-content-md-center'>
-								<Col md='auto'>
-									<div className='folderName'>{folder.folderName}</div>
-								</Col>
-							</Row>
-						</Container>
-						<Container scrollable={`true`} className='mt-4 mb-5 tweet-list'>
-							{tweetsArr.length === 0 && !isLoading ? (
-								<div
-									className='Center text-large cardtxt'
-									style={{
-										fontWeight: '700',
-										fontSize: '32px',
-										letterSpacing: '2px',
-									}}>
-									No Tweets (yet)!
-								</div>
-							) : (
-								<ListGroup>
-									<Container>{tweetRows}</Container>
-								</ListGroup>
-							)}
-						</Container>
-					</>
-				)
-        }
+	} else {
+		return (
+			<>
+				{' '}
+				{!noFolder ? (<Container className='folder-title'>
+					<Row className='justify-content-md-center'>
+						<Col md='auto'>
+							<div className='folderName'>{folder.folderName}</div>
+						</Col>
+					</Row>
+				</Container>) : null}
+				<Container scrollable={`true`} className='mt-4 mb-5 tweet-list'>
+					{tweetsArr.length === 0 && !isLoading ? (
+						<div
+							className='Center text-large cardtxt'
+							style={{
+								fontWeight: '700',
+								fontSize: '32px',
+								letterSpacing: '2px',
+							}}>
+							No Tweets (yet)!
+						</div>
+					) : (
+						<ListGroup>
+							<Container>{tweetRows}</Container>
+						</ListGroup>
+					)}
+				</Container>
+			</>
+		)
+	}
 }
 
 export default OneFolder
