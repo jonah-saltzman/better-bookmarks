@@ -26,7 +26,3 @@ export const twtREOne = new RegExp(/(?:\/)(\d+)(?:\/|\?|$)/)
 export const twtRETwo = new RegExp(/^\d+$/)
 
 export const twtEmbedRE = new RegExp(/(?<=a href=)[^ ]+(?=\?ref)/)
-export const twtEmbedPrefix =
-	'<blockquote class="twitter-tweet" data-dnt="true" data-theme="dark"><a href='
-
-export const twtEmbedSuffix = '"></a></blockquote>'

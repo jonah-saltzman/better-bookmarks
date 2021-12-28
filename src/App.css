@@ -49,6 +49,11 @@ body {
 .container {
   padding-right: 0;
   padding-left: 0;
+  width: 100%;
+}
+
+article {
+  background-color: #2030c7a6;
 }
 
 .profile {
@@ -90,6 +95,10 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+
+blockquote {
+  display: none;
 }
 
 .center {

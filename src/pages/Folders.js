@@ -33,14 +33,6 @@ const Folders = () => {
     const [ prevFolder, setPrevFolder ] = useState(null)
     const [ selectedFolder, setSelectedFolder ] = useState({folderId: null})
 
-    // useEffect(() => {
-    //     const twtScript = document.createElement('script')
-    //     twtScript.src = 'https://platform.twitter.com/widgets.js'
-    //     twtScript.async = false
-    //     console.log('mounting twitter script')
-    //     document.body.appendChild(twtScript)
-    // }, [])
-
     const refreshFolders = () => {
         setGotFolders(false)
         setIsLoading(true)

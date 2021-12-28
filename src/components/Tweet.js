@@ -1,21 +1,13 @@
-import React, { useContext, useEffect, useState, useRef, createRef } from 'react'
+import React, { useEffect, useState, createRef } from 'react'
 import { Row, Col, Spinner } from 'reactstrap'
 
-import { MdDelete, MdEdit } from 'react-icons/md'
+import { MdDelete } from 'react-icons/md'
 
-import { TwitterTweetEmbed } from 'react-twitter-embed'
+import { twtEmbedRE  } from '../constants'
 
-import { Tweet as EmbTweet } from 'react-twitter-widgets'
-
-import { useHistory } from 'react-router-dom'
-
-import { twtEmbedRE, twtEmbedPrefix, twtEmbedSuffix } from '../constants'
-
-import { AppContext } from '../context/Context'
 import { useInViewport } from 'react-in-viewport'
 
 const Tweet = (props) => {
-	const { state, dispatch } = useContext(AppContext)
 
 	const { tweet, load, embed } = props
 
@@ -32,10 +24,6 @@ const Tweet = (props) => {
 	)
 
 	const tweetDOMId = `twt-${tweet.twtId}`
-
-	// console.log(`rendering tweet: ${tweet.twtId}, embed=${embed}`)
-	// console.log(`twt-${tweet.twtId} REF: `)
-	// console.log(tweetRef)
 
 	useEffect(() => {
 		if (enteredView || enterCount > 1 || !inViewport) {
@@ -54,7 +42,7 @@ const Tweet = (props) => {
 		if (enteredView) {
 			console.log('div entered view:')
 			console.log(divRef)
-			load(tweet.twtId, true, tweetDOMId)
+			load(tweetDOMId)
 			return
 		}
 	},[enteredView])
@@ -93,15 +81,22 @@ const Tweet = (props) => {
 
 	return (
 		<div id={`div-${tweet.twtId}`} ref={divRef}>
-			<div className='center' hidden={embed}>
-				<Spinner color='primary' />
-			</div>
-			<div >
+			<div>
 				<Row>
 					<Col md='10'>
+						<div className='center' hidden={embed}>
+							<Spinner color='primary' />
+						</div>
 						<div ref={tweetRef}>
-								<blockquote id={tweetDOMId} className="twitter-tweet" data-dnt="true" data-theme="dark"><a href={twtUrl}></a></blockquote>
-							</div>
+							<blockquote
+								id={tweetDOMId}
+								className='twitter-tweet'
+								data-conversation='none'
+								data-dnt='true'
+								data-theme='dark'>
+								<a href={twtUrl}></a>
+							</blockquote>
+						</div>
 					</Col>
 					<Col
 						md='2'

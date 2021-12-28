@@ -59,7 +59,7 @@ const App = () => {
 			<AppContext.Provider value={{ state, dispatch }}>
 				<ToastContainer theme='dark' />
 				<Header />
-				<Container className='h-75'>
+				<Container fluid className='h-75'>
 					<Switch>
 						<Route exact path='/auth' component={Auth} />
 						<Route path='/folders' component={Folders} />

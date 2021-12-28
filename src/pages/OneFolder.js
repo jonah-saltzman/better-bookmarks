@@ -35,8 +35,8 @@ const OneFolder = ({folder}) => {
 
 	const [tweetRows, setTweetRows] = useState([])
 
-	const loadTweet = (twtId, loaded, ref) => {
-		window.twttr.widgets.load(document.getElementById(`${ref}`))
+	const loadTweet = (elementId) => {
+		window.twttr.widgets.load(document.getElementById(`${elementId}`))
 		window.twttr.events.bind('rendered', (event) => {
 			setLoadedTweet(event.target.children[0].dataset.tweetId)
 		})
