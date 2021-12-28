@@ -496,6 +496,34 @@ li {
   backdrop-filter: blur(40px);
 }
 
+.modal-content {
+  font-weight: 400;
+  outline: none !important;
+  border-radius: 8px !important;
+  height: 100%;
+  width: 100%;
+  color: #f9f9f9;
+  padding-left: 20px;
+  padding-right: 10px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+
+  background: white;
+  background: linear-gradient(
+    to right bottom,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.06)
+  );
+  border-top: 2px solid rgba(255, 255, 255, 0.5);
+  border-left: 2px solid rgba(255, 255, 255, 0.5);
+  border-right: 2px solid rgba(255, 255, 255, 0.5);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+  background-clip: padding-box;
+  border-radius: 10px !important;
+  z-index: 4;
+  backdrop-filter: blur(40px);
+}
+
 .invalid-input {
   font-weight: 400;
   outline: none !important;
@@ -631,20 +659,22 @@ background: linear-gradient(
     rgba(21, 32, 227)
   ) */
 
-.button {
-  border-radius: 10px;
+.auth-btn {
   background: linear-gradient(
     110deg,
     rgb(255, 255, 255),
     rgb(20, 133, 226),
     rgba(21, 32, 227)
   );
+}
+
+.button {
+  border-radius: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-color: none;
   border: none;
-  overflow-x: visible;
 
   color: #f9f9f9;
   box-shadow: none !important;
@@ -653,7 +683,6 @@ background: linear-gradient(
   letter-spacing: 2px;
   z-index: 3;
 }
-
 
 .button-static {
   border-radius: 10px;
@@ -673,8 +702,53 @@ background: linear-gradient(
   z-index: 3;
 }
 
-.btn-secondary:focus, .btn-secondary:hover {
-  background: rgb(31, 45, 172);
+.btn-primary {
+  background: white;
+  background: rgba(0, 119, 255, 0.274);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.btn-primary:hover {
+  background: white;
+  background: rgba(0, 119, 255, 0.692);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.btn-secondary {
+  background: white;
+  background: rgba(92, 92, 92, 0.274);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.btn-secondary:hover {
+  background: white;
+  background: rgba(92, 92, 92, 0.692);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.btn-warning {
+  background: white;
+  background: rgba(255, 0, 0, 0.274);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.btn-warning:hover {
+  background: white;
+  background: rgba(255, 0, 0, 0.692);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  color: white;
+}
+
+.btn {
+  font-weight: 400;
+  outline: none !important;
+  border-radius: 8px !important;
+  color: #f9f9f9;
+  padding: 10px;
+  background-clip: padding-box;
+  border-radius: 10px !important;
+  z-index: 4;
+  backdrop-filter: blur(40px);
 }
 
 .showcontact {

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 
 const ImportField = (props) => {
-    const { fieldNumber, setValue, valid, validate } = props
+    const { fieldNumber, setValue, valid, validate, value } = props
     const [ inputValue, setInputValue ] = useState("")
     const [ validity, setValidity ] = useState(null)
 
@@ -25,6 +25,14 @@ const ImportField = (props) => {
     useEffect(() => {
         setValue(fieldNumber, inputValue)
     }, [inputValue])
+
+    useEffect(() => {
+        if (value === inputValue) {
+            return
+        } else {
+            setInputValue(value)
+        }
+    }, [value])
 
     return (
 			<input

@@ -1,14 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { AppContext } from '../context/Context'
-import FormGroup from 'reactstrap/lib/FormGroup'
-import Form from 'reactstrap/lib/Form'
-import Container from 'reactstrap/lib/Container'
-import Button from 'reactstrap/lib/Button'
+import { FormGroup, Form, Container, Button, Spinner } from 'reactstrap'
 import { toast } from 'react-toastify'
+import { bookmarkTweets } from '../api/tweets'
+import getTwtUrl from '../newtwturl'
+import { NavLink } from 'react-router-dom'
+import {Modal, ModalBody, ModalTitle, ModalFooter, CloseButton } from 'react-bootstrap'
+import ModalHeader from 'react-bootstrap/esm/ModalHeader'
 
 import { twtREOne, twtRETwo } from '../constants'
+import getImportResults from '../functions/getImportResults'
 
 import ImportField from '../components/ImportField'
+import Nav from 'reactstrap/lib/Nav'
 
 
 const Import = ({folder}) => {
@@ -20,7 +24,10 @@ const Import = ({folder}) => {
     const { state, dispatch } = useContext(AppContext)
     const { token } = state
     const [ callingApi, setCallingApi ] = useState(false)
-    const [inputObjs, setInputObjs] = useState(getInitialFields())
+    const [ inputObjs, setInputObjs ] = useState([])
+    const [ showResult, setShowResult ] = useState(false)
+    const [ resultInfo, setResultInfo ] = useState({})
+    const [ isLoading, setIsLoading ] = useState(false)
 
     const validateInputs = () => {
         setInputObjs(inputObjs.map(input => {
@@ -38,11 +45,56 @@ const Import = ({folder}) => {
         if (inputObjs.some(input => input.valid === 'invalid')) {
             toast('Some inputs are invalid!', { type: 'error' })
             return
+        } else {
+            setCallingApi(true)
         }
-        return
     }
 
     useEffect(() => {
+        if (!callingApi) {
+            return
+        }
+        setIsLoading(true)
+        setCallingApi(false)
+        const tweets = inputObjs.reduce((array, input, i) => {
+					if (input.value.length > 0 && input.valid === 'valid') {
+						array.push(input.value)
+					}
+					return array
+				}, []);
+        (async () => {
+            const result = await bookmarkTweets(folder.folderId, tweets, token)
+            setResultInfo(getImportResults(result, folder.folderName))
+            setIsLoading(false)
+            setShowResult(true)
+        })()
+    }, [callingApi])
+
+    useEffect(() => {
+        if (Object.keys(resultInfo).length === 0) {
+            return
+        }
+        console.log('useEffect resultInfo')
+        console.log(resultInfo)
+        console.log(`remaining length: ${resultInfo.remaining?.length}`)
+        if (resultInfo.remaining?.length > 0) {
+            setInputObjs(
+							resultInfo.remaining.map((id, i) => ({
+								number: i,
+								value: id,
+								valid: 'valid',
+							}))
+						)
+        } else {
+            setInputObjs(getInitialFields())
+        }
+    }, [resultInfo])
+
+    useEffect(() => {
+        if (inputObjs.length === 0) {
+            setInputObjs(getInitialFields())
+            return
+        }
         const lastObj = inputObjs[inputObjs.length - 1]
         if (lastObj.value.length > 0) {
             const newObj = {
@@ -62,23 +114,63 @@ const Import = ({folder}) => {
         }))
     }
 
-    return (
-			<Container className='input-list'>
-				<Form onSubmit={handleSubmit} className={'mt-4'}>
-					<FormGroup>
-						{inputObjs.map((input) => (
-							<ImportField
-								key={input.number}
-								setValue={updateValue}
-								fieldNumber={input.number}
-                                valid={input.valid}
-                                validate={validateInputs}
-							/>
-						))}
-					</FormGroup>
-                    <Button type='submit'>Import Tweets</Button>
-				</Form>
-			</Container>
+    const handleClose = () => {
+        setResultInfo({})
+        if (!showResult) {
+            return
+        }
+        setShowResult(false)
+    }
+
+    const twtLink = <NavLink to='/twitter' className='text-white'>Login with Twitter</NavLink>
+
+    const resultModal = (
+			<Modal show={showResult} backdrop='static' keyboard={false}>
+				<ModalHeader>
+					<ModalTitle>{resultInfo.header}</ModalTitle>
+				</ModalHeader>
+				{resultInfo.showBody ? (
+					<ModalBody>
+						{resultInfo.body}
+						{resultInfo.link ? twtLink : null}
+					</ModalBody>
+				) : null}
+				<ModalFooter>
+					<Button color='primary' onClick={handleClose}>
+						Done
+					</Button>
+				</ModalFooter>
+			</Modal>
+		)
+   return (
+			<>
+				<div hidden={!isLoading} className='Center'>
+					<Spinner color='primary' />
+					<div className='text-primary'>Loading...</div>
+				</div>
+				<div hidden={isLoading}>
+					<Container className='input-list'>
+						<Form onSubmit={handleSubmit} className={'mt-4 text-center'}>
+							<FormGroup>
+								{inputObjs.map((input) => (
+									<ImportField
+										key={input.number}
+										setValue={updateValue}
+										fieldNumber={input.number}
+										valid={input.valid}
+										validate={validateInputs}
+                                        value={input.value}
+									/>
+								))}
+							</FormGroup>
+							<Button color='primary' type='submit'>
+								Import Tweets
+							</Button>
+						</Form>
+					</Container>
+				</div>
+				{resultModal}
+			</>
 		)
 }
 

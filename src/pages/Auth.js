@@ -132,8 +132,7 @@ const Auth = () => {
 				<Row>
 					<Col md='8' className='offset-md-2 p-3 '>
 						<Form className='formcard auth-form' onSubmit={handleSubmit}>
-							<FormGroup
-								className='mt-4'>
+							<FormGroup className='mt-4'>
 								<input
 									className='input'
 									type='email'
@@ -156,7 +155,7 @@ const Auth = () => {
 								/>
 							</FormGroup>
 							{signIn ? (
-								<FormGroup check className='mt-2'>
+								<FormGroup check className='mt-2 ml-3'>
 									<Label check>
 										<Input
 											className='checkmark'
@@ -204,10 +203,12 @@ const Auth = () => {
 								]
 							)}
 							<Button
-								type='submit'
 								color='primary'
+								type='submit'
 								block
-								className='text-uppercase button mt-5'
+								className={
+									'text-uppercase ' + (signIn ? 'mt-3' : 'mt-4')
+								}
 								style={{
 									padding: '15px',
 									fontSize: '18px',
@@ -220,9 +221,12 @@ const Auth = () => {
 				<Row>
 					<Col md='8' className='offset-md-8'>
 						<Button
-							onClick={toggleAuth}
-							type='button'
-							className='text-uppercase button-static'
+							onClick={(e) => {
+								e.target.blur()
+								toggleAuth()
+							}}
+							color='secondary'
+							className='text-uppercase'
 							style={{
 								padding: '15px',
 								fontSize: '18px',

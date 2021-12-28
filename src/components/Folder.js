@@ -138,14 +138,13 @@ const Folder = (props) => {
 			>
 				<ModalHeader>
 					<ModalTitle>Are you sure you want to delete {folder.folderName}?</ModalTitle>
-					<CloseButton></CloseButton>
 				</ModalHeader>
 				<ModalBody>
 					This action cannot be undone.
 				</ModalBody>
 				<ModalFooter>
-					<Button variant='secondary' onClick={handleClose}>Cancel</Button>
-					<Button variant='primary' onClick={handleDelete}>Delete</Button>
+					<Button className='btn-secondary' onClick={handleClose}>Cancel</Button>
+					<Button className='btn-warning' onClick={handleDelete}>Delete</Button>
 				</ModalFooter>
 			</Modal>
 	)
