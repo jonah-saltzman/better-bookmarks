@@ -122,6 +122,10 @@ blockquote {
   flex-direction: column;
 }
 
+.center-item {
+  align-self: center;
+}
+
 .folderName {
   display: flex;
   justify-content: center;
@@ -305,6 +309,7 @@ blockquote {
 
 .auth-form {
   margin-bottom: 1rem;
+  width: 50%;
 }
 
 .link:hover {
@@ -360,30 +365,6 @@ li {
   font-weight: 500;
   font-size: 20px;
   color: white;
-  letter-spacing: 1px;
-}
-
-.phone {
-  font-weight: 400;
-  font-size: 16px;
-  color: #f9f9f9;
-  text-transform: capitalize;
-  letter-spacing: 1px;
-
-  margin-top: 5px;
-}
-
-.mail {
-  font-weight: 400;
-  font-size: 14px;
-  color: #f9f9f9;
-  letter-spacing: 1px;
-}
-
-.location {
-  font-weight: 400;
-  font-size: 14px;
-  color: #f9f9f9;
   letter-spacing: 1px;
 }
 
@@ -446,7 +427,7 @@ li {
   padding-right: 80px;
 }
 
-.formcard, .importcard {
+.importcard {
   background: white;
   background: linear-gradient(
     to right bottom,
@@ -463,6 +444,27 @@ li {
   backdrop-filter: blur(20px);
   padding: 60px;
   padding-bottom: 70px;
+  padding-left: 80px;
+  padding-right: 80px;
+}
+
+.formcard {
+  background: white;
+  background: linear-gradient(
+    to right bottom,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.06)
+  );
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background-clip: padding-box;
+  border-radius: 10px !important;
+  z-index: 2;
+  backdrop-filter: blur(20px);
+  padding-top: 60px;
+  padding-bottom: 30px;
   padding-left: 80px;
   padding-right: 80px;
 }
@@ -728,6 +730,22 @@ background: linear-gradient(
   font-weight: 500;
   letter-spacing: 2px;
   z-index: 3;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-v {
+  display: flex;
+  flex-direction: column;
+}
+
+.twt-btn {
+  max-width: 50%;
+  height: auto
 }
 
 .btn-primary {

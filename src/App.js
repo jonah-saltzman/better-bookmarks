@@ -22,6 +22,7 @@ import PageNotFound from "./pages/PageNotFound"
 import Auth from "./pages/Auth"
 import Home from "./pages/Home"
 import Folders from "./pages/Folders"
+import Twitter from "./pages/Twitter";
 
 import reducer from "./context/reducer";
 import { AppContext } from "./context/Context";
@@ -63,6 +64,7 @@ const App = () => {
 					<Switch>
 						<Route exact path='/auth' component={Auth} />
 						<Route path='/folders' component={Folders} />
+						<Route exact path='/twitter' component={Twitter} />
 						<Route exact path='/' component={Home} />
 						<Route exact path='*' component={PageNotFound} />
 					</Switch>

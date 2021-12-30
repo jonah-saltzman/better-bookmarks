@@ -74,9 +74,6 @@ const Import = ({folder}) => {
         if (Object.keys(resultInfo).length === 0) {
             return
         }
-        console.log('useEffect resultInfo')
-        console.log(resultInfo)
-        console.log(`remaining length: ${resultInfo.remaining?.length}`)
         if (resultInfo.remaining?.length > 0) {
             setInputObjs(
 							resultInfo.remaining.map((id, i) => ({

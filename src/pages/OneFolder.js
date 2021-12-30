@@ -2,10 +2,8 @@ import React, { useContext, useEffect, useState } from 'react'
 
 import {
 	Container,
-	ListGroup,
 	ListGroupItem,
 	Spinner,
-	Button,
 	Row,
 	Col,
 } from 'reactstrap'
@@ -33,9 +31,7 @@ const OneFolder = ({ folder }) => {
 	const [loadedTweet, setLoadedTweet] = useState('')
 	const [deletingTweet, setDeletingTweet] = useState(null)
 	const [eraseTweet, setEraseTweet] = useState(false)
-
 	const [embed, setEmbed] = useState(true)
-
 	const [tweetCols, setTweetCols] = useState({ colA: [], colB: [] })
 
 	window.twttr.events.bind('rendered', (event) => {
@@ -134,9 +130,6 @@ const OneFolder = ({ folder }) => {
 			setTweetCols({ colA: [], colB: [] })
 			return
 		}
-		// if (twtObjs.length !== 0) {
-		// 	return
-		// }
 		setTwtObjs(
 			tweetsArr.map((tweet) => ({
 				twtId: tweet.twtId,
@@ -183,10 +176,6 @@ const OneFolder = ({ folder }) => {
 			})
 		setTweetCols({ colA: colA, colB: colB })
 	}, [twtObjs])
-
-	const toggleEmbed = () => {
-		setEmbed(!embed)
-	}
 
 	if (!loggedIn) {
 		return <Redirect to='/auth'></Redirect>

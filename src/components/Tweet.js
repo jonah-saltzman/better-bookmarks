@@ -4,8 +4,6 @@ import { randomBytes } from 'crypto'
 
 import { MdDelete } from 'react-icons/md'
 
-import { MdClose } from 'react-icons/md'
-
 import { twtEmbedRE } from '../constants'
 
 import { useInViewport } from 'react-in-viewport'

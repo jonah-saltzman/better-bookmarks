@@ -79,4 +79,50 @@ export const logout = async (token) => {
     } catch(error) {
         return { error: "Unknown error logging out." }
     }
-} 
+}
+
+export const checkTwtAuth = async (token, state) => {
+    const URL = BB_URL + '/user/twt/check'
+    console.log(state)
+    const request = {
+        state: state
+    }
+    try {
+        const response = await fetch(URL, {
+            method: 'POST',
+            cache: 'no-cache',
+            headers: {
+                'Authorization': `JWT ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(request)
+        })
+        return (response.status === 200)
+    } catch(error) {
+        return false
+    }
+}
+
+export const twitterLogin = async (token) => {
+    const URL = BB_URL + '/user/twitter'
+    try {
+        const response = await fetch(URL, {
+            method: 'GET',
+            cache: 'no-cache',
+            headers: {
+                'Authorization': `JWT ${token}`
+            },
+        })
+        const status = response.status
+        const data = await response.json()
+        return {
+            error: status === 200 ? null : data,
+            success: status === 200 ? data.message : null,
+            token: status === 200 ? token : null,
+            userId: data.userId || null,
+            twtChallenge: data.twtChallenge || null
+        }
+    } catch(error) {
+        return false
+    }
+}

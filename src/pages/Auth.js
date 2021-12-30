@@ -22,11 +22,14 @@ import {
 	SET_TWT_CHALLENGE,
 } from '../context/action.types'
 
+import twitterButton from '../twitter_button.png'
+
 import { toast } from 'react-toastify'
 
 import { Redirect } from 'react-router-dom'
 
-import { authenticate } from '../api/auth'
+import { authenticate, twitterLogin } from '../api/auth'
+import { BB_URL } from '../constants'
 
 const Auth = () => {
 	// Get context and destructure loggedIn from state
@@ -44,6 +47,9 @@ const Auth = () => {
 	const [passwordConfirm, setPasswordConfirm] = useState("")
 	const [twtId, setTwtId] = useState("")
 	const [staySignedIn, setStaySignedIn] = useState(false)
+
+	const [clickedLogin, setClickedLogin] = useState(false)
+	const [leftPage, setLeftPage] = useState(false)
 
 	// Toggle betweein sign-in and register forms
 	const toggleAuth = () => {
@@ -93,7 +99,7 @@ const Auth = () => {
 	const setCredentials = (email, authResult) => {
 		dispatch({
 			type: SET_USER,
-			payload: email,
+			payload: email ? email : authResult.twtUser,
 		})
 		dispatch({
 			type: SET_TOKEN,
@@ -113,6 +119,54 @@ const Auth = () => {
 		})
 	}
 
+	const startTwitterAuth = () => {
+		window.open(BB_URL + '/twtlogin')
+		setClickedLogin(true)
+	}
+
+	const checkForToken = async () => {
+		console.log(localStorage.length)
+		const token = localStorage.getItem('token')
+		setIsLoading(true)
+		if (token) {
+			console.log('got token: ');
+			console.log(token);
+			(async () => {
+				const authResult = await twitterLogin(token)
+				if (authResult.error) {
+					toast(authResult.error, { type: 'error' })
+				} else {
+					toast(authResult.success, { type: 'success' })
+					setCredentials(null, authResult)
+				}
+				setIsLoading(false)
+			})()
+		} else {
+			toast('Twitter login failed, try refreshing', { type: 'error' })
+		}
+	}
+
+	const onVisibilityChange = () => {
+		if (document.visibilityState === 'visible') {
+			if (leftPage && clickedLogin) {
+				checkForToken()
+				setLeftPage(false)
+				setClickedLogin(false)
+			}
+		} else {
+			setLeftPage(true)
+		}
+	}
+
+	useEffect(() => {
+		console.log('adding listener')
+		document.addEventListener('visibilitychange', onVisibilityChange)
+		return () => {
+			console.log('removing listener')
+			document.removeEventListener('visibilitychange', onVisibilityChange)
+		}
+	})
+
 	// Render spinner while waiting for API
 	if (isLoading) {
 		return (
@@ -128,113 +182,112 @@ const Auth = () => {
 		return <Redirect to='/folders/view'></Redirect>
 	} else {
 		return (
-			<Container fluid className='mt-5 '>
-				<Row>
-					<Col md='8' className='offset-md-2 p-3 '>
-						<Form className='formcard auth-form' onSubmit={handleSubmit}>
-							<FormGroup className='mt-4'>
-								<input
-									className='input'
-									type='email'
-									name='email'
-									id='email'
-									placeholder='Email'
-									value={email}
-									onChange={(e) => setEmail(e.target.value)}
-								/>
-							</FormGroup>
-							<FormGroup>
+			<Container fluid className='flex mt-5'>
+				<Form className='formcard flex-v auth-form' onSubmit={handleSubmit}>
+					<img
+						src={twitterButton}
+						alt='Sign up or login with Twitter'
+						onClick={startTwitterAuth}
+						className='center-item twt-btn'></img>
+					<FormGroup className='mt-4'>
+						<input
+							className='input'
+							type='email'
+							name='email'
+							id='email'
+							placeholder='Email'
+							value={email}
+							onChange={(e) => setEmail(e.target.value)}
+						/>
+					</FormGroup>
+					<FormGroup>
+						<input
+							className='input mt-2'
+							type='password'
+							name='password'
+							id='password'
+							value={password}
+							onChange={(e) => setPassword(e.target.value)}
+							placeholder='Password'
+						/>
+					</FormGroup>
+					{signIn ? (
+						<FormGroup check className='mt-2 ml-3'>
+							<Label check>
+								<Input
+									className='checkmark'
+									type='checkbox'
+									onChange={() => {
+										setStaySignedIn(!staySignedIn)
+									}}
+									checked={staySignedIn}
+								/>{' '}
+								<span
+									className='text-right'
+									style={{
+										color: '#f9f9f9',
+										fontWeight: '400',
+										letterSpacing: '1px',
+									}}>
+									Stay signed in
+								</span>
+							</Label>
+						</FormGroup>
+					) : (
+						[
+							<FormGroup key='password-confirm'>
 								<input
 									className='input mt-2'
 									type='password'
-									name='password'
-									id='password'
-									value={password}
-									onChange={(e) => setPassword(e.target.value)}
-									placeholder='Password'
+									name='password-confirm'
+									id='password-confirm'
+									value={passwordConfirm}
+									onChange={(e) => setPasswordConfirm(e.target.value)}
+									placeholder='Confirm password'
 								/>
-							</FormGroup>
-							{signIn ? (
-								<FormGroup check className='mt-2 ml-3'>
-									<Label check>
-										<Input
-											className='checkmark'
-											type='checkbox'
-											onChange={() => {
-												setStaySignedIn(!staySignedIn)
-											}}
-											checked={staySignedIn}
-										/>{' '}
-										<span
-											className='text-right'
-											style={{
-												color: '#f9f9f9',
-												fontWeight: '400',
-												letterSpacing: '1px',
-											}}>
-											Stay signed in
-										</span>
-									</Label>
-								</FormGroup>
-							) : (
-								[
-									<FormGroup key='password-confirm'>
-										<input
-											className='input mt-2'
-											type='password'
-											name='password-confirm'
-											id='password-confirm'
-											value={passwordConfirm}
-											onChange={(e) => setPasswordConfirm(e.target.value)}
-											placeholder='Confirm password'
-										/>
-									</FormGroup>,
-									<FormGroup key='twtId'>
-										<input
-											className='input mt-2'
-											type='text'
-											name='twtId'
-											id='twtId'
-											value={twtId}
-											onChange={(e) => setTwtId(e.target.value)}
-											placeholder='Twitter Username'
-										/>
-									</FormGroup>,
-								]
-							)}
-							<Button
-								color='primary'
-								type='submit'
-								block
-								className={
-									'text-uppercase ' + (signIn ? 'mt-3' : 'mt-4')
-								}
-								style={{
-									padding: '15px',
-									fontSize: '18px',
-								}}>
-								{signIn ? 'Sign in' : 'Register'}
-							</Button>
-						</Form>
-					</Col>
-				</Row>
-				<Row>
-					<Col md='8' className='offset-md-8'>
-						<Button
-							onClick={(e) => {
-								e.target.blur()
-								toggleAuth()
-							}}
-							color='secondary'
-							className='text-uppercase'
-							style={{
-								padding: '15px',
-								fontSize: '18px',
-							}}>
-							{signIn ? 'Register' : 'Sign in'}
-						</Button>
-					</Col>
-				</Row>
+							</FormGroup>,
+							<FormGroup key='twtId'>
+								<input
+									className='input mt-2'
+									type='text'
+									name='twtId'
+									id='twtId'
+									value={twtId}
+									onChange={(e) => setTwtId(e.target.value)}
+									placeholder='Twitter Username'
+								/>
+							</FormGroup>,
+						]
+					)}
+					<Button
+						color='primary'
+						type='submit'
+						block
+						className={
+							'text-uppercase center-item ' + (signIn ? 'mt-4' : 'mt-2')
+						}
+						style={{
+							padding: '5px',
+							fontSize: '18px',
+							width: '50%',
+						}}>
+						{signIn ? 'Sign in' : 'Register'}
+					</Button>
+					<Button
+						onClick={(e) => {
+							e.target.blur()
+							toggleAuth()
+						}}
+						color='secondary'
+						className='text-uppercase center-item mt-3'
+						style={{
+							padding: '5px',
+							fontSize: '18px',
+							width: '50%'
+						}}>
+						{signIn ? 'Register' : 'Sign in'}
+					</Button>
+				</Form>
 			</Container>
 		)
 	}
