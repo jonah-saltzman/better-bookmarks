@@ -25,4 +25,6 @@ export const TWTAUTH_SUFFIX = '&code_challenge_method=plain'
 export const twtREOne = new RegExp(/(?:\/)(\d+)(?:\/|\?|$)/)
 export const twtRETwo = new RegExp(/^\d+$/)
 
-export const twtEmbedRE = new RegExp(/(?<=a href=)[^ ]+(?=\?ref)/)
+export const twtEmbedRE = new RegExp(/(?<=a href=")[^ ]+\/[^ ]*?status[^ ]+(?=\?ref)/i)
+
+//export const twtEmbedRE = new RegExp(/(?<=a href=)[^ ]+(?=\?ref)/)

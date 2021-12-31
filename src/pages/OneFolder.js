@@ -34,13 +34,20 @@ const OneFolder = ({ folder }) => {
 	const [embed, setEmbed] = useState(true)
 	const [tweetCols, setTweetCols] = useState({ colA: [], colB: [] })
 
-	window.twttr.events.bind('rendered', (event) => {
-		setLoadedTweet(event.target.children[0].dataset.tweetId)
-	})
-
 	const loadTweet = (elementId) => {
 		window.twttr.widgets.load(document.getElementById(`${elementId}`))
 	}
+
+	useEffect(() => {
+		window.twttr.events.bind('rendered', (event) => {
+			if (event.target.children.length === 0) {
+				return
+			}
+			console.log(`loaded:`)
+			console.log(event.target.children[0].dataset.tweetId)
+			setLoadedTweet(event.target.children[0].dataset.tweetId)
+		})
+	})
 
 	const deleteTweet = (twtId) => {
 		if (deletingTweet) {
@@ -159,7 +166,7 @@ const OneFolder = ({ folder }) => {
 									key={tweet.twtId}
 									remove={deleteTweet}
 									display={tweet.display}
-									like={tweet.like}
+									like={false}
 								/>
 							</ListGroupItem>
 					  )
@@ -172,7 +179,7 @@ const OneFolder = ({ folder }) => {
 									key={tweet.twtId}
 									remove={deleteTweet}
 									display={tweet.display}
-									like={tweet.like}
+									like={false}
 								/>
 							</ListGroupItem>
 					  )

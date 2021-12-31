@@ -52,6 +52,9 @@ const Tweet = (props) => {
 	}, [display])
 
 	if (display) {
+		console.log(`tweet ${tweet.twtId} url:`)
+		console.log(twtUrl)
+		console.log(tweet)
 		return (
 			<>
 				<div ref={divRef} className='center' hidden={embed}>
