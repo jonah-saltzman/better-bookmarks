@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 
 import {
 	Container,
@@ -23,7 +23,7 @@ import Import from './Import'
 import Likes from './Likes'
 
 const Folders = () => {
-    const { state, dispatch } = useContext(AppContext)
+    const { state } = useContext(AppContext)
 
 	const { loggedIn, token } = state
 
@@ -55,19 +55,16 @@ const Folders = () => {
             return
         }
         if (prevFolder) {
-            console.log('was a previous folder')
             if (
                     currentFolder.folderId === prevFolder.folderId &&
                     currentFolder.tweets.length === prevFolder.tweets.length
                 ) {
-                    console.log('not setting new folder')
                     return
                 } else {
                     setSelectedFolder(currentFolder)
                     setPrevFolder(currentFolder)
                 }
         } else {
-            console.log('no previous folder; selecting: ', currentFolder)
             setSelectedFolder(currentFolder)
             setPrevFolder(currentFolder)
         }
@@ -97,10 +94,8 @@ const Folders = () => {
 
     useEffect(() => {
         if (foldersArr.length === 0) {
-            console.log('no folders!')
             return
         }
-        console.log('found some folders')
         setCurrentFolder(
 					prevFolder
 						? foldersArr.find(
