@@ -36,7 +36,6 @@ const Folders = () => {
 
     const refreshFolders = () => {
         setGotFolders(false)
-        setIsLoading(true)
     }
 
     const selectFolder = (folderId) => {
