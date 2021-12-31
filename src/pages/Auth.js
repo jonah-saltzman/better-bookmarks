@@ -97,6 +97,8 @@ const Auth = () => {
 
 	// Set credential variables in parent state
 	const setCredentials = (email, authResult) => {
+		console.log('setting credentials: ')
+		console.log(authResult)
 		dispatch({
 			type: SET_USER,
 			payload: email ? email : authResult.twtUser,
@@ -125,12 +127,9 @@ const Auth = () => {
 	}
 
 	const checkForToken = async () => {
-		console.log(localStorage.length)
 		const token = localStorage.getItem('token')
 		setIsLoading(true)
 		if (token) {
-			console.log('got token: ');
-			console.log(token);
 			(async () => {
 				const authResult = await twitterLogin(token)
 				if (authResult.error) {
@@ -143,6 +142,7 @@ const Auth = () => {
 			})()
 		} else {
 			toast('Twitter login failed, try refreshing', { type: 'error' })
+			setIsLoading(false)
 		}
 	}
 
@@ -159,10 +159,8 @@ const Auth = () => {
 	}
 
 	useEffect(() => {
-		console.log('adding listener')
 		document.addEventListener('visibilitychange', onVisibilityChange)
 		return () => {
-			console.log('removing listener')
 			document.removeEventListener('visibilitychange', onVisibilityChange)
 		}
 	})

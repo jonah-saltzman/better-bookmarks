@@ -20,6 +20,7 @@ import Folder from '../components/Folder'
 
 import OneFolder from './OneFolder'
 import Import from './Import'
+import Likes from './Likes'
 
 const Folders = () => {
     const { state, dispatch } = useContext(AppContext)
@@ -46,20 +47,28 @@ const Folders = () => {
     }
 
     useEffect(() => {
+        refreshFolders()
+    }, [selectedFolder])
+
+    useEffect(() => {
         if (!currentFolder) {
+            refreshFolders()
             return
         }
         if (prevFolder) {
+            console.log('was a previous folder')
             if (
                     currentFolder.folderId === prevFolder.folderId &&
                     currentFolder.tweets.length === prevFolder.tweets.length
                 ) {
+                    console.log('not setting new folder')
                     return
                 } else {
                     setSelectedFolder(currentFolder)
                     setPrevFolder(currentFolder)
                 }
         } else {
+            console.log('no previous folder; selecting: ', currentFolder)
             setSelectedFolder(currentFolder)
             setPrevFolder(currentFolder)
         }
@@ -89,8 +98,10 @@ const Folders = () => {
 
     useEffect(() => {
         if (foldersArr.length === 0) {
+            console.log('no folders!')
             return
         }
+        console.log('found some folders')
         setCurrentFolder(
 					prevFolder
 						? foldersArr.find(
@@ -121,7 +132,7 @@ const Folders = () => {
 												<div className='folder-listcard mb-4'>
 													<Folder
 														folder={{ folderName: 'New Folder' }}
-														key={'newFolder'}
+														key='newFolder'
 														newFolder={true}
 														refresh={refreshFolders}
 													/>
@@ -150,10 +161,13 @@ const Folders = () => {
 								<Col md={9}>
 									<Switch>
 										<Route exact path='/folders/view'>
-											<OneFolder folder={selectedFolder}></OneFolder>
+											<OneFolder refresh={refreshFolders} folder={selectedFolder} />
 										</Route>
                                         <Route exact path='/folders/import'>
-                                            <Import folder={selectedFolder}></Import>
+                                            <Import refresh={refreshFolders} folder={selectedFolder} />
+                                        </Route>
+                                        <Route exact path='/folders/likes'>
+                                            <Likes refresh={refreshFolders} folder={selectedFolder} />
                                         </Route>
 									</Switch>
 								</Col>

@@ -136,6 +136,7 @@ const OneFolder = ({ folder }) => {
 				loaded: false,
 				tweet: tweet,
 				display: true,
+				like: false,
 			}))
 		)
 	}, [tweetsArr])
@@ -158,6 +159,7 @@ const OneFolder = ({ folder }) => {
 									key={tweet.twtId}
 									remove={deleteTweet}
 									display={tweet.display}
+									like={tweet.like}
 								/>
 							</ListGroupItem>
 					  )
@@ -170,6 +172,7 @@ const OneFolder = ({ folder }) => {
 									key={tweet.twtId}
 									remove={deleteTweet}
 									display={tweet.display}
+									like={tweet.like}
 								/>
 							</ListGroupItem>
 					  )

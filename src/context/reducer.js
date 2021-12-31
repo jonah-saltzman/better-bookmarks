@@ -16,7 +16,7 @@ import {
 export default (state, action) => {
   switch (action.type) {
     case SET_TWT_AUTH:
-      return Object.keys(action.payload) === 4
+      return Object.keys(action.payload).length === 4
 				? { ...state, twtAuth: action.payload }
 				: {
 						...state,

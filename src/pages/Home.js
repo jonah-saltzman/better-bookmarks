@@ -37,6 +37,8 @@ const Home = (props) => {
 	const [twtAuthUrl, setTwtAuthUrl] = useState("")
 
 	const twtPopup = () => {
+		console.log('opening twtUrl:')
+		console.log(twtAuthUrl)
 		window.open(twtAuthUrl)
 	}
 

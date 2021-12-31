@@ -47,7 +47,7 @@ const Header = () => {
 			<NavLink to='/folders/view' className='text-white'>
 				Folders
 			</NavLink>
-			<NavLink to='/likes' className='text-white'>
+			<NavLink to='/folders/likes' className='text-white'>
 				Likes
 			</NavLink>
 			<NavLink to='/folders/import' className='text-white'>

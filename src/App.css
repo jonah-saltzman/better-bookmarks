@@ -284,8 +284,35 @@ blockquote {
   background-clip: padding-box;
   border-radius: 10px !important;
   z-index: 2;
-  backdrop-filter: blur(20px);
   padding: 20px;
+}
+
+.likecard {
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background-clip: padding-box;
+  border-radius: 10px !important;
+  z-index: 2;
+  padding: 5px;
+  transition: filter 0.3s;
+}
+
+.likecard:hover {
+  background: linear-gradient(
+    to right bottom,
+    rgba(120, 129, 255, 0.5),
+    rgba(159, 160, 255, 0.452)
+  );
+  z-index: 2;
+  backdrop-filter: blur(20px);
+}
+
+.added {
+  z-index: 10;
+  filter: blur(5px);
+  
 }
 
 .folder-title {
@@ -467,6 +494,10 @@ li {
   padding-bottom: 30px;
   padding-left: 80px;
   padding-right: 80px;
+}
+
+.add-tweet{
+  padding:15px
 }
 
 .input {

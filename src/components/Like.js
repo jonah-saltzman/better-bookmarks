@@ -12,7 +12,6 @@ const Tweet = (props) => {
 	const { tweet, load, embed, remove, display, like, add } = props
 
 	const [enteredView, setEnteredView] = useState(false)
-	const [twtUrl, setTwtUrl] = useState(tweet?.twtHtml?.match(twtEmbedRE)[0])
 
 	const tweetRef = createRef()
 	const divRef = createRef()
@@ -37,57 +36,28 @@ const Tweet = (props) => {
 			return
 		}
 		if (enteredView) {
-			console.log(`loading ${tweet.twtId} @ ${tweetDOMId}`)
-			load(tweetDOMId, tweet.twtId)
+			window.twttr.widgets
+				.createTweet(tweet.twtId, document.getElementById(tweetDOMId), {
+					theme: 'dark',
+				})
 			return
 		}
 	}, [enteredView])
 
-	useEffect(() => {
-		if (!enteredView || !display) {
-			return
-		} else {
-			load(tweetDOMId)
-		}
-	}, [display])
+	return (
+		<div
+			id={divDOMId}
+            ref={divRef}
+            className='add-tweet'
+			onClick={() => {
+				if (like) {
+					add(tweet.twtId)
+				}
+			}}>
+                <div id={tweetDOMId}></div>
+            </div>
+	)
 
-	if (display) {
-		return (
-			<>
-				<div ref={divRef} className='center' hidden={embed}>
-					<Spinner color='primary' />
-				</div>
-				{like ? null : (
-					<MdDelete
-						onClick={() => {
-							remove(tweet.twtId)
-						}}
-						className={'delete-tweet ' + (embed ? '' : 'hidden')}
-					/>
-				)}
-				<div
-					onClick={() => {
-						if (like) {
-							add(tweet.twtId)
-						}
-					}}
-					id={divDOMId}
-					ref={tweetRef}
-					className='tweet-div like'>
-					<blockquote
-						id={tweetDOMId}
-						className='twitter-tweet'
-						data-conversation='none'
-						data-dnt='true'
-						data-theme='dark'>
-						<a href={twtUrl}></a>
-					</blockquote>
-				</div>
-			</>
-		)
-		} else {
-			return null
-		}
-	}
+}
 
 export default Tweet

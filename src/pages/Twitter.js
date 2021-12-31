@@ -1,4 +1,6 @@
-import React, { useState, useContext, useEffect, useRef } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
+
+import { useHistory } from 'react-router-dom'
 
 import twitterLogin from '../sign-in-with-twitter-gray.png.twimg.1920.png'
 
@@ -18,6 +20,7 @@ const Twitter = (props) => {
 
 	const { state, dispatch } = useContext(AppContext)
 	const { loggedIn, userId, twtChallenge, twtState, token } = state
+    const history = useHistory()
 
 	const [ showTwtAuth, setShowTwtAuth ] = useState(false)
 	const [ twtAuthUrl, setTwtAuthUrl ] = useState('')
@@ -25,6 +28,8 @@ const Twitter = (props) => {
     const [ leftPage, setLeftPage ] = useState(false)
 
 	const twtPopup = () => {
+        console.log('opening twtUrl:')
+		console.log(twtAuthUrl)
 		window.open(twtAuthUrl)
 	}
 
@@ -44,6 +49,7 @@ const Twitter = (props) => {
                 type: SET_TWT_AUTH,
                 payload: authObj
             })
+            history.goBack()
         } else {
             toast('Twitter sign-in failed', { type: 'error' })
         }
@@ -63,6 +69,7 @@ const Twitter = (props) => {
 
     useEffect(() => {
         console.log('adding listener')
+        console.log(history)
         document.addEventListener('visibilitychange', onVisibilityChange)
         return () => {
             console.log('removing listener')
@@ -72,7 +79,7 @@ const Twitter = (props) => {
 
 	useEffect(() => {
 		if (loggedIn && userId) {
-			setTwtAuthUrl(getTwtUrl(userId, twtChallenge, twtState))
+			setTwtAuthUrl(getTwtUrl(userId, twtChallenge.challenge, twtState))
 			setShowTwtAuth(true)
 		} else {
 			setTwtAuthUrl('')
