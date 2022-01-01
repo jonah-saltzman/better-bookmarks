@@ -23,6 +23,7 @@ import {
 	SET_USER_ID,
 	SET_TWT_CHALLENGE,
 	SET_TWT_STATE,
+	SET_OFFLINE
 } from '../context/action.types'
 
 import twitterButton from '../twitter_button.png'
@@ -31,8 +32,8 @@ import { toast } from 'react-toastify'
 
 import { Redirect } from 'react-router-dom'
 
-import { authenticate, twitterLogin } from '../api/auth'
-import { BB_URL } from '../constants'
+import { authenticate, twitterLogin, newTwtLogin } from '../api/auth'
+import getTwtUrl from '../newtwturl'
 
 const Auth = () => {
 	// Get context and destructure loggedIn from state
@@ -53,6 +54,29 @@ const Auth = () => {
 
 	const [clickedLogin, setClickedLogin] = useState(false)
 	const [leftPage, setLeftPage] = useState(false)
+	const [twtState, setTwtState] = useState(null)
+
+	useEffect(() => {
+		console.log('creating new state:')
+		const newState = randomBytes(24).toString('hex')
+		console.log(newState)
+		setTwtState(newState)
+	}, [])
+
+	const startTwitterAuth = async () => {
+		const challenge = await newTwtLogin(twtState)
+		if (!challenge || challenge.error) {
+			toast('Error starting Twitter login', { type: 'error' })
+			return
+		}
+		const dynamicURL = getTwtUrl(null, challenge.challenge, twtState, {
+			offline: staySignedIn,
+		})
+		console.log('dynamic url:')
+		console.log(dynamicURL)
+		window.open(dynamicURL)
+		setClickedLogin(true)
+	}
 
 	// Toggle betweein sign-in and register forms
 	const toggleAuth = () => {
@@ -84,14 +108,14 @@ const Auth = () => {
 			const authResult = await authenticate(
 				email,
 				password,
-				twtId,
-				!signIn
+				!signIn,
+				twtState
 			)
 			if (authResult.error) {
 				toast(authResult.error, { type: 'error' })
 			} else {
 				toast(authResult.success, { type: 'success' })
-				setCredentials(email, authResult)
+				setCredentials(email, authResult, false)
 			}
 			setIsLoading(false)
 			setIsSubmitting(false)
@@ -99,10 +123,7 @@ const Auth = () => {
 	}, [isSubmitting])
 
 	// Set credential variables in parent state
-	const setCredentials = (email, authResult) => {
-		console.log('creating new state:')
-		const twtState = randomBytes(48).toString('hex')
-		console.log(twtState)
+	const setCredentials = (email, authResult, state) => {
 		dispatch({
 			type: SET_USER,
 			payload: {
@@ -113,7 +134,7 @@ const Auth = () => {
 		})
 		dispatch({
 			type: SET_TWT_STATE,
-			payload: twtState
+			payload: twtState,
 		})
 		dispatch({
 			type: SET_TOKEN,
@@ -131,12 +152,16 @@ const Auth = () => {
 			type: SET_LOGIN,
 			payload: true,
 		})
+		dispatch({
+			type: SET_OFFLINE,
+			payload: staySignedIn
+		})
 	}
 
-	const startTwitterAuth = () => {
-		window.open(BB_URL + '/twtlogin')
-		setClickedLogin(true)
-	}
+	// const startTwitterAuth = () => {
+	// 	window.open(BB_URL + '/twtlogin')
+	// 	setClickedLogin(true)
+	// }
 
 	const checkForToken = async () => {
 		const token = localStorage.getItem('token')

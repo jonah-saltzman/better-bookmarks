@@ -1,13 +1,13 @@
 import { BB_URL } from "../constants"
 
-export const authenticate = async (email, password, twtId, register) => {
+export const authenticate = async (email, password, register, twtState) => {
     const URL = BB_URL + '/auth' + (register ? '/signup' : '/login')
     console.log(`authenticating with url: `)
     console.log(URL)
     const request = {
         email: email,
         password: password,
-        twtId: twtId || null
+        twtState: twtState
     }
     try {
         const response = await fetch(URL, {
@@ -31,7 +31,7 @@ export const authenticate = async (email, password, twtId, register) => {
             }
         } else {
             if (status === 200) {
-                const login = await authenticate(email, password, null, false)
+                const login = await authenticate(email, password, false, twtState)
                 if (login.success) {
                     return {
                         error: null,
@@ -128,6 +128,33 @@ export const twitterLogin = async (token) => {
             twtUser: data.twtUser || null,
             twtName: data.twtName,
             twt: true
+        }
+    } catch(error) {
+        return false
+    }
+}
+
+export const newTwtLogin = async (state) => {
+    const URL = BB_URL + '/auth/twitter'
+    const request = {
+        state: state
+    }
+    try {
+        const response = await fetch(URL, {
+            method: 'POST',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(request)
+        })
+        console.log(response.status)
+        const data = response.status === 200 ? await response.json() : null
+        return {
+            error: response.status === 200 ? null : data,
+            challenge: response.status === 200 
+                ? data.challenge
+                : null
         }
     } catch(error) {
         return false

@@ -29,6 +29,7 @@ const initialState = {
   showLogout: false,
   inAuth: false,
   loggedIn: false,
+  offline: false,
   twtAuth: {
     authed: false,
     twtId: null,

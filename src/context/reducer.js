@@ -12,16 +12,21 @@ import {
 	SET_TWT_CHALLENGE,
 	SET_TWT_AUTH,
 	SET_TWT_STATE,
+  SET_OFFLINE
 } from './action.types'
 
 export default (state, action) => {
   switch (action.type) {
-    case SET_TWT_STATE:
-      return action.payload === null
-        ? { ...state, twtState: null}
-        : { ...state, twtState: action.payload}
-    case SET_TWT_AUTH:
-      return action.payload !== null
+		case SET_TWT_STATE:
+			return action.payload === null
+				? { ...state, twtState: null }
+				: { ...state, twtState: action.payload }
+		case SET_OFFLINE:
+			return action.payload === null
+				? { ...state, offline: false }
+				: { ...state, offline: action.payload }
+		case SET_TWT_AUTH:
+			return action.payload !== null
 				? { ...state, twtAuth: action.payload }
 				: {
 						...state,
@@ -32,43 +37,43 @@ export default (state, action) => {
 							twtSecret: null,
 						},
 				  }
-    case SET_TWT_CHALLENGE:
-      return action.payload === null
-        ? { ...state, twtChallenge: null}
-        : { ...state, twtChallenge: action.payload}
-    case SET_USER_ID:
-      return action.payload === null
-        ? { ...state, userId: null}
-        : { ...state, userId: action.payload}
-    case SET_SINGLE_FOLDER_NAME:
-      return { ...state, folderName: action.payload}
-    case SET_SINGLE_FOLDER:
-      return { ...state, folder: action.payload}
-    case SET_PREV_USER:
-      return action.payload === null
-        ? { ...state, prevUser: null}
-        : { ...state, prevUser: action.payload}
-    case SET_SHOW_LOGOUT:
-      return { ...state, showLogout: action.payload }
-    case RESET_SIGNIN:
-      return { ...state, signIn: true}
-    case SET_FOLDERS:
-      return action.payload === null
-        ? { ...state, folders: []}
-        : { ...state, folders: action.payload}
-    case SET_LOGIN:
-      return action.payload === null
-        ? { ...state, loggedIn: false}
-        : { ...state, loggedIn: action.payload}
-    case SET_USER:
-      return action.payload === null
-        ? { ...state, user: null}
-        : { ...state, user: action.payload}
-    case SET_TOKEN:
-      return action.payload === null || action.payload === false
-        ? { ...state, token: null}
-        : { ...state, token: action.payload}
-    default:
-      return state
-  }
+		case SET_TWT_CHALLENGE:
+			return action.payload === null
+				? { ...state, twtChallenge: null }
+				: { ...state, twtChallenge: action.payload }
+		case SET_USER_ID:
+			return action.payload === null
+				? { ...state, userId: null }
+				: { ...state, userId: action.payload }
+		case SET_SINGLE_FOLDER_NAME:
+			return { ...state, folderName: action.payload }
+		case SET_SINGLE_FOLDER:
+			return { ...state, folder: action.payload }
+		case SET_PREV_USER:
+			return action.payload === null
+				? { ...state, prevUser: null }
+				: { ...state, prevUser: action.payload }
+		case SET_SHOW_LOGOUT:
+			return { ...state, showLogout: action.payload }
+		case RESET_SIGNIN:
+			return { ...state, signIn: true }
+		case SET_FOLDERS:
+			return action.payload === null
+				? { ...state, folders: [] }
+				: { ...state, folders: action.payload }
+		case SET_LOGIN:
+			return action.payload === null
+				? { ...state, loggedIn: false }
+				: { ...state, loggedIn: action.payload }
+		case SET_USER:
+			return action.payload === null
+				? { ...state, user: null }
+				: { ...state, user: action.payload }
+		case SET_TOKEN:
+			return action.payload === null || action.payload === false
+				? { ...state, token: null }
+				: { ...state, token: action.payload }
+		default:
+			return state
+	}
 }

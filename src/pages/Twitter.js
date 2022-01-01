@@ -28,6 +28,8 @@ const Twitter = (props) => {
     const [ leftPage, setLeftPage ] = useState(false)
 
 	const twtPopup = () => {
+        console.log('opening url:')
+        console.log(twtAuthUrl)
 		window.open(twtAuthUrl)
 	}
 
@@ -47,13 +49,14 @@ const Twitter = (props) => {
             })
             history.push('/folders/likes')
         } else {
-            toast('Twitter sign-in failed', { type: 'error' })
+            toast('Twitter sign-in failed, try again', { type: 'error' })
         }
     }
 
     const onVisibilityChange = () => {
         if (document.visibilityState === 'visible') {
             if (leftPage && clickedLogin) {
+                console.log('CHECKING TWTAUTH /user/twt/check')
                 checkAuth()
                 setLeftPage(false)
                 setClickedLogin(false)
@@ -72,20 +75,35 @@ const Twitter = (props) => {
 
 	useEffect(() => {
 		if (loggedIn && userId) {
-            console.log(`using twtState:`)
-            console.log(twtState)
-			setTwtAuthUrl(getTwtUrl(userId, twtChallenge, twtState))
+            // console.log(`using twtState:`)
+            // console.log(twtState)
+            (async () => {
+                const result = await checkTwtAuth(token, twtState)
+                if (result) {
+                    const authObj = {
+                        authed: true,
+                        twtId: null,
+                        twtToken: null,
+                        twtSecret: null
+                    }
+                    dispatch({
+                        type: SET_TWT_AUTH,
+                        payload: authObj
+                    })
+                    history.push('/folders/likes')
+                }
+            })()
+			setTwtAuthUrl(getTwtUrl(userId, twtChallenge, twtState, null))
 			setShowTwtAuth(true)
 		} else {
 			setTwtAuthUrl('')
 			setShowTwtAuth(false)
+            history.push('/auth')
 		}
 	}, [loggedIn])
 
     const handleClick = () => {
         twtPopup()
-        console.log(`twtAuthURL:`)
-        console.log(twtAuthUrl)
         setClickedLogin(true)
     }
 

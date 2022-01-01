@@ -2,11 +2,14 @@ import {
 	TWTAUTH_PREFIX,
 	TWTAUTH_STATE,
 	TWTAUTH_CHALLENGE,
-    TWTAUTH_SUFFIX
+    TWTAUTH_SUFFIX,
+	TWTLOGIN_PREFIX,
+	TWTAUTH_STATE_OFFLINE
 } from './constants'
 
-const getTwtUrl = (user, challenge, state) => {
-    return (
+const getTwtUrl = (user, challenge, state, login) => {
+	if (login === null) {
+		return (
 			TWTAUTH_PREFIX +
 			user +
 			TWTAUTH_CHALLENGE +
@@ -15,6 +18,16 @@ const getTwtUrl = (user, challenge, state) => {
 			state +
 			TWTAUTH_SUFFIX
 		)
+	} else {
+		return (
+			TWTLOGIN_PREFIX + 
+			TWTAUTH_CHALLENGE + 
+			challenge +
+			(login.offline ? TWTAUTH_STATE_OFFLINE : TWTAUTH_STATE) + 
+			state + 
+			TWTAUTH_SUFFIX
+		)
+	}
 }
 
 export default getTwtUrl
