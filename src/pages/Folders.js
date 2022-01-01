@@ -74,16 +74,17 @@ const Folders = () => {
         if (gotFolders) {
             return
         }
+        console.log('getting folders')
         if (loggedIn) {
             (async () => {
                 const folders = await getFolders(token)
-                if (folders.error) {
+                if (folders?.error) {
                     toast(`Error: ${folders.error}`)
                     setGotFolders(true)
                     setIsLoading(false)
                     return
                 }
-                if (folders.folders) {
+                if (folders?.folders) {
                     setFoldersArr(folders.folders)
                     setGotFolders(true)
 					setIsLoading(false)

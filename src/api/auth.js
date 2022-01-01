@@ -26,7 +26,8 @@ export const authenticate = async (email, password, twtId, register) => {
                 success: status === 200 ? data.message : null,
                 token: data.token || null,
                 userId: data.userId || null,
-                twtChallenge: data.twtChallenge || null
+                twtChallenge: data.twtChallenge || null,
+                twt: false
             }
         } else {
             if (status === 200) {
@@ -37,7 +38,8 @@ export const authenticate = async (email, password, twtId, register) => {
                         success: `Account created & logged in!`,
                         token: login.token,
                         userId: login.userId,
-                        twtChallenge: login.twtChallenge
+                        twtChallenge: login.twtChallenge,
+                        twt: false
                     }
                 } else {
                     return { error: `User ${email} created but login failed.` }
@@ -122,7 +124,39 @@ export const twitterLogin = async (token) => {
             success: status === 200 ? data.message : null,
             token: status === 200 ? token : null,
             userId: data.userId || null,
-            twtChallenge: data.twtChallenge || null
+            twtChallenge: data.twtChallenge || null,
+            twtUser: data.twtUser || null,
+            twtName: data.twtName,
+            twt: true
+        }
+    } catch(error) {
+        return false
+    }
+}
+
+export const changePassword = async (token, oldPass, newPass) => {
+    const URL = BB_URL + '/user/password'
+    const request = {
+        old: oldPass,
+        new: newPass
+    }
+    try {
+        const response = await fetch(URL, {
+            method: 'PATCH',
+            cache: 'no-cache',
+            headers: {
+                'Authorization': `JWT ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(request)
+        })
+        console.log(response.status)
+        const data = response.status === 204 ? null : await response.json()
+        return {
+            error: response.status === 204 ? null : data,
+            message: response.status === 204 
+                ? 'Successfully changed password'
+                : data.message
         }
     } catch(error) {
         return false

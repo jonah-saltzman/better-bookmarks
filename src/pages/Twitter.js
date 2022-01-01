@@ -28,14 +28,10 @@ const Twitter = (props) => {
     const [ leftPage, setLeftPage ] = useState(false)
 
 	const twtPopup = () => {
-        console.log('opening twtUrl:')
-		console.log(twtAuthUrl)
 		window.open(twtAuthUrl)
 	}
 
     const checkAuth = async () => {
-        console.log(`checking auth, clicked: ${clickedLogin}, left: ${leftPage}`)
-        console.log(`twtState: `, twtState)
         const result = await checkTwtAuth(token, twtState)
         if (result) {
             toast('Signed in to Twitter!', { type: 'success' })
@@ -49,7 +45,7 @@ const Twitter = (props) => {
                 type: SET_TWT_AUTH,
                 payload: authObj
             })
-            history.goBack()
+            history.push('/folders/likes')
         } else {
             toast('Twitter sign-in failed', { type: 'error' })
         }
@@ -68,18 +64,17 @@ const Twitter = (props) => {
     }
 
     useEffect(() => {
-        console.log('adding listener')
-        console.log(history)
         document.addEventListener('visibilitychange', onVisibilityChange)
         return () => {
-            console.log('removing listener')
             document.removeEventListener('visibilitychange', onVisibilityChange)
         }
     })
 
 	useEffect(() => {
 		if (loggedIn && userId) {
-			setTwtAuthUrl(getTwtUrl(userId, twtChallenge.challenge, twtState))
+            console.log(`using twtState:`)
+            console.log(twtState)
+			setTwtAuthUrl(getTwtUrl(userId, twtChallenge, twtState))
 			setShowTwtAuth(true)
 		} else {
 			setTwtAuthUrl('')
@@ -89,6 +84,8 @@ const Twitter = (props) => {
 
     const handleClick = () => {
         twtPopup()
+        console.log(`twtAuthURL:`)
+        console.log(twtAuthUrl)
         setClickedLogin(true)
     }
 

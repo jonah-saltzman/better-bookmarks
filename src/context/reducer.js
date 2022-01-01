@@ -10,13 +10,18 @@ import {
 	SET_SINGLE_FOLDER_NAME,
 	SET_USER_ID,
 	SET_TWT_CHALLENGE,
-  SET_TWT_AUTH
+	SET_TWT_AUTH,
+	SET_TWT_STATE,
 } from './action.types'
 
 export default (state, action) => {
   switch (action.type) {
+    case SET_TWT_STATE:
+      return action.payload === null
+        ? { ...state, twtState: null}
+        : { ...state, twtState: action.payload}
     case SET_TWT_AUTH:
-      return Object.keys(action.payload).length === 4
+      return action.payload !== null
 				? { ...state, twtAuth: action.payload }
 				: {
 						...state,

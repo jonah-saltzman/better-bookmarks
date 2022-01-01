@@ -1,5 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react'
 
+import { randomBytes } from 'crypto'
+
 import {
 	Container,
 	Form,
@@ -20,6 +22,7 @@ import {
 	SET_LOGIN,
 	SET_USER_ID,
 	SET_TWT_CHALLENGE,
+	SET_TWT_STATE,
 } from '../context/action.types'
 
 import twitterButton from '../twitter_button.png'
@@ -97,11 +100,20 @@ const Auth = () => {
 
 	// Set credential variables in parent state
 	const setCredentials = (email, authResult) => {
-		console.log('setting credentials: ')
-		console.log(authResult)
+		console.log('creating new state:')
+		const twtState = randomBytes(48).toString('hex')
+		console.log(twtState)
 		dispatch({
 			type: SET_USER,
-			payload: email ? email : authResult.twtUser,
+			payload: {
+				userName: email ? email : authResult.twtUser,
+				displayName: email ? email : authResult.twtName,
+				twt: authResult.twt
+			},
+		})
+		dispatch({
+			type: SET_TWT_STATE,
+			payload: twtState
 		})
 		dispatch({
 			type: SET_TOKEN,

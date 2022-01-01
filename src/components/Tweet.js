@@ -9,7 +9,7 @@ import { twtEmbedRE } from '../constants'
 import { useInViewport } from 'react-in-viewport'
 
 const Tweet = (props) => {
-	const { tweet, load, embed, remove, display, like, add } = props
+	const { tweet, load, loaded, remove, display, like, add } = props
 
 	const [enteredView, setEnteredView] = useState(false)
 	const [twtUrl, setTwtUrl] = useState(tweet?.twtHtml?.match(twtEmbedRE)[0])
@@ -37,7 +37,6 @@ const Tweet = (props) => {
 			return
 		}
 		if (enteredView) {
-			console.log(`loading ${tweet.twtId} @ ${tweetDOMId}`)
 			load(tweetDOMId, tweet.twtId)
 			return
 		}
@@ -52,12 +51,9 @@ const Tweet = (props) => {
 	}, [display])
 
 	if (display) {
-		console.log(`tweet ${tweet.twtId} url:`)
-		console.log(twtUrl)
-		console.log(tweet)
 		return (
 			<>
-				<div ref={divRef} className='center' hidden={embed}>
+				<div ref={divRef} className='center' hidden={loaded}>
 					<Spinner color='primary' />
 				</div>
 				{like ? null : (
@@ -65,7 +61,7 @@ const Tweet = (props) => {
 						onClick={() => {
 							remove(tweet.twtId)
 						}}
-						className={'delete-tweet ' + (embed ? '' : 'hidden')}
+						className={'delete-tweet ' + (loaded ? '' : 'hidden')}
 					/>
 				)}
 				<div
@@ -80,7 +76,6 @@ const Tweet = (props) => {
 					<blockquote
 						id={tweetDOMId}
 						className='twitter-tweet'
-						data-conversation='none'
 						data-dnt='true'
 						data-theme='dark'>
 						<a href={twtUrl}></a>

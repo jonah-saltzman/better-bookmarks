@@ -10,7 +10,7 @@
 html, body {
     max-width: 100%;
     overflow-x: hidden;
-    /* overflow-y: hidden; */
+    overflow-y: hidden
 }
 
 html {
@@ -200,6 +200,10 @@ blockquote {
   font-size: 25px;
 }
 
+.account-title {
+  margin: 0 auto;
+}
+
 .card {
   margin-top: 75px;
 }
@@ -309,6 +313,18 @@ blockquote {
   backdrop-filter: blur(20px);
 }
 
+.card-body {
+  padding-bottom: 0;
+}
+
+.twitter-tweet {
+  margin: 0;
+}
+.twitter-tweet-rendered {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
 .added {
   z-index: 10;
   filter: blur(5px);
@@ -337,6 +353,11 @@ blockquote {
 .auth-form {
   margin-bottom: 1rem;
   width: 50%;
+}
+
+.pass-form {
+  margin-bottom: 1rem;
+  width: 70%;
 }
 
 .link:hover {
@@ -449,7 +470,7 @@ li {
   z-index: 2;
   backdrop-filter: blur(20px);
   padding: 60px;
-  padding-bottom: 70px;
+  padding-bottom: 60px;
   padding-left: 80px;
   padding-right: 80px;
 }
@@ -512,6 +533,29 @@ li {
   padding-top: 12px;
   padding-bottom: 12px;
 
+  background: white;
+  background: linear-gradient(
+    to right bottom,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.06)
+  );
+  border-top: 2px solid rgba(255, 255, 255, 0.5);
+  border-left: 2px solid rgba(255, 255, 255, 0.5);
+  border-right: 2px solid rgba(255, 255, 255, 0.5);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+  background-clip: padding-box;
+  border-radius: 10px !important;
+  z-index: 4;
+  backdrop-filter: blur(40px);
+}
+
+.account-input {
+  font-weight: 400;
+  outline: none !important;
+  height: 100%;
+  width: 100%;
+  color: #f9f9f9;
+  padding: 6px;
   background: white;
   background: linear-gradient(
     to right bottom,

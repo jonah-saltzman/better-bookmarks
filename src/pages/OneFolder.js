@@ -43,8 +43,6 @@ const OneFolder = ({ folder }) => {
 			if (event.target.children.length === 0) {
 				return
 			}
-			console.log(`loaded:`)
-			console.log(event.target.children[0].dataset.tweetId)
 			setLoadedTweet(event.target.children[0].dataset.tweetId)
 		})
 	})
@@ -162,7 +160,7 @@ const OneFolder = ({ folder }) => {
 								<Tweet
 									load={loadTweet}
 									tweet={tweet.tweet}
-									embed={tweet.loaded}
+									loaded={tweet.loaded}
 									key={tweet.twtId}
 									remove={deleteTweet}
 									display={tweet.display}
@@ -175,7 +173,7 @@ const OneFolder = ({ folder }) => {
 								<Tweet
 									load={loadTweet}
 									tweet={tweet.tweet}
-									embed={tweet.loaded}
+									loaded={tweet.loaded}
 									key={tweet.twtId}
 									remove={deleteTweet}
 									display={tweet.display}

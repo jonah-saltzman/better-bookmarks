@@ -19,8 +19,6 @@ const Likes = ({ folder, refresh }) => {
 	const [isLoading, setIsLoading] = useState(false)
 	const [tweetsArr, setTweetsArr] = useState([])
 	const [twtObjs, setTwtObjs] = useState([])
-	const [loadedTweets, setLoadedTweets] = useState([])
-	const [loadedTweet, setLoadedTweet] = useState('')
 	const [addingTweet, setAddingTweet] = useState(null)
 	const [addedTweet, setAddedTweet] = useState(false)
 	const [gotLikes, setGotLikes] = useState(false)
@@ -91,7 +89,6 @@ const Likes = ({ folder, refresh }) => {
 			setIsLoading(false)
 			return
 		}
-		setLoadedTweets([])
 		if (loggedIn && twtAuth.authed) {
 			setIsLoading(true)
 			;(async () => {
@@ -131,12 +128,20 @@ const Likes = ({ folder, refresh }) => {
 			i % 2 === 0
 				? colA.push(
 						<div className={'likecard mb-4 ' + (tweet.added ? 'added' : '')}>
-							<Like tweet={tweet.twtId} key={tweet.twtId} add={addTweet} />
+							<Like
+								tweet={tweet.twtId}
+								key={tweet.twtId}
+								add={addTweet}
+							/>
 						</div>
 				  )
 				: colB.push(
 						<div className={'likecard mb-4 ' + (tweet.added ? 'added' : '')}>
-							<Like tweet={tweet.twtId} key={tweet.twtId} add={addTweet} />
+							<Like
+								tweet={tweet.twtId}
+								key={tweet.twtId}
+								add={addTweet}
+							/>
 						</div>
 				  )
 		})

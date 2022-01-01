@@ -31,42 +31,28 @@ const Home = (props) => {
 	}
 
     const { state, dispatch } = useContext(AppContext)
-    const { loggedIn, userId, twtChallenge, twtState } = state
-
-	const [showTwtAuth, setShowTwtAuth] = useState(false)
-	const [twtAuthUrl, setTwtAuthUrl] = useState("")
-
-	const twtPopup = () => {
-		console.log('opening twtUrl:')
-		console.log(twtAuthUrl)
-		window.open(twtAuthUrl)
-	}
-
-	useEffect(() => {
-		if (loggedIn && userId) {
-			setTwtAuthUrl(getTwtUrl(userId, twtChallenge, twtState))
-			setShowTwtAuth(true)
-		} else {
-			setTwtAuthUrl("")
-			setShowTwtAuth(false)
-		}
-	},[loggedIn])
+    const { loggedIn } = state
 
     return (
 			<div className='center-home'>
 				<Card className='homecard card-fab'>
-					<CardTitle>Welcome to Better Bookmarks</CardTitle>
+					<CardTitle className='text-large'>Welcome to Better Bookmarks</CardTitle>
 					<CardBody>
 						<ul>
 							<li>Organize your favorite Tweets into folders</li>
 							<li>Share folders with anyone</li>
 							<li>No more "This Tweet has been deleted"</li>
 						</ul>
-						{showTwtAuth ? (
-							<NavLink className='text-white text-large' to='/twitter'>
-								Login with Twitter
-							</NavLink>
-						) : null}
+						<div className='center'>
+							{loggedIn ? (
+								<NavLink
+									className='text-white text-large center-item'
+									style={{marginTop: '17px'}}
+									to='/twitter'>
+									Login with Twitter
+								</NavLink>
+							) : null}
+						</div>
 					</CardBody>
 				</Card>
 			</div>
