@@ -8,7 +8,7 @@ import { twtEmbedRE } from '../constants'
 
 import { useInViewport } from 'react-in-viewport'
 
-const Tweet = (props) => {
+const Like = (props) => {
 	const { tweet, add } = props
 
 	const [enteredView, setEnteredView] = useState(false)
@@ -65,7 +65,7 @@ const Tweet = (props) => {
 
 	return (
 		<>
-			<div ref={divRef} className='center' hidden={!loading}>
+			<div className='center' hidden={!loading}>
 				<Spinner color='primary' />
 			</div>
 			<div
@@ -79,4 +79,4 @@ const Tweet = (props) => {
 	)
 }
 
-export default Tweet
+export default Like

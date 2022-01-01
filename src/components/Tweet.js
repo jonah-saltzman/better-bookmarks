@@ -2,17 +2,21 @@ import React, { useEffect, useState, createRef } from 'react'
 import { Row, Col, Spinner, Container } from 'reactstrap'
 import { randomBytes } from 'crypto'
 
-import { MdDelete } from 'react-icons/md'
+import { MdDelete, MdHistory } from 'react-icons/md'
 
 import { twtEmbedRE } from '../constants'
 
 import { useInViewport } from 'react-in-viewport'
 
 const Tweet = (props) => {
-	const { tweet, load, loaded, remove, display, like, add } = props
+	const { tweet, remove, display } = props
 
 	const [enteredView, setEnteredView] = useState(false)
 	const [twtUrl, setTwtUrl] = useState(tweet?.twtHtml?.match(twtEmbedRE)[0])
+	const [loading, setLoading] = useState(false)
+	const [loaded, setLoaded] = useState(false)
+	const [showText, setShowText] = useState(false)
+	const [twtHtml, setTwtHtml] = useState({__html: tweet.twtHtml})
 
 	const tweetRef = createRef()
 	const divRef = createRef()
@@ -21,6 +25,23 @@ const Tweet = (props) => {
 
 	const tweetDOMId = `twt-${tweet.twtId}` + randomBytes(8).toString('hex')
 	const divDOMId = `div-${tweet.twtId}` + randomBytes(8).toString('hex')
+
+	const onLoad = (event) => {
+		if (event.target.children.length === 0) {
+			return
+		}
+		if (event.target.children[0].dataset.tweetId === tweet.twtId) {
+			setLoaded(true)
+			setLoading(false)
+		}
+	}
+
+	useEffect(() => {
+		window.twttr.events.bind('rendered', onLoad)
+		return () => {
+			window.twttr.events.unbind('rendered', onLoad)
+		}
+	}, [])
 
 	useEffect(() => {
 		if (enteredView || enterCount > 1 || !inViewport) {
@@ -37,49 +58,41 @@ const Tweet = (props) => {
 			return
 		}
 		if (enteredView) {
-			load(tweetDOMId, tweet.twtId)
+			window.twttr.widgets.createTweet(
+				tweet.twtId,
+				document.getElementById(tweetDOMId),
+				{
+					theme: 'dark',
+				}
+			)
+			setLoading(true)
 			return
 		}
 	}, [enteredView])
 
-	useEffect(() => {
-		if (!enteredView || !display) {
-			return
-		} else {
-			load(tweetDOMId)
-		}
-	}, [display])
+	const toggleEmbed = () => {
+		setShowText(!showText)
+	}
 
 	if (display) {
 		return (
 			<>
-				<div ref={divRef} className='center' hidden={loaded}>
+				<div className='center' hidden={loaded || showText}>
 					<Spinner color='primary' />
 				</div>
-				{like ? null : (
-					<MdDelete
-						onClick={() => {
-							remove(tweet.twtId)
-						}}
-						className={'delete-tweet ' + (loaded ? '' : 'hidden')}
-					/>
-				)}
-				<div
+				<MdHistory onClick={toggleEmbed} className='show-text'/>
+				<MdDelete
 					onClick={() => {
-						if (like) {
-							add(tweet.twtId)
-						}
+						remove(tweet.twtId)
 					}}
+					className={'delete-tweet ' + (loaded ? '' : 'hidden')}
+				/>
+				<div
 					id={divDOMId}
-					ref={tweetRef}
-					className='tweet-div like'>
-					<blockquote
-						id={tweetDOMId}
-						className='twitter-tweet'
-						data-dnt='true'
-						data-theme='dark'>
-						<a href={twtUrl}></a>
-					</blockquote>
+					ref={divRef}
+					className='add-tweet'>
+					<div hidden={showText} id={tweetDOMId}></div>
+					<div dangerouslySetInnerHTML={twtHtml} hidden={!showText} id={tweetDOMId + 'TXT'}></div>
 				</div>
 			</>
 		)

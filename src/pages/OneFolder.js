@@ -156,7 +156,7 @@ const OneFolder = ({ folder }) => {
 			.forEach((tweet, i) => {
 				i % 2 === 0
 					? colA.push(
-							<ListGroupItem key={tweet.twtId} className='tweetcard mb-4'>
+							<div className='tweetcard mb-4'>
 								<Tweet
 									load={loadTweet}
 									tweet={tweet.tweet}
@@ -166,10 +166,10 @@ const OneFolder = ({ folder }) => {
 									display={tweet.display}
 									like={false}
 								/>
-							</ListGroupItem>
+							</div>
 					  )
 					: colB.push(
-							<ListGroupItem key={tweet.twtId} className='tweetcard mb-4'>
+							<div className='tweetcard mb-4'>
 								<Tweet
 									load={loadTweet}
 									tweet={tweet.tweet}
@@ -179,7 +179,7 @@ const OneFolder = ({ folder }) => {
 									display={tweet.display}
 									like={false}
 								/>
-							</ListGroupItem>
+							</div>
 					  )
 			})
 		setTweetCols({ colA: colA, colB: colB })
