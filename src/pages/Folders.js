@@ -123,47 +123,59 @@ const Folders = () => {
 									<Container
 										scrollable={`true`}
 										className='folder-list pt-4 container-fluid no-padding'>
-											<>
-												<div className='folder-listcard mb-4'>
+										<>
+											<div className='folder-listcard mb-4'>
+												<Folder
+													folder={{ folderName: 'New Folder' }}
+													key='newFolder'
+													newFolder={true}
+													refresh={refreshFolders}
+												/>
+											</div>
+											{foldersArr.map((folder) => (
+												<div
+													className={
+														'mb-4 ' +
+														(folder.folderId === selectedFolder.folderId
+															? 'selected-folder'
+															: 'folder-listcard')
+													}
+                                                    id={folder.folderId}
+													onClick={() => {
+														selectFolder(folder.folderId)
+													}}>
 													<Folder
-														folder={{ folderName: 'New Folder' }}
-														key='newFolder'
-														newFolder={true}
+														folder={folder}
+														key={folder.folderId}
+														newFolder={false}
 														refresh={refreshFolders}
+														selectFolder={selectFolder}
+														selected={
+															folder.folderId === selectedFolder.folderId
+														}
 													/>
 												</div>
-												{foldersArr.map((folder) => (
-													<div
-														className={
-															'mb-4 ' +
-															(folder.folderId === selectedFolder.folderId
-																? 'selected-folder'
-																: 'folder-listcard')
-														}>
-														<Folder
-															folder={folder}
-															key={folder.folderId}
-															newFolder={false}
-															refresh={refreshFolders}
-															selectFolder={selectFolder}
-															selected={folder.folderId === selectedFolder.folderId}
-														/>
-													</div>
-												))}
-											</>
+											))}
+										</>
 									</Container>
 								</Col>
 								<Col md={9}>
 									<Switch>
 										<Route exact path='/folders/view'>
-											<OneFolder refresh={refreshFolders} folder={selectedFolder} />
+											<OneFolder
+												refresh={refreshFolders}
+												folder={selectedFolder}
+											/>
 										</Route>
-                                        <Route exact path='/folders/import'>
-                                            <Import refresh={refreshFolders} folder={selectedFolder} />
-                                        </Route>
-                                        <Route exact path='/folders/likes'>
-                                            <Likes refresh={refreshFolders} folder={selectedFolder} />
-                                        </Route>
+										<Route exact path='/folders/import'>
+											<Import
+												refresh={refreshFolders}
+												folder={selectedFolder}
+											/>
+										</Route>
+										<Route exact path='/folders/likes'>
+											<Likes refresh={refreshFolders} folder={selectedFolder} />
+										</Route>
 									</Switch>
 								</Col>
 							</Row>

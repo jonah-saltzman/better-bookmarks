@@ -151,48 +151,41 @@ const Folder = (props) => {
 
     return (
 			<>
-				<Row
-					style={{
-						width: '100%',
-						overflow: 'hidden',
-						textOverflow: 'ellipsis',
-						whiteSpace: 'nowrap',
-					}}>
-					<Col
+				<Container className='flex-folder'>
+					<div
 						onClick={
 							newFolder ? () => editName() : () => viewFolder(folder.folderId)
 						}
-						xs={'8'}
-						className='text-large cardtxt'
+						className='folder-text cardtxt'
 						style={{
-							fontWeight: '300',
-							fontSize: '16px',
+							fontWeight: '500',
+							fontSize: '18px',
 							letterSpacing: '1px',
 						}}>
 						<span className={'link ' + (selected ? 'selected-text' : '')}>
 							{editable
 								? nameForm
-								: folder.folderName.length <= (selected ? 15 : 17)
+								: folder.folderName.length <= (selected ? 20 : 22)
 								? folder.folderName
-								: folder.folderName.substring(0, selected ? 13 : 15) + '...'}
+								: folder.folderName.substring(0, selected ? 18 : 20) + '...'}
 						</span>
-					</Col>
-					<Col xs={'4'} hidden={newFolder} className='float-end'>
-						<MdDelete
-							onClick={() => startDeleteFolder()}
-							color='#FF6370'
-							className=' icon'
-							style={{
-								zIndex: '1',
-							}}
-						/>
-						<MdEdit
-							className='icon '
-							color='#54eafe'
-							onClick={() => editName()}
-						/>
-					</Col>
-				</Row>
+					</div>
+					<div hidden={newFolder} className='folder-icons'>
+							<MdDelete
+								onClick={() => startDeleteFolder()}
+								color='#FF6370'
+								className=' icon'
+								style={{
+									zIndex: '1',
+								}}
+							/>
+							<MdEdit
+								className='icon '
+								color='#54eafe'
+								onClick={() => editName()}
+							/>
+					</div>
+				</Container>
 				{deleteModal}
 			</>
 		)
