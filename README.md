@@ -22,6 +22,7 @@ The easiest way to add Tweets to a folder for a user to connect their Twitter ac
 
 ## Import
 ![Import a Tweet](https://i.imgur.com/nJszKRW.png)
+
 Better Bookmarks was designed to be completely usable without a Twitter account. If a user does have a Twitter account or does not want to connect it to their BB account, they can manually import Tweets using the Import section. The easiest way to import a Tweet is to simply click "Copy Link to Tweet" in the "share" menu of any Tweet, and paste the URL into one of the import fields. BB will automatically confirm that the URL is a valid Tweet URL and add it to the selected folder using the same method by which Liked Tweets are added. Tweets added in this way are also archived and are therefore also protected against deletion.
 
 ## Sign in with Twitter
