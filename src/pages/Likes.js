@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 
-import { Container, ListGroupItem, Spinner, Row, Col } from 'reactstrap'
+import { Container, Spinner, Row, Col } from 'reactstrap'
 
 import { AppContext } from '../context/Context'
 
@@ -13,7 +13,7 @@ import getLikes from '../api/likes'
 import { bookmarkTweets } from '../api/tweets'
 
 const Likes = ({ folder, refresh }) => {
-	const { state, dispatch } = useContext(AppContext)
+	const { state } = useContext(AppContext)
 	const { loggedIn, token, twtAuth } = state
 
 	const [isLoading, setIsLoading] = useState(false)
@@ -63,7 +63,7 @@ const Likes = ({ folder, refresh }) => {
 				if (result.error) {
 					toast('Failed to add Tweet', { type: 'error' })
 				} else {
-					toast('Added Tweet to' + folder.folderName, { type: 'success' })
+					toast('Added Tweet to ' + folder.folderName, { type: 'success' })
 					setAddedTweet(true)
 				}
 			})()

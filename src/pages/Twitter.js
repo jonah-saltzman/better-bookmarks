@@ -109,7 +109,7 @@ const Twitter = (props) => {
 
 	return (
 		<div className='center-home'>
-			<Card className='homecard card-fab'>
+			<Card className='homecard card-fab center-fab'>
 				<CardTitle>Login with Twitter</CardTitle>
 				<CardBody>
 					{showTwtAuth ? (

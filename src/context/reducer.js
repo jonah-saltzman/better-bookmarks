@@ -12,11 +12,21 @@ import {
 	SET_TWT_CHALLENGE,
 	SET_TWT_AUTH,
 	SET_TWT_STATE,
-  SET_OFFLINE
+	SET_SIZE,
+  	SET_OFFLINE,
+	SET_SAVED_STATE
 } from './action.types'
 
 export default (state, action) => {
   switch (action.type) {
+	  	case SET_SAVED_STATE:
+			  return action.payload === null
+			  	? { ...state, savedState: true}
+				: { ...state, savedState: action.payload}
+	  	case SET_SIZE:
+			return action.payload === null
+				? { ...state, bigScreen: false }
+				: { ...state, bigScreen: action.payload }
 		case SET_TWT_STATE:
 			return action.payload === null
 				? { ...state, twtState: null }

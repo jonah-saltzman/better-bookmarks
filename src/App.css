@@ -10,7 +10,7 @@
 html, body {
     max-width: 100%;
     overflow-x: hidden;
-    overflow-y: hidden
+    /* overflow-y: hidden */
 }
 
 html {
@@ -68,10 +68,32 @@ article {
 
 .tweet-list {
   overflow: scroll;
-  height: 600px;
   padding: 20px;
   border-radius: 10px;
   background: linear-gradient(110deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1));
+}
+
+.app {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  /* margin-left: 2%;
+  margin-right: 2%; */
+  height: 85vh;
+}
+
+.main-row {
+  margin-right:0;
+}
+
+.folders-col {
+  
+}
+
+.pages-col {
+  height: 85vh;
+  overflow-y: scroll;
 }
 
 .delete-tweet {
@@ -85,7 +107,7 @@ article {
 
 .show-text {
   position: absolute;
-  left:90.5%;
+  left:91.5%;
   top: 6px;
   font-size: 20px;
   font-weight: bold;
@@ -139,13 +161,13 @@ blockquote.twitter-tweet a:focus {
 
 .folder-list {
   overflow: scroll;
-  height: 685px;
+  height: 100%;
   border-radius: 10px;
 }
 
 .input-list {
   overflow: scroll;
-  height: 685px;
+  height: 100%;
 }
 
 .hidden {
@@ -153,11 +175,24 @@ blockquote.twitter-tweet a:focus {
 }
 
 .Center {
-  height: 75vh;
+  height: 40vh;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+
+.center-fab {
+  top: -10vh;
+  height: 30vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.center-spinner {
+  margin: auto
 }
 
 blockquote {
@@ -198,6 +233,7 @@ blockquote {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  margin: 0 auto;
 }
 
 .fab {
@@ -259,10 +295,6 @@ blockquote {
 
 .account-title {
   margin: 0 auto;
-}
-
-.card {
-  margin-top: 75px;
 }
 
 .listcard {

@@ -1,6 +1,7 @@
 //TODO: DONE set NavbarBrand to go to home page and export Header
 
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState } from 'react'
+
 import { Navbar, NavbarBrand, NavbarText, ModalHeader, } from 'reactstrap'
 import {
 	Container,
@@ -11,9 +12,7 @@ import {
 	Form,
 	Button
 } from 'react-bootstrap'
-import { NavLink } from 'react-router-dom'
-import { Link } from 'react-router-dom'
-import Nav from 'reactstrap/lib/Nav'
+import { NavLink, Link, useHistory } from 'react-router-dom'
 import { AppContext } from '../context/Context'
 
 import {
@@ -25,6 +24,8 @@ import {
 	SET_TWT_CHALLENGE,
 	SET_TWT_AUTH,
 	SET_TWT_STATE,
+	SET_OFFLINE,
+	SET_SAVED_STATE,
 } from '../context/action.types'
 
 
@@ -40,20 +41,18 @@ const Header = () => {
 	const [newPass, setNewPass] = useState('')
 	const [newPassConf, setNewPassConf] = useState('')
 	const [showChangePass, setShowChangePass] = useState(false)
-
-	useEffect(() => {
-		console.log('STATE:')
-		console.log(state)
-	},[state])
+	const history = useHistory()
 
 	const signout = async () => {
 		if (!token) {
 			toast('No user to logout!', { type: 'error' })
+			localStorage.removeItem('state')
 			return
 		}
 		const signoutResult = await logout(token)
 		if (signoutResult.error) {
 			toast(signoutResult.error, { type: 'error' })
+			localStorage.removeItem('state')
 			return
 		}
 		toast(signoutResult.success, { type: 'success' })
@@ -66,8 +65,11 @@ const Header = () => {
 			SET_TWT_AUTH,
 			SET_TWT_CHALLENGE,
 			SET_TWT_STATE,
+			SET_OFFLINE,
 		]
 		actions.forEach((action) => dispatch({ type: action, payload: null }))
+		localStorage.removeItem('state')
+		history.push('/')
 	}
 
 	const closeAccModal = () => {

@@ -189,7 +189,7 @@ const OneFolder = ({ folder }) => {
 		return <Redirect to='/auth'></Redirect>
 	} else if (isLoading) {
 		return (
-			<div className='Center'>
+			<div className='center-spinner'>
 				<Spinner color='primary' />
 				<div className='text-primary'>Loading...</div>
 			</div>

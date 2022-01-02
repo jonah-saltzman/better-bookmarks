@@ -23,7 +23,8 @@ import {
 	SET_USER_ID,
 	SET_TWT_CHALLENGE,
 	SET_TWT_STATE,
-	SET_OFFLINE
+	SET_OFFLINE,
+	SET_SAVED_STATE
 } from '../context/action.types'
 
 import twitterButton from '../twitter_button.png'
@@ -34,6 +35,7 @@ import { Redirect } from 'react-router-dom'
 
 import { authenticate, twitterLogin, newTwtLogin } from '../api/auth'
 import getTwtUrl from '../newtwturl'
+import saveState from '../functions/saveState'
 
 const Auth = () => {
 	// Get context and destructure loggedIn from state
@@ -123,7 +125,7 @@ const Auth = () => {
 	}, [isSubmitting])
 
 	// Set credential variables in parent state
-	const setCredentials = (email, authResult, state) => {
+	const setCredentials = (email, authResult) => {
 		dispatch({
 			type: SET_USER,
 			payload: {
@@ -156,6 +158,11 @@ const Auth = () => {
 			type: SET_OFFLINE,
 			payload: staySignedIn
 		})
+		dispatch({
+			type: SET_SAVED_STATE,
+			payload: false
+		})
+		localStorage.removeItem('token')
 	}
 
 	// const startTwitterAuth = () => {
@@ -217,7 +224,7 @@ const Auth = () => {
 		return <Redirect to='/folders/view'></Redirect>
 	} else {
 		return (
-			<Container fluid className='flex mt-5'>
+			<Container fluid className='flex mt-1'>
 				<Form className='formcard flex-v auth-form' onSubmit={handleSubmit}>
 					<img
 						src={twitterButton}
