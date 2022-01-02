@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "a17a1042898e4c2c89deee94bda2b588",
+    "revision": "6fb5708a5bb1b662c8efb2e22defa54d",
     "url": "/better-bookmarks/index.html"
   },
   {
@@ -8,8 +8,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/better-bookmarks/static/css/2.a304e6d6.chunk.css"
   },
   {
-    "revision": "2ffa6ed9b38eedcf5ab2",
-    "url": "/better-bookmarks/static/css/main.c4a6e66c.chunk.css"
+    "revision": "be746190e0fc54970b13",
+    "url": "/better-bookmarks/static/css/main.8de09d33.chunk.css"
   },
   {
     "revision": "a54b98897feb1720a08e",
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/better-bookmarks/static/js/2.2d589f65.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "2ffa6ed9b38eedcf5ab2",
-    "url": "/better-bookmarks/static/js/main.daafebfc.chunk.js"
+    "revision": "be746190e0fc54970b13",
+    "url": "/better-bookmarks/static/js/main.f5261a4a.chunk.js"
   },
   {
     "revision": "b0c1b0507167678b4d2c",
