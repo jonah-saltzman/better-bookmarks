@@ -1,14 +1,17 @@
 # Better Bookmarks
 ![Cool app](https://i.imgur.com/Xo8d2Zf.png)
+
 Better Bookmarks is an app for managing Twitter Tweets. While bookmark functionality is built-in to Twitter's own apps, Twitter only provides one "folder" that stores all your bookmarked Tweets. With Better Bookmarks, you can create any number of folders to store Tweets for later, and a Twitter account is not required to do so. If you choose to connect your Twitter account to Better Bookmarks, you can easily add Tweets that you've "liked" to your Better Bookmarks folders; otherwise, an import feature lets you add any Tweet just by copy/pasting its URL. And even if a Tweet you've bookmarked gets deleted, Better Bookmarks allows you to view an archived version of the Tweet that lasts forever.
 
 
 # Client
 ![Auth page](https://i.imgur.com/ODPpIkX.png)
+
 The client for Better Bookmarks is a single-page application built with React. Users interact with the client, which creates and makes appropriate requests of the Better Bookmarks API, provided by my [Express-based Node.js server](https://github.com/jonah-saltzman/bookmarks-plus). The client makes use of many UI elements provided by react-bootstrap. React-router is used to route the user between different parts of the application, while react-in-viewport is used to implement lazy-loading functionality for displaying Tweets with high performance.
 
 ## Folders
 ![One folder](https://i.imgur.com/0h8hoSU.png)
+
 The central feature of Better Bookmarks is the folders into which you may save Tweets. A user can have an unlimited number of folders, a folder can hold an unlimited number of Tweets, and a user may save the same Tweet into any number of folders. Folders can be re-named and deleted, and Tweets can be added to and removed from their folders. In a future update, color-coding of folders will be added. Selecting a folder will cause the Tweets it contains to be rendered in a scrollable container; by default, the actual, live Tweet will be displayed by implementing Twitter's [JavaScript API](https://developer.twitter.com/en/docs/twitter-for-websites/javascript-api/guides/scripting-factory-functions).
 
 ## Deleted Tweets
@@ -27,6 +30,7 @@ Better Bookmarks was designed to be completely usable without a Twitter account.
 
 ## Sign in with Twitter
 ![Sign in with Twitter](https://i.imgur.com/x9qUDfX.png)
+
 In addition to the authorization flow to allow Better Bookmarks to access a user's Liked Tweets, BB also allows users to sign up for an account and login using only their Twitter account, no email or password required. If a user creates an account with an email address and connects that account to their Twitter account, then subsequently uses the "Login with Twitter" method with the same Twitter account, the Better Bookmarks server will determine that that email+password account should be merged with the "Login with Twitter", after which the user will be able to use either login method to access their account.
 
 ## User Stories
