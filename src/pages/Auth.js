@@ -246,61 +246,45 @@ const Auth = () => {
 							placeholder='Password'
 						/>
 					</FormGroup>
-					{signIn ? (
-						<FormGroup check className='mt-2 ml-3'>
-							<Label check>
-								<Input
-									className='checkmark'
-									type='checkbox'
-									onChange={() => {
-										setStaySignedIn(!staySignedIn)
-									}}
-									checked={staySignedIn}
-								/>{' '}
-								<span
-									className='text-right'
-									style={{
-										color: '#f9f9f9',
-										fontWeight: '400',
-										letterSpacing: '1px',
-									}}>
-									Stay signed in
-								</span>
-							</Label>
+					{signIn ? null : (
+						<FormGroup key='password-confirm'>
+							<input
+								className='input mt-2'
+								type='password'
+								name='password-confirm'
+								id='password-confirm'
+								value={passwordConfirm}
+								onChange={(e) => setPasswordConfirm(e.target.value)}
+								placeholder='Confirm password'
+							/>
 						</FormGroup>
-					) : (
-						[
-							<FormGroup key='password-confirm'>
-								<input
-									className='input mt-2'
-									type='password'
-									name='password-confirm'
-									id='password-confirm'
-									value={passwordConfirm}
-									onChange={(e) => setPasswordConfirm(e.target.value)}
-									placeholder='Confirm password'
-								/>
-							</FormGroup>,
-							<FormGroup key='twtId'>
-								<input
-									className='input mt-2'
-									type='text'
-									name='twtId'
-									id='twtId'
-									value={twtId}
-									onChange={(e) => setTwtId(e.target.value)}
-									placeholder='Twitter Username'
-								/>
-							</FormGroup>,
-						]
 					)}
+					<FormGroup check className='mt-2 ml-3'>
+						<Label check>
+							<Input
+								className='checkmark'
+								type='checkbox'
+								onChange={() => {
+									setStaySignedIn(!staySignedIn)
+								}}
+								checked={staySignedIn}
+							/>{' '}
+							<span
+								className='text-right'
+								style={{
+									color: '#f9f9f9',
+									fontWeight: '400',
+									letterSpacing: '1px',
+								}}>
+								Stay signed in
+							</span>
+						</Label>
+					</FormGroup>
 					<Button
 						color='primary'
 						type='submit'
 						block
-						className={
-							'text-uppercase center-item ' + (signIn ? 'mt-4' : 'mt-2')
-						}
+						className='text-uppercase center-item mt-4'
 						style={{
 							padding: '5px',
 							fontSize: '18px',
@@ -318,7 +302,7 @@ const Auth = () => {
 						style={{
 							padding: '5px',
 							fontSize: '18px',
-							width: '50%'
+							width: '50%',
 						}}>
 						{signIn ? 'Register' : 'Sign in'}
 					</Button>
