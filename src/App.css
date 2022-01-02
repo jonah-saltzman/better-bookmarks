@@ -116,6 +116,7 @@ blockquote.twitter-tweet {
   padding: 16px 16px 16px 16px;
   max-width: 468px;
   background-color: rgb(20, 133, 226);
+  width: 100%;
 }
 
 blockquote.twitter-tweet p {
