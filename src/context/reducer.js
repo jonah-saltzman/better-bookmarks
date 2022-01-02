@@ -14,11 +14,16 @@ import {
 	SET_TWT_STATE,
 	SET_SIZE,
   	SET_OFFLINE,
-	SET_SAVED_STATE
+	SET_SAVED_STATE,
+	SET_SHARED_FOLDER
 } from './action.types'
 
 export default (state, action) => {
   switch (action.type) {
+	  	case SET_SHARED_FOLDER:
+			  return action.payload === null
+			  	? { ...state, sharedFolder: null}
+				: { ...state, sharedFolder: action.payload}
 	  	case SET_SAVED_STATE:
 			  return action.payload === null
 			  	? { ...state, savedState: true}

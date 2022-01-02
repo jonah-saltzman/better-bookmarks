@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
 
-import { NavLink } from 'react-router-dom'
+import { NavLink, useHistory } from 'react-router-dom'
 
 import {
     Card,
@@ -8,30 +8,31 @@ import {
     CardTitle,
 } from 'reactstrap'
 
+import { tokenUrlRE, tokenRE, shareUrlRE, shareRE } from '../constants'
+
+import { SET_SHARED_FOLDER } from '../context/action.types'
+
 import { AppContext } from '../context/Context'
 
-import getTwtUrl from '../newtwturl'
-
-const tokenUrlRE = new RegExp(/\?token=/i)
-const tokenRE = new RegExp(/(?<=^\?token=).+/i)
-
 const Home = (props) => {
-
-	console.log(props.location.search)
+	const { state, dispatch } = useContext(AppContext)
+	const history = useHistory()
+	const { loggedIn } = state
 
 	if (props.location.search === '?close') {
 		window.close()
-	}
-
-	if (tokenUrlRE.test(props.location.search)) {
+	} else if (tokenUrlRE.test(props.location.search)) {
 		console.log('received token: ')
 		const token = props.location.search.match(tokenRE)[0]
 		localStorage.setItem('token', token)
 		window.close()
+	} else if (shareUrlRE.test(props.location.search)) {
+		console.log(`SHARE STRING:`)
+		const share = props.location.search.match(shareRE)[0]
+		console.log(share)
+		dispatch({ type: SET_SHARED_FOLDER, payload: share })
+		history.push('/shared')
 	}
-
-    const { state, dispatch } = useContext(AppContext)
-    const { loggedIn } = state
 
     return (
 			<div className='center-home'>

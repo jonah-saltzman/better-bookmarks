@@ -10,7 +10,7 @@
 html, body {
     max-width: 100%;
     overflow-x: hidden;
-    /* overflow-y: hidden */
+    overflow-y: hidden
 }
 
 html {
@@ -73,6 +73,7 @@ article {
   background: linear-gradient(110deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1));
 }
 
+
 .app {
   display: flex;
   flex-wrap: wrap;
@@ -87,13 +88,21 @@ article {
   margin-right:0;
 }
 
-.folders-col {
-  
-}
-
 .pages-col {
   height: 85vh;
   overflow-y: scroll;
+}
+
+.share {
+  height: 85vh;
+  overflow-y: scroll;
+  padding: 20px;
+  border-radius: 10px;
+  background: linear-gradient(110deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1));
+  display: flex;
+  width: 90vw;
+  flex-wrap: wrap;
+  align-items: start;
 }
 
 .delete-tweet {
@@ -193,6 +202,60 @@ blockquote.twitter-tweet a:focus {
 
 .center-spinner {
   margin: auto
+}
+
+.sharing {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.share-container {
+  position: absolute;
+  left: 93%;
+  top: 1px;
+}
+
+.url-container {
+  position: absolute;
+  left: 65%;
+  top: 1px;
+}
+
+.url-input {
+  font-weight: 400;
+  outline: none !important;
+  border-radius: 8px !important;
+  color: #f9f9f9;
+  padding: 3px;
+  top: 12px;
+  max-width: 15rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  background: white;
+  background: linear-gradient(
+    to right bottom,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.06)
+  );
+  border-top: 2px solid rgba(255, 255, 255, 0.5);
+  border-left: 2px solid rgba(255, 255, 255, 0.5);
+  border-right: 2px solid rgba(255, 255, 255, 0.5);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+  background-clip: padding-box;
+  border-radius: 10px !important;
+  z-index: 4;
+  backdrop-filter: blur(40px);
+}
+
+.share-label {
+  color: white;
+}
+
+.share-icon {
+  font-size: 35px;
+  font-weight: bold;
 }
 
 blockquote {
@@ -376,6 +439,22 @@ blockquote {
   padding-top: 5px;
   padding-bottom: 5px;
   position: relative;
+}
+
+.share-tweetcard {
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background-clip: padding-box;
+  border-radius: 10px !important;
+  z-index: 2;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  position: relative;
+  width:33%;
 }
 
 .likecard {

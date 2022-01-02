@@ -9,13 +9,13 @@ import { twtEmbedRE } from '../constants'
 import { useInViewport } from 'react-in-viewport'
 
 const Tweet = (props) => {
-	const { tweet, remove, display } = props
+	const { tweet, remove, display, shared } = props
 
 	const [enteredView, setEnteredView] = useState(false)
 	const [twtUrl, setTwtUrl] = useState(tweet?.twtHtml?.match(twtEmbedRE)[0])
 	const [loading, setLoading] = useState(false)
 	const [loaded, setLoaded] = useState(false)
-	const [showText, setShowText] = useState(false)
+	const [showText, setShowText] = useState(true)
 	const [twtHtml, setTwtHtml] = useState({__html: tweet.twtHtml})
 
 	const tweetRef = createRef()
@@ -33,6 +33,7 @@ const Tweet = (props) => {
 		if (event.target.children[0].dataset.tweetId === tweet.twtId) {
 			setLoaded(true)
 			setLoading(false)
+			toggleEmbed()
 		}
 	}
 
@@ -74,7 +75,7 @@ const Tweet = (props) => {
 		setShowText(!showText)
 	}
 
-	if (display) {
+	if (display || shared) {
 		return (
 			<>
 				<div className='center' hidden={loaded || showText}>
@@ -82,16 +83,17 @@ const Tweet = (props) => {
 				</div>
 				<MdHistory onClick={toggleEmbed} className='show-text'/>
 				<MdDelete
+					hidden={!loaded || shared}
 					onClick={() => {
 						remove(tweet.twtId)
 					}}
-					className={'delete-tweet ' + (loaded ? '' : 'hidden')}
+					className={'delete-tweet '}
 				/>
 				<div
 					id={divDOMId}
 					ref={divRef}
 					className='add-tweet'>
-					<div hidden={showText} id={tweetDOMId}></div>
+					<div id={tweetDOMId}></div>
 					<div dangerouslySetInnerHTML={twtHtml} hidden={!showText} id={tweetDOMId + 'TXT'}></div>
 				</div>
 			</>

@@ -1,6 +1,37 @@
 import { BB_URL as URL } from "../constants"
 
-// 403 is old token
+export const shareFolder = async (folderId, token, value) => {
+	console.log(`requesting ${folderId} shared=${value}`)
+	const shareFolderURL = URL + '/user/folders/share/' + folderId
+	const reqData = JSON.stringify({
+		shared: value
+	})
+	try {
+		const response = await fetch(shareFolderURL, {
+			method: 'PATCH',
+			cache: 'no-cache',
+			headers: {
+                'Authorization': `JWT ${token}`,
+				'Content-Type': 'application/json'
+			},
+			body: reqData
+		})
+		const status = response.status
+		console.log(`response status: ${status}`)
+		const responseData = await response.json()
+		return {
+			error: status === 200 ? null : responseData,
+			response: status === 200
+				? {
+					shared: responseData.shared,
+					url: responseData.url || null
+				}
+				: null
+		}
+	} catch(err) {
+		return null
+	}
+}
 
 export const getFolders = async (token) => {
 	const getFoldersURL = URL + '/user/folders'
@@ -151,5 +182,31 @@ export const changeFolderName = async (folderId, newName, token) => {
 	} catch (error) {
 		console.error(error)
 		return { error: error }
+	}
+}
+
+export const getSharedFolder = async (shareUrl) => {
+	const reqURL = URL + '/shared'
+	const request = JSON.stringify({
+		url: shareUrl,
+	})
+	try {
+		const result = await fetch(reqURL, {
+			method: 'POST',
+			cache: 'no-cache',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: request,
+		})
+		console.log(result)
+		if (result.status !== 200) {
+			return { error: `Couldn't get folder`, tweets: null }
+		} else {
+			const response = await result.json()
+			return { error: null, folder: response.folder }
+		}
+	} catch (err) {
+		return { error: err, tweets: null }
 	}
 }

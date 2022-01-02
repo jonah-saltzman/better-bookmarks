@@ -8,6 +8,8 @@ import {
 	Col,
 } from 'reactstrap'
 
+import { BsToggleOff, BsToggleOn} from 'react-icons/bs'
+
 import { AppContext } from '../context/Context'
 
 import { toast } from 'react-toastify'
@@ -17,9 +19,11 @@ import { Redirect } from 'react-router-dom'
 import { getOneFolder } from '../api/folders'
 import { deleteTweet as remove } from '../api/tweets'
 
+import { SHARE_PREFIX } from '../constants'
+
 import Tweet from '../components/Tweet'
 
-const OneFolder = ({ folder }) => {
+const OneFolder = ({ folder, share }) => {
 	const { state, dispatch } = useContext(AppContext)
 	const { loggedIn, token } = state
 
@@ -31,11 +35,25 @@ const OneFolder = ({ folder }) => {
 	const [loadedTweet, setLoadedTweet] = useState('')
 	const [deletingTweet, setDeletingTweet] = useState(null)
 	const [eraseTweet, setEraseTweet] = useState(false)
-	const [embed, setEmbed] = useState(true)
 	const [tweetCols, setTweetCols] = useState({ colA: [], colB: [] })
+	const [isShared, setIsShared] = useState(folder.shared)
+	const [shareUrl, setShareUrl] = useState(null)
+
+	useEffect(() => {
+		setIsShared(folder.shared)
+		if (folder.shared) {
+			setShareUrl(SHARE_PREFIX + folder.url)
+		}
+	}, [folder.shared])
 
 	const loadTweet = (elementId) => {
 		window.twttr.widgets.load(document.getElementById(`${elementId}`))
+	}
+
+	const toggleShare = () => {
+		console.log(`folder ${folder.folderId} is shared=${folder.shared}`)
+		console.log(`setting to ${!folder.shared}`)
+		share(folder.folderId, !folder.shared)
 	}
 
 	useEffect(() => {
@@ -204,6 +222,17 @@ const OneFolder = ({ folder }) => {
 							<Col md='auto'>
 								<div className='folderName'>{folder.folderName}</div>
 							</Col>
+							<input hidden={!isShared} readOnly className='url-input url-container' value={shareUrl} />
+							<Container className='share-container'>
+								<div onClick={toggleShare} className='sharing'>
+									<span className='share-label'>{isShared ? 'Unshare' : 'Share'}</span>
+									{isShared ? (
+										<BsToggleOn className='share-icon' />
+									) : (
+										<BsToggleOff className='share-icon' />
+									)}
+								</div>
+							</Container>
 						</Row>
 					</Container>
 				) : null}

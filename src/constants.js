@@ -11,6 +11,10 @@ export const BB_URL = isDev
 	? 'http://127.0.0.1:4000'
 	: 'https://betterbookmarks.herokuapp.com'
 
+export const SHARE_PREFIX = isDev
+	? 'http://localhost:3000/better-bookmarks/?share='
+	: 'https://betterbookmarks.herokuapp.com/better-bookmarks/?share='
+
 
 export const TWTAUTH_PREFIX =
 	'https://twitter.com/i/oauth2/authorize?response_type=code&client_id=YnEzOGs2Y2pLMWRUTXM2X3dYU1g6MTpjaQ&redirect_uri=' +
@@ -34,5 +38,10 @@ export const twtREOne = new RegExp(/(?:\/)(\d+)(?:\/|\?|$)/)
 export const twtRETwo = new RegExp(/^\d+$/)
 
 export const twtEmbedRE = new RegExp(/(?<=a href=")[^ ]+\/[^ ]*?status[^ ]+(?=\?ref)/i)
+
+export const tokenUrlRE = new RegExp(/\?token=/i)
+export const shareUrlRE = new RegExp(/\?share=/i)
+export const tokenRE = new RegExp(/(?<=^\?token=).+/i)
+export const shareRE = new RegExp(/(?<=^\?share=).+/i)
 
 //export const twtEmbedRE = new RegExp(/(?<=a href=)[^ ]+(?=\?ref)/)
