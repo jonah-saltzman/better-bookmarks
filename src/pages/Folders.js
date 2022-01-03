@@ -74,7 +74,7 @@ const Folders = () => {
     }
 
     useEffect(() => {
-        //refreshFolders()
+        refreshFolders()
     }, [selectedFolder])
 
     useEffect(() => {
