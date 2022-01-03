@@ -1,7 +1,6 @@
 import { urlRE } from "../constants"
 
 const generateHtml = (tweet) => {
-    console.log(tweet.twtText)
     const block = '<blockquote class="twitter-tweet" data-dnt="true" data-theme="dark">'
     const p = `<p lang="en" dir="ltr">${tweet.twtText.replace(urlRE, '')}</p>`
     const author = `&mdash; ${tweet.twtAuthor.name} (@${tweet.twtAuthor.username}) `
