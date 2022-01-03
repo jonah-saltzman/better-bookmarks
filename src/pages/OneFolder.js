@@ -177,7 +177,7 @@ const OneFolder = ({ folder, share }) => {
 			.filter((obj) => obj.display === true)
 			.forEach((tweet, i) => {
 				i % 2 === 0
-					? colA.push(
+					? colA.unshift(
 							<div className='tweetcard mb-4'>
 								<Tweet
 									tweet={tweet.tweet}
@@ -188,7 +188,7 @@ const OneFolder = ({ folder, share }) => {
 								/>
 							</div>
 					  )
-					: colB.push(
+					: colB.unshift(
 							<div className='tweetcard mb-4'>
 								<Tweet
 									tweet={tweet.tweet}
