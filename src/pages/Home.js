@@ -10,7 +10,7 @@ import {
 
 import twitterLogin from '../twitter_button.png'
 
-import { tokenUrlRE, tokenRE, shareUrlRE, shareRE } from '../constants'
+import { tokenUrlRE, tokenRE, shareUrlRE, shareRE, BB_URL } from '../constants'
 
 import { SET_SHARED_FOLDER } from '../context/action.types'
 
@@ -32,6 +32,8 @@ const Home = (props) => {
 		dispatch({ type: SET_SHARED_FOLDER, payload: share })
 		history.push('/shared')
 	}
+
+	fetch(BB_URL)
 
     return (
 			<div className='center-home'>
