@@ -6,15 +6,18 @@ import { AppContext } from '../context/Context'
 
 import { toast } from 'react-toastify'
 
-import { Redirect } from 'react-router-dom'
+import { Redirect, useHistory } from 'react-router-dom'
 
 import Like from '../components/Like'
 import getLikes from '../api/likes'
 import { bookmarkTweets } from '../api/tweets'
 
+import { allActions as actions } from '../constants'
+
 const Likes = ({ folder, refresh }) => {
-	const { state } = useContext(AppContext)
+	const { state, dispatch } = useContext(AppContext)
 	const { loggedIn, token, twtAuth } = state
+	const history = useHistory()
 
 	const [isLoading, setIsLoading] = useState(false)
 	const [tweetsArr, setTweetsArr] = useState([])
@@ -95,6 +98,9 @@ const Likes = ({ folder, refresh }) => {
 				const tweets = await getLikes(token)
 				if (tweets.error) {
 					toast(`Error: ${tweets.error}`)
+					localStorage.removeItem('state')
+					actions.forEach((action) => dispatch({ type: action, payload: null }))
+					history.push('/')
 					setIsLoading(false)
 					return
 				}

@@ -94,7 +94,7 @@ const Tweet = (props) => {
 				<div ref={divRef}>
 					<MdHistory onClick={manualToggle} className='show-text' />
 					<MdDelete
-						hidden={!loaded || shared}
+						hidden={shared}
 						onClick={() => {
 							remove(tweet.twtId)
 						}}

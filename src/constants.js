@@ -1,4 +1,16 @@
 
+import {
+	SET_USER,
+	SET_LOGIN,
+	SET_TOKEN,
+	SET_FOLDERS,
+	SET_USER_ID,
+	SET_TWT_AUTH,
+	SET_TWT_CHALLENGE,
+	SET_TWT_STATE,
+	SET_OFFLINE,
+} from './context/action.types'
+
 const isDev = Boolean(
 	window.location.hostname === 'localhost' ||
 		window.location.hostname === '[::1]' ||
@@ -43,5 +55,17 @@ export const tokenUrlRE = new RegExp(/\?token=/i)
 export const shareUrlRE = new RegExp(/\?share=/i)
 export const tokenRE = new RegExp(/(?<=^\?token=).+/i)
 export const shareRE = new RegExp(/(?<=^\?share=).+/i)
+
+export const allActions = [
+	SET_USER,
+	SET_LOGIN,
+	SET_TOKEN,
+	SET_FOLDERS,
+	SET_USER_ID,
+	SET_TWT_AUTH,
+	SET_TWT_CHALLENGE,
+	SET_TWT_STATE,
+	SET_OFFLINE,
+]
 
 //export const twtEmbedRE = new RegExp(/(?<=a href=)[^ ]+(?=\?ref)/)

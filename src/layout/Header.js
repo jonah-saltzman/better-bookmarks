@@ -15,18 +15,7 @@ import {
 import { NavLink, Link, useHistory } from 'react-router-dom'
 import { AppContext } from '../context/Context'
 
-import {
-	SET_USER,
-	SET_LOGIN,
-	SET_TOKEN,
-	SET_FOLDERS,
-	SET_USER_ID,
-	SET_TWT_CHALLENGE,
-	SET_TWT_AUTH,
-	SET_TWT_STATE,
-	SET_OFFLINE,
-	SET_SAVED_STATE,
-} from '../context/action.types'
+import { allActions as actions } from '../constants'
 
 
 import { toast } from 'react-toastify'
@@ -47,28 +36,16 @@ const Header = () => {
 		if (!token) {
 			toast('No user to logout!', { type: 'error' })
 			localStorage.removeItem('state')
+			actions.forEach((action) => dispatch({ type: action, payload: null }))
 			history.push('/')
 			return
 		}
 		const signoutResult = await logout(token)
 		if (signoutResult.error) {
 			toast(signoutResult.error, { type: 'error' })
-			localStorage.removeItem('state')
-			history.push('/')
-			return
+		} else {
+			toast(signoutResult.success, { type: 'success' })
 		}
-		toast(signoutResult.success, { type: 'success' })
-		const actions = [
-			SET_USER,
-			SET_LOGIN,
-			SET_TOKEN,
-			SET_FOLDERS,
-			SET_USER_ID,
-			SET_TWT_AUTH,
-			SET_TWT_CHALLENGE,
-			SET_TWT_STATE,
-			SET_OFFLINE,
-		]
 		actions.forEach((action) => dispatch({ type: action, payload: null }))
 		localStorage.removeItem('state')
 		history.push('/')

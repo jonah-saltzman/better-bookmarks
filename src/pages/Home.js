@@ -8,6 +8,8 @@ import {
     CardTitle,
 } from 'reactstrap'
 
+import twitterLogin from '../twitter_button.png'
+
 import { tokenUrlRE, tokenRE, shareUrlRE, shareRE } from '../constants'
 
 import { SET_SHARED_FOLDER } from '../context/action.types'
@@ -37,7 +39,9 @@ const Home = (props) => {
     return (
 			<div className='center-home'>
 				<Card className='homecard card-fab'>
-					<CardTitle className='text-large'>Welcome to Better Bookmarks</CardTitle>
+					<CardTitle className='text-large'>
+						Welcome to Better Bookmarks
+					</CardTitle>
 					<CardBody>
 						<ul>
 							<li>Organize your favorite Tweets into folders</li>
@@ -46,12 +50,15 @@ const Home = (props) => {
 						</ul>
 						<div className='center'>
 							{loggedIn ? (
-								<NavLink
-									className='text-white text-large center-item'
-									style={{marginTop: '17px'}}
-									to='/twitter'>
-									Login with Twitter
-								</NavLink>
+								<img
+									className='center-item'
+									src={twitterLogin}
+									alt='Login with Twitter'
+									style={{width: '20vw'}}
+									onClick={() => {
+										history.push('/twitter')
+									}}
+								/>
 							) : null}
 						</div>
 					</CardBody>

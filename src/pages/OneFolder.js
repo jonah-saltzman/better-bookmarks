@@ -14,18 +14,20 @@ import { AppContext } from '../context/Context'
 
 import { toast } from 'react-toastify'
 
-import { Redirect } from 'react-router-dom'
+import { Redirect, useHistory } from 'react-router-dom'
 
 import { getOneFolder } from '../api/folders'
 import { deleteTweet as remove } from '../api/tweets'
 
-import { SHARE_PREFIX } from '../constants'
+import { SHARE_PREFIX, allActions as actions } from '../constants'
+
 
 import Tweet from '../components/Tweet'
 
 const OneFolder = ({ folder, share }) => {
 	const { state, dispatch } = useContext(AppContext)
 	const { loggedIn, token } = state
+	const history = useHistory()
 
 	const [isLoading, setIsLoading] = useState(true)
 	const [tweetsArr, setTweetsArr] = useState([])
@@ -56,14 +58,14 @@ const OneFolder = ({ folder, share }) => {
 		share(folder.folderId, !folder.shared)
 	}
 
-	useEffect(() => {
-		window.twttr.events.bind('rendered', (event) => {
-			if (event.target.children.length === 0) {
-				return
-			}
-			setLoadedTweet(event.target.children[0].dataset.tweetId)
-		})
-	})
+	// useEffect(() => {
+	// 	window.twttr.events.bind('rendered', (event) => {
+	// 		if (event.target.children.length === 0) {
+	// 			return
+	// 		}
+	// 		setLoadedTweet(event.target.children[0].dataset.tweetId)
+	// 	})
+	// })
 
 	const deleteTweet = (twtId) => {
 		if (deletingTweet) {
@@ -98,28 +100,28 @@ const OneFolder = ({ folder, share }) => {
 			setTwtObjs(newObjs)
 			setDeletingTweet(null)
 			setEraseTweet(false)
-			window.twttr.widgets.load()
+			// window.twttr.widgets.load()
 		}
 	}, [eraseTweet])
 
-	useEffect(() => {
-		if (loadedTweets.includes(loadedTweet) || loadedTweet === '') {
-			return
-		} else {
-			const newArr = [...loadedTweets]
-			newArr.push(loadedTweet)
-			setLoadedTweets(newArr)
-		}
-	}, [loadedTweet])
+	// useEffect(() => {
+	// 	if (loadedTweets.includes(loadedTweet) || loadedTweet === '') {
+	// 		return
+	// 	} else {
+	// 		const newArr = [...loadedTweets]
+	// 		newArr.push(loadedTweet)
+	// 		setLoadedTweets(newArr)
+	// 	}
+	// }, [loadedTweet])
 
-	useEffect(() => {
-		const newObjs = [...twtObjs].map((obj) =>
-			loadedTweets.some((twtId) => obj.twtId === twtId)
-				? { ...obj, loaded: true }
-				: obj
-		)
-		setTwtObjs(newObjs)
-	}, [loadedTweets])
+	// useEffect(() => {
+	// 	const newObjs = [...twtObjs].map((obj) =>
+	// 		loadedTweets.some((twtId) => obj.twtId === twtId)
+	// 			? { ...obj, loaded: true }
+	// 			: obj
+	// 	)
+	// 	setTwtObjs(newObjs)
+	// }, [loadedTweets])
 
 	useEffect(() => {
 		if (!folder || folder.folderId === null) {
@@ -136,6 +138,9 @@ const OneFolder = ({ folder, share }) => {
 				const tweets = await getOneFolder(folder.folderId, token)
 				if (tweets.error) {
 					toast(`Error: ${tweets.error}`)
+					localStorage.removeItem('state')
+					actions.forEach((action) => dispatch({ type: action, payload: null }))
+					history.push('/')
 					setIsLoading(false)
 					return
 				}

@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Switch, Route, useHistory } from 'react-router-dom'
 
+import { SET_LOGIN } from '../context/action.types'
+
 import {
 	Container,
 	Spinner,
@@ -25,7 +27,7 @@ import Likes from './Likes'
 import { shareFolder } from '../api/folders'
 
 const Folders = () => {
-    const { state } = useContext(AppContext)
+    const { state, dispatch } = useContext(AppContext)
 	const history = useHistory()
 
 	const { loggedIn, token } = state
@@ -110,6 +112,7 @@ const Folders = () => {
 					localStorage.removeItem('state')
                     setGotFolders(true)
                     setIsLoading(false)
+					dispatch({ type: SET_LOGIN, payload: false})
 					history.push('/')
                     return
                 }
