@@ -117,8 +117,6 @@ export const twitterLogin = async (token) => {
         })
         const status = response.status
         const data = await response.json()
-        console.log(`twitterLogin:`)
-        console.log(data)
         return {
             error: status === 200 ? null : data,
             success: status === 200 ? data.message : null,
@@ -148,7 +146,6 @@ export const newTwtLogin = async (state) => {
             },
             body: JSON.stringify(request)
         })
-        console.log(response.status)
         const data = response.status === 200 ? await response.json() : null
         return {
             error: response.status === 200 ? null : data,

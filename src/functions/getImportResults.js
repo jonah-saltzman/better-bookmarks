@@ -25,8 +25,6 @@ const getImportResults = (result, folderName) => {
         resultObj.link = (result.message.apiErrCount > 0)
         resultObj.showBody = (resultObj.body.length >= 1)
         resultObj.error = false
-        console.log(`returning resultObj: `)
-        console.log(resultObj)
         return resultObj
     }
 }

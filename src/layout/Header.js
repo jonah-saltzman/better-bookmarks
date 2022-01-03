@@ -1,5 +1,3 @@
-//TODO: DONE set NavbarBrand to go to home page and export Header
-
 import React, { useContext, useState } from 'react'
 
 import { Navbar, NavbarBrand, NavbarText, ModalHeader, } from 'reactstrap'
@@ -77,7 +75,6 @@ const Header = () => {
 			return
 		}
 		const result = await changePassword(token, oldPass, newPass)
-		console.log(result)
 		if (!result) {
 			toast('Unknown error', { type: 'error' })
 		} else {

@@ -63,6 +63,7 @@ const Likes = ({ folder, refresh }) => {
 					[addingTweet],
 					token
 				)
+				console.log(result)
 				if (result.error) {
 					toast('Failed to add Tweet', { type: 'error' })
 				} else {
@@ -82,7 +83,7 @@ const Likes = ({ folder, refresh }) => {
 			setAdded(newAdded)
 			setAddingTweet(null)
 			setAddedTweet(false)
-			window.twttr.widgets.load()
+			//window.twttr.widgets.load()
 		}
 	}, [addedTweet])
 

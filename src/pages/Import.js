@@ -3,16 +3,14 @@ import { AppContext } from '../context/Context'
 import { FormGroup, Form, Container, Button, Spinner } from 'reactstrap'
 import { toast } from 'react-toastify'
 import { bookmarkTweets } from '../api/tweets'
-import getTwtUrl from '../newtwturl'
 import { NavLink } from 'react-router-dom'
-import {Modal, ModalBody, ModalTitle, ModalFooter, CloseButton } from 'react-bootstrap'
+import { Modal, ModalBody, ModalTitle, ModalFooter } from 'react-bootstrap'
 import ModalHeader from 'react-bootstrap/esm/ModalHeader'
 
 import { twtREOne, twtRETwo } from '../constants'
 import getImportResults from '../functions/getImportResults'
 
 import ImportField from '../components/ImportField'
-import Nav from 'reactstrap/lib/Nav'
 
 
 const Import = ({folder}) => {
@@ -21,7 +19,7 @@ const Import = ({folder}) => {
 			return [0, 1, 2, 3, 4].map((n) => ({ number: n, value: '', valid: null }))
 		}
     
-    const { state, dispatch } = useContext(AppContext)
+    const { state } = useContext(AppContext)
     const { token } = state
     const [ callingApi, setCallingApi ] = useState(false)
     const [ inputObjs, setInputObjs ] = useState([])

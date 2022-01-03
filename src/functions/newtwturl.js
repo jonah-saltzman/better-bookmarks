@@ -5,7 +5,7 @@ import {
     TWTAUTH_SUFFIX,
 	TWTLOGIN_PREFIX,
 	TWTAUTH_STATE_OFFLINE
-} from './constants'
+} from '../constants'
 
 const getTwtUrl = (user, challenge, state, login) => {
 	if (login === null) {

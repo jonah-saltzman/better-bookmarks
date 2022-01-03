@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 
-import { Container, ListGroupItem, Spinner, Row, Col } from 'reactstrap'
+import { Container, Spinner, Row, Col } from 'reactstrap'
 
 import { toast } from 'react-toastify'
 
@@ -13,12 +13,11 @@ import { getSharedFolder } from '../api/folders'
 import Tweet from '../components/Tweet'
 
 const Shared = () => {
-	const { state, dispatch } = useContext(AppContext)
+	const { state } = useContext(AppContext)
 	const { sharedFolder } = state
     const history = useHistory()
 
 	const [isLoading, setIsLoading] = useState(true)
-	const [tweetsArr, setTweetsArr] = useState([])
 	const [twtObjs, setTwtObjs] = useState([])
     const [components, setComponents] = useState([])
     const [folder, setFolder] = useState(null)
@@ -35,25 +34,19 @@ const Shared = () => {
         (async () => {
             setIsLoading(true)
             const result = await getSharedFolder(sharedFolder)
-            console.log(result)
             if (result.error) {
                 toast(result.error, { type: 'error'})
                 history.push('/')
                 return
             }
-            console.log(result.folder)
             setFolder(result.folder)
             setGotFolder(true)
             setIsLoading(false)
-            // const tweets = result.folder.map()
         })()
     }, [gotFolder])
 
 	useEffect(() => {
-        console.log('in folder useeffect')
-        console.log(folder)
 		if (folder?.tweets?.length === 0 || !folder) {
-            console.log('returning')
 			return
 		}
 		setTwtObjs(
@@ -67,9 +60,7 @@ const Shared = () => {
 	}, [folder])
 
 	useEffect(() => {
-        console.log('in twtObjs useeffect')
 		if (twtObjs.length === 0) {
-            console.log('returning')
 			return
 		}
         const compArray = twtObjs.map((tweet) => (
@@ -82,7 +73,6 @@ const Shared = () => {
 						/>
 					</div>
 				))
-        console.log(compArray)
         setComponents(compArray)
     }, [twtObjs])
 

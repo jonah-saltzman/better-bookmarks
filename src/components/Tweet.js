@@ -1,10 +1,7 @@
 import React, { useEffect, useState, createRef } from 'react'
-import { Row, Col, Spinner, Container } from 'reactstrap'
 import { randomBytes } from 'crypto'
 
 import { MdDelete, MdHistory } from 'react-icons/md'
-
-import { twtEmbedRE } from '../constants'
 
 import { useInViewport } from 'react-in-viewport'
 
@@ -12,14 +9,9 @@ const Tweet = (props) => {
 	const { tweet, remove, display, shared } = props
 
 	const [enteredView, setEnteredView] = useState(false)
-	const [twtUrl, setTwtUrl] = useState(tweet?.twtHtml?.match(twtEmbedRE)[0])
-	const [loading, setLoading] = useState(false)
 	const [loaded, setLoaded] = useState(false)
-	const [showText, setShowText] = useState(true)
 	const [twtHtml, setTwtHtml] = useState({__html: tweet.twtHtml})
-	const [showedEmbed, setShowedEmbed] = useState(false)
 
-	const tweetRef = createRef()
 	const divRef = createRef()
 	const config = { disconnectOnLeave: false }
 	const { inViewport, enterCount } = useInViewport(divRef, config, props)
@@ -33,15 +25,8 @@ const Tweet = (props) => {
 		}
 		if (event.target.children[0].dataset.tweetId === tweet.twtId) {
 			setLoaded(true)
-			setLoading(false)
 		}
 	}
-
-	// useEffect(() => {
-	// 	if (loading && !showedEmbed) {
-	// 		toggleEmbed()
-	// 	}
-	// }, [loading])
 
 	useEffect(() => {
 		window.twttr.events.bind('rendered', onLoad)
@@ -72,14 +57,9 @@ const Tweet = (props) => {
 					theme: 'dark',
 				}
 			)
-			setLoading(true)
 			return
 		}
 	}, [enteredView])
-
-	const toggleEmbed = () => {
-		setShowText(!showText)
-	}
 
 	const manualToggle = () => {
 		const embed = document.getElementById(tweetDOMId)

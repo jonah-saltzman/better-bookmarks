@@ -4,19 +4,16 @@ import { useHistory } from 'react-router-dom'
 
 import twitterLogin from '../sign-in-with-twitter-gray.png.twimg.1920.png'
 
-import { NavLink } from 'react-router-dom'
-
 import { Card, CardBody, CardTitle } from 'reactstrap'
 
 import { AppContext } from '../context/Context'
 import { checkTwtAuth } from '../api/auth'
 import { toast } from 'react-toastify'
-import { useInViewport } from 'react-in-viewport'
 import { SET_TWT_AUTH } from '../context/action.types'
 
-import getTwtUrl from '../newtwturl'
+import getTwtUrl from '../functions/newtwturl'
 
-const Twitter = (props) => {
+const Twitter = () => {
 
 	const { state, dispatch } = useContext(AppContext)
 	const { loggedIn, userId, twtChallenge, twtState, token } = state
@@ -28,8 +25,6 @@ const Twitter = (props) => {
     const [ leftPage, setLeftPage ] = useState(false)
 
 	const twtPopup = () => {
-        console.log('opening url:')
-        console.log(twtAuthUrl)
 		window.open(twtAuthUrl)
 	}
 
@@ -56,7 +51,6 @@ const Twitter = (props) => {
     const onVisibilityChange = () => {
         if (document.visibilityState === 'visible') {
             if (leftPage && clickedLogin) {
-                console.log('CHECKING TWTAUTH /user/twt/check')
                 checkAuth()
                 setLeftPage(false)
                 setClickedLogin(false)
@@ -75,8 +69,6 @@ const Twitter = (props) => {
 
 	useEffect(() => {
 		if (loggedIn && userId) {
-            // console.log(`using twtState:`)
-            // console.log(twtState)
             (async () => {
                 const result = await checkTwtAuth(token, twtState)
                 if (result) {

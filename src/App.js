@@ -57,43 +57,37 @@ const initialState = {
 
 const App = () => {
 	const [state, dispatch] = useReducer(reducer, initialState)
-	const { loggedIn, offline, savedState } = state
-	const [bigWindow, setBigWindow] = useState({
+	const { offline, savedState } = state
+	const [ bigWindow, setBigWindow ] = useState({
 		matches: window.matchMedia('(min-width: 2000px)').matches,
 	})
 
 	useEffect(() => {
-    if (localStorage.getItem('state')) {
+		if (localStorage.getItem('state')) {
 			const stateObj = JSON.parse(localStorage.getItem('state'))
 			Object.entries(stateObj).forEach(([key, value]) => {
 				state[key] = value
 			})
-			console.log('retreived saved state')
-      dispatch({ type: SET_SAVED_STATE, payload: false })
+			dispatch({ type: SET_SAVED_STATE, payload: false })
 		}
   }, [])
 
 	useEffect(() => {
 		if (savedState || !offline) {
-			console.log('not saving state')
 			return
 		}
 		dispatch({ type: SET_SAVED_STATE, payload: true })
-		saveState(state, 'app')
+		saveState(state)
 	}, [savedState, offline])
 
 	const windowHandler = (e) => {
-		console.log('window state updated')
 		setBigWindow({ matches: e.matches })
 	}
+	
 	window
 		.matchMedia('(min-width: 2000px)')
 		.addEventListener('change', windowHandler)
 
-	useEffect(() => {
-		console.log('big window:')
-		console.log(bigWindow)
-	}, [bigWindow])
 
 	return (
 		<Router basename='better-bookmarks'>

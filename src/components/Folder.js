@@ -1,13 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
-//import { Row, Col, Container, Form, FormGroup } from 'reactstrap'
 
-import { Stack, Form, Row, Col, Container, Modal, ModalBody, ModalTitle, ModalFooter, Button, CloseButton } from 'react-bootstrap'
+import { Form, Container, Modal, ModalBody, ModalTitle, ModalFooter, Button } from 'react-bootstrap'
 
 import { MdDelete, MdEdit } from 'react-icons/md'
-
-import { useHistory  } from 'react-router-dom'
-
-import { SET_SINGLE_FOLDER, SET_SINGLE_FOLDER_NAME } from '../context/action.types'
 
 import { AppContext } from '../context/Context'
 
@@ -18,7 +13,7 @@ import ModalHeader from 'react-bootstrap/esm/ModalHeader'
 
 const Folder = (props) => {
 	const { folder, newFolder, refresh, selectFolder, selected } = props
-    const { state, dispatch } = useContext(AppContext)
+    const { state } = useContext(AppContext)
 	const { token } = state
 	const [editable, setEditable] = useState(false)
 	const [folderName, setFolderName] = useState(newFolder ? "" : folder.folderName)
@@ -84,7 +79,6 @@ const Folder = (props) => {
 			let result;
 			switch (true) {
 				case creatingFolder:
-					console.log(`attempting to create folder: ${folderName}`)
 					setCreatingFolder(false)
 					setCallingAPI(false)
 					setFolderName("")

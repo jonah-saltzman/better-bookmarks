@@ -6,7 +6,6 @@ const ImportField = (props) => {
     const [ validity, setValidity ] = useState(null)
 
     useEffect(() => {
-        console.log(`field #${fieldNumber}.valid=${valid}`)
         setValidity(valid)
     }, [valid])
 

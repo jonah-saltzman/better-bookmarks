@@ -1,10 +1,6 @@
 import React, { useEffect, useState, createRef } from 'react'
-import { Row, Col, Spinner, Container } from 'reactstrap'
+import { Spinner } from 'reactstrap'
 import { randomBytes } from 'crypto'
-
-import { MdDelete } from 'react-icons/md'
-
-import { twtEmbedRE } from '../constants'
 
 import { useInViewport } from 'react-in-viewport'
 
@@ -13,7 +9,6 @@ const Like = (props) => {
 
 	const [enteredView, setEnteredView] = useState(false)
 	const [loading, setLoading] = useState(false)
-	const [loaded, setLoaded] = useState(false)
 
 	const divRef = createRef()
 	const config = { disconnectOnLeave: false }
@@ -27,7 +22,6 @@ const Like = (props) => {
 				return
 			}
 		if (event.target.children[0].dataset.tweetId === tweet) {
-			setLoaded(true)
 			setLoading(false)
 		}
 	}

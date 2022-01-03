@@ -10,8 +10,6 @@ import {
 	Input,
 	Button,
 	Spinner,
-	Row,
-	Col,
 } from 'reactstrap'
 
 import { AppContext } from '../context/Context'
@@ -34,8 +32,7 @@ import { toast } from 'react-toastify'
 import { Redirect } from 'react-router-dom'
 
 import { authenticate, twitterLogin, newTwtLogin } from '../api/auth'
-import getTwtUrl from '../newtwturl'
-import saveState from '../functions/saveState'
+import getTwtUrl from '../functions/newtwturl'
 
 const Auth = () => {
 	// Get context and destructure loggedIn from state
@@ -51,7 +48,6 @@ const Auth = () => {
 	const [email, setEmail] = useState("")
 	const [password, setPassword] = useState("")
 	const [passwordConfirm, setPasswordConfirm] = useState("")
-	const [twtId, setTwtId] = useState("")
 	const [staySignedIn, setStaySignedIn] = useState(false)
 
 	const [clickedLogin, setClickedLogin] = useState(false)
@@ -59,10 +55,7 @@ const Auth = () => {
 	const [twtState, setTwtState] = useState(null)
 
 	useEffect(() => {
-		console.log('creating new state:')
-		const newState = randomBytes(24).toString('hex')
-		console.log(newState)
-		setTwtState(newState)
+		setTwtState(randomBytes(24).toString('hex'))
 	}, [])
 
 	const startTwitterAuth = async () => {
@@ -74,8 +67,6 @@ const Auth = () => {
 		const dynamicURL = getTwtUrl(null, challenge.challenge, twtState, {
 			offline: staySignedIn,
 		})
-		console.log('dynamic url:')
-		console.log(dynamicURL)
 		window.open(dynamicURL)
 		setClickedLogin(true)
 	}
@@ -164,11 +155,6 @@ const Auth = () => {
 		})
 		localStorage.removeItem('token')
 	}
-
-	// const startTwitterAuth = () => {
-	// 	window.open(BB_URL + '/twtlogin')
-	// 	setClickedLogin(true)
-	// }
 
 	const checkForToken = async () => {
 		const token = localStorage.getItem('token')

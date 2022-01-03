@@ -1,6 +1,6 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 
-import { NavLink, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 import {
     Card,
@@ -24,14 +24,11 @@ const Home = (props) => {
 	if (props.location.search === '?close') {
 		window.close()
 	} else if (tokenUrlRE.test(props.location.search)) {
-		console.log('received token: ')
 		const token = props.location.search.match(tokenRE)[0]
 		localStorage.setItem('token', token)
 		window.close()
 	} else if (shareUrlRE.test(props.location.search)) {
-		console.log(`SHARE STRING:`)
 		const share = props.location.search.match(shareRE)[0]
-		console.log(share)
 		dispatch({ type: SET_SHARED_FOLDER, payload: share })
 		history.push('/shared')
 	}

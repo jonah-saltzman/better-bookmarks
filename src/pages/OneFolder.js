@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react'
 
 import {
 	Container,
-	ListGroupItem,
 	Spinner,
 	Row,
 	Col,
@@ -33,13 +32,11 @@ const OneFolder = ({ folder, share }) => {
 	const [tweetsArr, setTweetsArr] = useState([])
 	const [twtObjs, setTwtObjs] = useState([])
 	const [noFolder, setNoFolder] = useState(false)
-	const [loadedTweets, setLoadedTweets] = useState([])
-	const [loadedTweet, setLoadedTweet] = useState('')
 	const [deletingTweet, setDeletingTweet] = useState(null)
 	const [eraseTweet, setEraseTweet] = useState(false)
 	const [tweetCols, setTweetCols] = useState({ colA: [], colB: [] })
 	const [isShared, setIsShared] = useState(folder.shared)
-	const [shareUrl, setShareUrl] = useState(null)
+	const [shareUrl, setShareUrl] = useState('')
 
 	useEffect(() => {
 		setIsShared(folder.shared)
@@ -48,13 +45,7 @@ const OneFolder = ({ folder, share }) => {
 		}
 	}, [folder.shared])
 
-	const loadTweet = (elementId) => {
-		window.twttr.widgets.load(document.getElementById(`${elementId}`))
-	}
-
 	const toggleShare = () => {
-		console.log(`folder ${folder.folderId} is shared=${folder.shared}`)
-		console.log(`setting to ${!folder.shared}`)
 		share(folder.folderId, !folder.shared)
 	}
 
@@ -100,7 +91,6 @@ const OneFolder = ({ folder, share }) => {
 			setTwtObjs(newObjs)
 			setDeletingTweet(null)
 			setEraseTweet(false)
-			// window.twttr.widgets.load()
 		}
 	}, [eraseTweet])
 
@@ -132,7 +122,6 @@ const OneFolder = ({ folder, share }) => {
 		setTwtObjs(twtObjs.map(obj => {
 			return {...obj, display: false}
 		}))
-		setLoadedTweets([])
 		if (loggedIn) {
 			;(async () => {
 				const tweets = await getOneFolder(folder.folderId, token)
@@ -161,13 +150,23 @@ const OneFolder = ({ folder, share }) => {
 		setTwtObjs(
 			tweetsArr.map((tweet) => ({
 				twtId: tweet.twtId,
-				loaded: false,
 				tweet: tweet,
-				display: true,
-				like: false,
+				display: true
 			}))
 		)
 	}, [tweetsArr])
+
+	useEffect(() => {
+		if (!noFolder) {
+			return
+		}
+		if (noFolder) {
+			setTweetCols({ colA: [], colB: [] })
+			setTweetsArr([])
+			setTwtObjs([])
+			return
+		}
+	}, [noFolder])
 
 	useEffect(() => {
 		if (twtObjs.length === 0) {
@@ -181,9 +180,7 @@ const OneFolder = ({ folder, share }) => {
 					? colA.push(
 							<div className='tweetcard mb-4'>
 								<Tweet
-									load={loadTweet}
 									tweet={tweet.tweet}
-									loaded={tweet.loaded}
 									key={tweet.twtId}
 									remove={deleteTweet}
 									display={tweet.display}
@@ -194,9 +191,7 @@ const OneFolder = ({ folder, share }) => {
 					: colB.push(
 							<div className='tweetcard mb-4'>
 								<Tweet
-									load={loadTweet}
 									tweet={tweet.tweet}
-									loaded={tweet.loaded}
 									key={tweet.twtId}
 									remove={deleteTweet}
 									display={tweet.display}
