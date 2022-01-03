@@ -17,6 +17,7 @@ const Tweet = (props) => {
 	const [loaded, setLoaded] = useState(false)
 	const [showText, setShowText] = useState(true)
 	const [twtHtml, setTwtHtml] = useState({__html: tweet.twtHtml})
+	const [showedEmbed, setShowedEmbed] = useState(false)
 
 	const tweetRef = createRef()
 	const divRef = createRef()
@@ -33,9 +34,14 @@ const Tweet = (props) => {
 		if (event.target.children[0].dataset.tweetId === tweet.twtId) {
 			setLoaded(true)
 			setLoading(false)
-			toggleEmbed()
 		}
 	}
+
+	// useEffect(() => {
+	// 	if (loading && !showedEmbed) {
+	// 		toggleEmbed()
+	// 	}
+	// }, [loading])
 
 	useEffect(() => {
 		window.twttr.events.bind('rendered', onLoad)
@@ -75,26 +81,32 @@ const Tweet = (props) => {
 		setShowText(!showText)
 	}
 
+	const manualToggle = () => {
+		const embed = document.getElementById(tweetDOMId)
+		const archive = document.getElementById(tweetDOMId + 'TXT')
+		embed.toggleAttribute('hidden')
+		archive.toggleAttribute('hidden')
+	}
+
 	if (display || shared) {
 		return (
 			<>
-				<div className='center' hidden={loaded || showText}>
-					<Spinner color='primary' />
-				</div>
-				<MdHistory onClick={toggleEmbed} className='show-text'/>
-				<MdDelete
-					hidden={!loaded || shared}
-					onClick={() => {
-						remove(tweet.twtId)
-					}}
-					className={'delete-tweet '}
-				/>
-				<div
-					id={divDOMId}
-					ref={divRef}
-					className='add-tweet'>
-					<div id={tweetDOMId}></div>
-					<div dangerouslySetInnerHTML={twtHtml} hidden={!showText} id={tweetDOMId + 'TXT'}></div>
+				<div ref={divRef}>
+					<MdHistory onClick={manualToggle} className='show-text' />
+					<MdDelete
+						hidden={!loaded || shared}
+						onClick={() => {
+							remove(tweet.twtId)
+						}}
+						className={'delete-tweet '}
+					/>
+					<div id={divDOMId} className='add-tweet'>
+						<div id={tweetDOMId}></div>
+						<div
+							dangerouslySetInnerHTML={twtHtml}
+							hidden={loaded}
+							id={tweetDOMId + 'TXT'}></div>
+					</div>
 				</div>
 			</>
 		)
