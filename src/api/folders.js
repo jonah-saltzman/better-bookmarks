@@ -1,7 +1,6 @@
 import { BB_URL as URL } from "../constants"
 
 export const shareFolder = async (folderId, token, value) => {
-	console.log(`requesting ${folderId} shared=${value}`)
 	const shareFolderURL = URL + '/user/folders/share/' + folderId
 	const reqData = JSON.stringify({
 		shared: value
@@ -17,7 +16,6 @@ export const shareFolder = async (folderId, token, value) => {
 			body: reqData
 		})
 		const status = response.status
-		console.log(`response status: ${status}`)
 		const responseData = await response.json()
 		return {
 			error: status === 200 ? null : responseData,
@@ -151,7 +149,6 @@ export const deleteFolder = async (folderId, token) => {
 }
 
 export const changeFolderName = async (folderId, newName, token) => {
-	console.log(`changing folder ${folderId} to ${newName}`)
 	const changeNameURL = URL + '/user/folders/' + folderId
 	const reqData = JSON.stringify({
 		newName: `${newName}`,
@@ -168,7 +165,6 @@ export const changeFolderName = async (folderId, newName, token) => {
 		})
 		const status = response.status
 		const data = await response.json()
-		console.log(data.message)
 		if (status === 201) {
 			return {
 				error: null,
@@ -199,7 +195,6 @@ export const getSharedFolder = async (shareUrl) => {
 			},
 			body: request,
 		})
-		console.log(result)
 		if (result.status !== 200) {
 			return { error: `Couldn't get folder`, tweets: null }
 		} else {

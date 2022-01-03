@@ -2,8 +2,6 @@ import { BB_URL } from "../constants"
 
 export const authenticate = async (email, password, register, twtState) => {
     const URL = BB_URL + '/auth' + (register ? '/signup' : '/login')
-    console.log(`authenticating with url: `)
-    console.log(URL)
     const request = {
         email: email,
         password: password,
@@ -85,7 +83,6 @@ export const logout = async (token) => {
 
 export const checkTwtAuth = async (token, state) => {
     const URL = BB_URL + '/user/twt/check'
-    console.log(state)
     const request = {
         state: state
     }
@@ -174,7 +171,6 @@ export const changePassword = async (token, oldPass, newPass) => {
             },
             body: JSON.stringify(request)
         })
-        console.log(response.status)
         const data = response.status === 204 ? null : await response.json()
         return {
             error: response.status === 204 ? null : data,

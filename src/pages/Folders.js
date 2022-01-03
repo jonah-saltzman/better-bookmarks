@@ -39,9 +39,7 @@ const Folders = () => {
 	}
 
 	const share = async (folderId, value) => {
-		console.log(`setting ${folderId} to shared=${value}`)
 		const result = await shareFolder(folderId, token, value)
-		console.log(result)
 		if (result.error) {
 			toast('Failed to share folder', { type: 'error' })
 			return
@@ -52,7 +50,6 @@ const Folders = () => {
 			})
 			const newValue = result.response.shared ? true : false
 			const newUrl = result.response.shared ? result.response.url : null
-			console.log(`setting newValue: ${newValue}, url: ${newUrl}`)
 			const newArray = foldersArr.map((folder) =>
 				folder.folderId === folderId
 					? { ...folder, shared: newValue, url: newUrl }
@@ -100,7 +97,6 @@ const Folders = () => {
 		if (gotFolders) {
 			return
 		}
-		console.log('getting folders')
 		if (loggedIn) {
 			;(async () => {
 				const folders = await getFolders(token)
@@ -114,8 +110,6 @@ const Folders = () => {
 					return
 				}
 				if (folders?.folders) {
-					console.log('got folders: ')
-					console.log(folders.folders)
 					setFoldersArr(folders.folders)
 					setGotFolders(true)
 					setIsLoading(false)

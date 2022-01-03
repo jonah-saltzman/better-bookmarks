@@ -17,7 +17,6 @@ export const bookmarkTweets = async (folderId, tweets, token) => {
 		})
 		const status = response.status
 		const data = await response.json()
-		console.log(data)
 		if (status === 201) {
 			return {
 				error: null,
@@ -51,7 +50,6 @@ export const deleteTweet = async (folderId, tweet, token) => {
 		})
 		const status = response.status
 		const data = await response.json()
-		console.log(data)
 		if (status === 200) {
 			return {
 				error: null,

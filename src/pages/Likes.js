@@ -63,7 +63,6 @@ const Likes = ({ folder, refresh }) => {
 					[addingTweet],
 					token
 				)
-				console.log(result)
 				if (result.error) {
 					toast('Failed to add Tweet', { type: 'error' })
 				} else {
