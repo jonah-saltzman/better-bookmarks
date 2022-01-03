@@ -67,7 +67,8 @@ article {
 }
 
 .tweet-list {
-  overflow: scroll;
+  height: 85vh;
+  overflow-y: scroll;
   padding: 20px;
   border-radius: 10px;
   background: linear-gradient(110deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1));
@@ -90,7 +91,6 @@ article {
 
 .pages-col {
   height: 85vh;
-  overflow-y: scroll;
 }
 
 .share {
