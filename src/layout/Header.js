@@ -47,12 +47,14 @@ const Header = () => {
 		if (!token) {
 			toast('No user to logout!', { type: 'error' })
 			localStorage.removeItem('state')
+			history.push('/')
 			return
 		}
 		const signoutResult = await logout(token)
 		if (signoutResult.error) {
 			toast(signoutResult.error, { type: 'error' })
 			localStorage.removeItem('state')
+			history.push('/')
 			return
 		}
 		toast(signoutResult.success, { type: 'success' })

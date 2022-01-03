@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, useHistory } from 'react-router-dom'
 
 import {
 	Container,
@@ -26,6 +26,7 @@ import { shareFolder } from '../api/folders'
 
 const Folders = () => {
     const { state } = useContext(AppContext)
+	const history = useHistory()
 
 	const { loggedIn, token } = state
 
@@ -106,8 +107,10 @@ const Folders = () => {
                 const folders = await getFolders(token)
                 if (folders?.error) {
                     toast(`Error: ${folders.error}`)
+					localStorage.removeItem('state')
                     setGotFolders(true)
                     setIsLoading(false)
+					history.push('/')
                     return
                 }
                 if (folders?.folders) {
