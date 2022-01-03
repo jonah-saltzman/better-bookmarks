@@ -56,6 +56,8 @@ export const shareUrlRE = new RegExp(/\?share=/i)
 export const tokenRE = new RegExp(/(?<=^\?token=).+/i)
 export const shareRE = new RegExp(/(?<=^\?share=).+/i)
 
+export const urlRE = new RegExp(/(?:https?):\/\/[\n\S]+/g)
+
 export const allActions = [
 	SET_USER,
 	SET_LOGIN,

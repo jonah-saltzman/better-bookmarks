@@ -5,13 +5,17 @@ import { MdDelete, MdHistory } from 'react-icons/md'
 
 import { useInViewport } from 'react-in-viewport'
 
+import generateHtml from '../functions/generateHtml'
+
 const Tweet = (props) => {
 	const { tweet, remove, display, shared } = props
 
 	const [enteredView, setEnteredView] = useState(false)
 	const [loaded, setLoaded] = useState(false)
-	const [twtHtml, setTwtHtml] = useState({__html: tweet.twtHtml})
-
+	const [twtHtml, setTwtHtml] = useState(tweet.twtHtml 
+			? {__html: tweet.twtHtml}
+			: {__html: generateHtml(tweet)}
+		)
 	const divRef = createRef()
 	const config = { disconnectOnLeave: false }
 	const { inViewport, enterCount } = useInViewport(divRef, config, props)
