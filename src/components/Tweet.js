@@ -5,17 +5,13 @@ import { MdDelete, MdHistory } from 'react-icons/md'
 
 import { useInViewport } from 'react-in-viewport'
 
-import generateHtml from '../functions/generateHtml'
+import { tweetJsx } from '../functions/generateHtml'
 
 const Tweet = (props) => {
 	const { tweet, remove, display, shared } = props
-
 	const [enteredView, setEnteredView] = useState(false)
 	const [loaded, setLoaded] = useState(false)
-	const [twtHtml, setTwtHtml] = useState(tweet.twtHtml 
-			? {__html: tweet.twtHtml}
-			: {__html: generateHtml(tweet)}
-		)
+
 	const divRef = createRef()
 	const config = { disconnectOnLeave: false }
 	const { inViewport, enterCount } = useInViewport(divRef, config, props)
@@ -86,10 +82,9 @@ const Tweet = (props) => {
 					/>
 					<div id={divDOMId} className='add-tweet'>
 						<div id={tweetDOMId}></div>
-						<div
-							dangerouslySetInnerHTML={twtHtml}
-							hidden={loaded}
-							id={tweetDOMId + 'TXT'}></div>
+						<div id={tweetDOMId + 'TXT'} hidden={loaded}>
+							{tweetJsx(tweet)}
+						</div>
 					</div>
 				</div>
 			</>

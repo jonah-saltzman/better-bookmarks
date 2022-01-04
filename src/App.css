@@ -145,7 +145,6 @@ blockquote.twitter-tweet {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
   margin: 10px 5px;
   padding: 16px 16px 16px 16px;
-  max-width: 468px;
   background-color: rgb(20, 133, 226);
   width: 100%;
 }
@@ -166,6 +165,28 @@ blockquote.twitter-tweet a {
 blockquote.twitter-tweet a:hover,
 blockquote.twitter-tweet a:focus {
   text-decoration: underline;
+}
+
+.tweet-gallery {
+  max-height: 100%;
+  max-width: 100%;
+  margin-bottom: 13px;
+}
+
+.tweet-gallery .col {
+  padding: 0;
+}
+
+.tweet-gallery .row {
+  max-width: 100%;
+  margin-left: 0;
+}
+
+.img-thumbnail {
+  padding: 0;
+  border: 0.5px;
+  border: 1px solid #333e7a;
+  border-radius: 0.25rem;
 }
 
 .folder-list {

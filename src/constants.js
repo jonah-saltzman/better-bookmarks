@@ -46,6 +46,8 @@ export const TWTAUTH_CHALLENGE = '&code_challenge='
 
 export const TWTAUTH_SUFFIX = '&code_challenge_method=plain'
 
+export const IMG_URL_PREFIX = BB_URL + '/img/'
+
 export const twtREOne = new RegExp(/(?:\/)(\d+)(?:\/|\?|$)/)
 export const twtRETwo = new RegExp(/^\d+$/)
 
