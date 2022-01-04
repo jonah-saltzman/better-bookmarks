@@ -25,7 +25,7 @@ export const BB_URL = isDev
 
 export const SHARE_PREFIX = isDev
 	? 'http://localhost:3000/better-bookmarks/?share='
-	: 'https://jonah-saltzman.github.io/better-bookmarks/?share='
+	: 'https://bookmarks.jonahsaltzman.dev/?share='
 
 
 export const TWTAUTH_PREFIX =
