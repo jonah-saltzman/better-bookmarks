@@ -1,6 +1,6 @@
 {
 	"name": "better-bookmarks-client",
-	"homepage": "https://jonah-saltzman.github.io/better-bookmarks/",
+	"homepage": "https://bookmarks.jonahsaltzman.dev/",
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {
