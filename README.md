@@ -3,6 +3,10 @@
 
 [Better Bookmarks](https://jonah-saltzman.github.io/better-bookmarks/) is an app for managing Twitter Tweets. While bookmark functionality is built-in to Twitter's own apps, Twitter only provides one "folder" that stores all your bookmarked Tweets. With Better Bookmarks, you can create any number of folders to store Tweets for later, and a Twitter account is not required to do so. If you choose to connect your Twitter account to Better Bookmarks, you can easily add Tweets that you've "liked" to your Better Bookmarks folders; otherwise, an import feature lets you add any Tweet just by copy/pasting its URL. And even if a Tweet you've bookmarked gets deleted, Better Bookmarks allows you to view an archived version of the Tweet that lasts forever.
 
+## Update 1/4/21 - Image archiving!
+![Image archiving](https://i.imgur.com/6euuApL.png)
+
+Better Bookmarks now automatically downloads all images included in any bookmarked Tweet. If the Tweet gets deleted, the BB client will now fetch and render the images stored in the BB database.
 
 # Client
 ![Auth page](https://i.imgur.com/ODPpIkX.png)
