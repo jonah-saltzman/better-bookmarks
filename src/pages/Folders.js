@@ -33,10 +33,34 @@ const Folders = () => {
 	const [currentFolder, setCurrentFolder] = useState(null)
 	const [prevFolder, setPrevFolder] = useState(null)
 	const [selectedFolder, setSelectedFolder] = useState({ folderId: null })
+    const [editedFolder, setEditedFolder] = useState(null)
 
 	const refreshFolders = () => {
 		setGotFolders(false)
 	}
+
+    const editFolder = (folderId, deleted) => {
+        if (deleted) {
+            const deleted = foldersArr.findIndex(folder => folder.folderId === folderId)
+            setCurrentFolder(foldersArr[(deleted === 0 ? 0 : deleted - 1)])
+            refreshFolders()
+            return
+        } else {
+            setEditedFolder(folderId)
+            setCurrentFolder(foldersArr.find(folder => folder.folderId === folderId))
+            refreshFolders()
+        }
+    }
+
+    const selectFolder = (folderId) => {
+        console.log(folderId)
+        if (selectFolder.folderId === folderId) {
+            return
+        }
+        if (foldersArr.some(folder => folder.folderId === folderId)) {
+            setCurrentFolder(foldersArr.find(folder => folder.folderId === folderId))
+        }
+    }
 
 	const share = async (folderId, value) => {
 		const result = await shareFolder(folderId, token, value)
@@ -58,13 +82,6 @@ const Folders = () => {
 			setFoldersArr(newArray)
 			refreshFolders()
 		}
-	}
-
-	const selectFolder = (folderId) => {
-		if (prevFolder.folderId === folderId) {
-			return
-		}
-		setCurrentFolder(foldersArr.find((folder) => folder.folderId === folderId))
 	}
 
 	useEffect(() => {
@@ -94,6 +111,7 @@ const Folders = () => {
 	}, [currentFolder])
 
 	useEffect(() => {
+        console.log('refreshing folders')
 		if (gotFolders) {
 			return
 		}
@@ -122,11 +140,17 @@ const Folders = () => {
 		if (foldersArr.length === 0) {
 			return
 		}
+        console.log('foldersArr useeffect:')
+        console.log(`editedFolder: `, editedFolder)
+        console.log(`prevFolder: `, prevFolder)
 		setCurrentFolder(
-			prevFolder
+			editedFolder
+				? foldersArr.find((folder) => folder.folderId === editedFolder) || foldersArr[0]
+				: prevFolder
 				? foldersArr.find((folder) => folder.folderId === prevFolder.folderId)
 				: foldersArr[0]
 		)
+        setEditedFolder(null)
 	}, [foldersArr])
 
 	if (!loggedIn) {
@@ -151,8 +175,10 @@ const Folders = () => {
 									<div className='folder-listcard mb-4'>
 										<Folder
 											folder={{ folderName: 'New Folder' }}
+											edit={editFolder}
 											key='newFolder'
 											newFolder={true}
+											select={selectFolder}
 											refresh={refreshFolders}
 										/>
 									</div>
@@ -170,10 +196,11 @@ const Folders = () => {
 											}}>
 											<Folder
 												folder={folder}
+												edit={editFolder}
 												key={folder.folderId}
 												newFolder={false}
 												refresh={refreshFolders}
-												selectFolder={selectFolder}
+												select={selectFolder}
 												selected={folder.folderId === selectedFolder.folderId}
 											/>
 										</div>

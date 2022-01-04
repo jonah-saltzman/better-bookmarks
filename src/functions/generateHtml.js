@@ -1,10 +1,8 @@
 import React from "react"
 import {Container, Row, Col} from "react-bootstrap"
-
-import { urlRE } from "../constants"
-import { IMG_URL_PREFIX } from "../constants"
-
 import he from 'he'
+
+import { urlRE, IMG_URL_PREFIX } from "../constants"
 
 export const tweetJsx = (tweet) => {
     const date = new Date(Date.parse(tweet.twtDate)).toLocaleDateString(

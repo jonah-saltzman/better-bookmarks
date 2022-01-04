@@ -93,6 +93,23 @@ article {
   height: 85vh;
 }
 
+.folders-col {
+    height: 85vh;
+}
+
+.folder-name {
+    display: inline-block;
+    box-sizing: border-box;
+    position: relative;
+    padding-left: 0;
+    padding-right: 10rem;
+    margin-right: -10rem;
+    text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  z-index: 0;
+}
+
 .share {
   height: 85vh;
   overflow-y: scroll;
@@ -367,6 +384,7 @@ blockquote {
   font-size: 25px;
   color: #fff;
   font-weight: bold;
+  z-index: 3;
 }
 
 .text-large {
@@ -375,6 +393,7 @@ blockquote {
 
 .folder-text {
   font-size: 30px;
+  margin-bottom: -5px;
 }
 
 .account-title {
@@ -1007,6 +1026,7 @@ background: linear-gradient(
 
 .folder-icons {
   margin-right: 10px;
+  z-index: 2;
 }
 
 .flex-v {

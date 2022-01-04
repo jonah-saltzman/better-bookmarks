@@ -108,6 +108,7 @@ export const newFolder = async (folderName, token) => {
 				return {
 					error: null,
 					message: `Created folder ${data.folder}!`,
+                    data: data
 				}
 			} else {
 				return {
@@ -136,6 +137,7 @@ export const deleteFolder = async (folderId, token) => {
 			return {
 				error: null,
 				message: `Deleted folder ${data.folder.folderName}!`,
+                data: data
 			}
 		} else {
 			return {
@@ -168,7 +170,8 @@ export const changeFolderName = async (folderId, newName, token) => {
 		if (status === 201) {
 			return {
 				error: null,
-				message: data.message
+				message: data.message,
+                data: data
 			}
 		} else {
 			return {

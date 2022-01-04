@@ -12,7 +12,7 @@ import { toast } from 'react-toastify'
 import ModalHeader from 'react-bootstrap/esm/ModalHeader'
 
 const Folder = (props) => {
-	const { folder, newFolder, refresh, selectFolder, selected } = props
+	const { folder, newFolder, refresh, select, selected, edit } = props
     const { state } = useContext(AppContext)
 	const { token } = state
 	const [editable, setEditable] = useState(false)
@@ -22,6 +22,13 @@ const Folder = (props) => {
 	const [editingFolder, setEditingFolder] = useState(false)
 	const [showDelete, setShowDelete] = useState(false)
 	const [deletingFolder, setDeletingFolder] = useState(false)
+    const [editedFolder, setEditedFolder] = useState(null)
+
+    const selectFolder = (folderId) => {
+        console.log(`selecting ${folderId}`)
+        console.log(typeof select)
+        select(folderId)
+    }
 
     const startDeleteFolder = () => {
 		if (showDelete) {
@@ -77,36 +84,49 @@ const Folder = (props) => {
 		}
 		(async () => {
 			let result;
+            let deleted;
 			switch (true) {
 				case creatingFolder:
 					setCreatingFolder(false)
 					setCallingAPI(false)
 					setFolderName("")
 					result = await createFolder(folderName, token)
+                    deleted = false
 					break
 				case deletingFolder:
 					setDeletingFolder(false)
 					setCallingAPI(false)
 					result = await deleteFolder(folder.folderId, token)
+                    deleted = true
 					break
 				case editingFolder:
 					setEditingFolder(false)
 					setCallingAPI(false)
 					result = await changeFolderName(folder.folderId, folderName, token)
+                    deleted = false
 					break
 			}
 			if (result.error) {
 				toast(result.error, { type: 'error' })
 			} else {
 				toast(result.message, { type: 'success' })
+                edit(result.data.folderId, deleted)
 			}
-			refresh()
 		})()
 	}, [callingAPI])
 
-    const viewFolder = (folderId) => {
-        selectFolder(folderId)
-    }
+    useEffect(() => {
+        console.log('edited folder useeffect')
+        if (editedFolder) {
+            console.log(editedFolder)
+            selectFolder(editedFolder)
+        }
+    }, [editedFolder])
+
+    // const viewFolder = (folderId) => {
+    //     console.log('viewing folder: ', folderId)
+    //     selectFunction(folderId)
+    // }
 
 	const nameForm = (
 		<Form onSubmit={handleNewFolder}>
@@ -147,16 +167,27 @@ const Folder = (props) => {
 			<>
 				<Container className='flex-folder'>
 					<div
-						onClick={
-							newFolder ? () => editName() : () => viewFolder(folder.folderId)
-						}
 						className='folder-text cardtxt'
 						style={{
 							fontWeight: '500',
 							fontSize: '18px',
 							letterSpacing: '1px',
 						}}>
-						<span className={'link ' + (selected ? 'selected-text' : '')}>
+						<span
+							onClick={
+								newFolder
+									? (e) => {
+											console.log('target: ', e.target)
+											editName()
+									  }
+									: (e) => {
+											console.log('target: ', e.target)
+											select(folder.folderId)
+									  }
+							}
+							className={
+								'link folder-name ' + (selected ? 'selected-text' : '')
+							}>
 							{editable
 								? nameForm
 								: folder.folderName.length <= (selected ? 20 : 22)
@@ -165,19 +196,22 @@ const Folder = (props) => {
 						</span>
 					</div>
 					<div hidden={newFolder} className='folder-icons'>
-							<MdDelete
-								onClick={() => startDeleteFolder()}
-								color='#FF6370'
-								className=' icon'
-								style={{
-									zIndex: '1',
-								}}
-							/>
-							<MdEdit
-								className='icon '
-								color='#54eafe'
-								onClick={() => editName()}
-							/>
+						<MdDelete
+							onClick={() => startDeleteFolder()}
+							color='#FF6370'
+							className=' icon'
+							style={{
+								zIndex: '1',
+							}}
+						/>
+						<MdEdit
+							className='icon '
+							color='#54eafe'
+							onClick={() => editName()}
+                            style={{
+                                zIndex: '1'
+                            }}
+						/>
 					</div>
 				</Container>
 				{deleteModal}
