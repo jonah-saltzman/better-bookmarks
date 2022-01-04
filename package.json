@@ -10,6 +10,7 @@
 		"bootstrap": "^4.4.1",
 		"browser-image-resizer": "^2.1.0",
 		"gh-pages": "^3.2.3",
+		"he": "^1.2.0",
 		"react": "^16.13.1",
 		"react-bootstrap": "^2.0.4",
 		"react-dom": "^16.13.1",

@@ -4,6 +4,8 @@ import {Container, Row, Col} from "react-bootstrap"
 import { urlRE } from "../constants"
 import { IMG_URL_PREFIX } from "../constants"
 
+import he from 'he'
+
 export const tweetJsx = (tweet) => {
     const date = new Date(Date.parse(tweet.twtDate)).toLocaleDateString(
 			undefined,
@@ -55,9 +57,9 @@ export const tweetJsx = (tweet) => {
     return (
 			<blockquote data-dnt='true' data-theme='dark' className='twitter-tweet'>
 				<p lang='en' dir='ltr'>
-					{tweet.twtText.replace(urlRE, '')}
+					{he.decode(tweet.twtText.replace(urlRE, ''))}
 				</p>
-                {gallery}
+				{gallery}
 				{`— ${tweet.twtAuthor.name} (@${tweet.twtAuthor.username}) `}
 				<a
 					href={`https://twitter.com/${tweet.twtAuthor.username}/status/${tweet.twtId}`}>
@@ -66,8 +68,3 @@ export const tweetJsx = (tweet) => {
 			</blockquote>
 		)
 }
-
-// <blockquote class="twitter-tweet" data-dnt="true" data-theme="dark">
-// <p lang="en" dir="ltr">December the 31st be with you “Star Wars” fans ;)</p>
-// &mdash; pregabalin fan account (@SAMOYEDWAVE) 
-// <a href="https://twitter.com/SAMOYEDWAVE/status/1477005126824984584?ref_src=twsrc%5Etfw">December 31, 2021</a></blockquote>
