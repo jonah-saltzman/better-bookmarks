@@ -110,6 +110,10 @@ article {
   z-index: 0;
 }
 
+.no-click {
+   pointer-events: none;
+}
+
 .share {
   height: 85vh;
   overflow-y: scroll;
@@ -164,6 +168,7 @@ blockquote.twitter-tweet {
   padding: 16px 16px 16px 16px;
   background-color: rgb(20, 133, 226);
   width: 100%;
+  text-align: left;
 }
 
 blockquote.twitter-tweet p {
@@ -534,7 +539,7 @@ blockquote {
 .added {
   z-index: 10;
   filter: blur(5px);
-  
+  pointer-events: none;
 }
 
 .folder-title {
@@ -722,8 +727,18 @@ li {
   padding-right: 80px;
 }
 
+.add-tweet-text {
+    position: absolute;
+    left:0;
+    right:0;
+    top:2px;
+    color: white;
+    font-weight: 600;
+}
+
 .add-tweet{
-  padding:15px
+  padding:15px;
+  text-align: center;
 }
 
 .input {

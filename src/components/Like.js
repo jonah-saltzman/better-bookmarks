@@ -5,10 +5,11 @@ import { randomBytes } from 'crypto'
 import { useInViewport } from 'react-in-viewport'
 
 const Like = (props) => {
-	const { tweet, add } = props
+	const { tweet, add, folder } = props
 
 	const [enteredView, setEnteredView] = useState(false)
 	const [loading, setLoading] = useState(false)
+    const [hover, setHover] = useState(false)
 
 	const divRef = createRef()
 	const config = { disconnectOnLeave: false }
@@ -65,9 +66,12 @@ const Like = (props) => {
 			<div
 				id={divDOMId}
 				ref={divRef}
+                onMouseEnter={() => setHover(true)}
+                onMouseLeave={() => setHover(false)}
 				className='add-tweet'
 				onClick={() => add(tweet)}>
-				<div id={tweetDOMId}></div>
+                <span hidden={!hover || loading} className='add-tweet-text'>Add to {folder}</span>
+				<div className='no-click' id={tweetDOMId}></div>
 			</div>
 		</>
 	)

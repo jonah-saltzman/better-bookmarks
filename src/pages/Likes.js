@@ -138,6 +138,7 @@ const Likes = ({ folder, refresh }) => {
 								tweet={tweet.twtId}
 								key={tweet.twtId}
 								add={addTweet}
+								folder={folder.folderName}
 							/>
 						</div>
 				  )
@@ -147,6 +148,7 @@ const Likes = ({ folder, refresh }) => {
 								tweet={tweet.twtId}
 								key={tweet.twtId}
 								add={addTweet}
+								folder={folder.folderName}
 							/>
 						</div>
 				  )
