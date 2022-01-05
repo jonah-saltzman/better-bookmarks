@@ -3,7 +3,7 @@ import React, { useState, useEffect, useReducer } from 'react'
 import { Container } from 'reactstrap'
 
 // react-router-dom3
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, useHistory, Redirect } from 'react-router-dom'
 
 // react toastify stuffs
 import { ToastContainer } from 'react-toastify'
@@ -25,8 +25,10 @@ import Shared from './pages/Shared'
 
 import reducer from './context/reducer'
 import { AppContext } from './context/Context'
-import { SET_SAVED_STATE } from './context/action.types'
+import { SET_SAVED_STATE, SET_SHARED_FOLDER } from './context/action.types'
 import saveState from './functions/saveState'
+
+import { shareUrlRE, shareRE } from './constants'
 
 const initialState = {
 	showLogout: false,
@@ -55,7 +57,7 @@ const initialState = {
 	sharedFolder: null
 }
 
-const App = () => {
+const App = (props) => {
 	const [state, dispatch] = useReducer(reducer, initialState)
 	const { offline, savedState } = state
 	const [ bigWindow, setBigWindow ] = useState({
@@ -63,6 +65,13 @@ const App = () => {
 	})
 
 	useEffect(() => {
+        if (localStorage.getItem('twitter')) {
+            const stateObj = JSON.parse(localStorage.getItem('twitter'))
+            Object.entries(stateObj).forEach(([key, value]) => {
+				state[key] = value
+			})
+            localStorage.removeItem('twitter')
+        }
 		if (localStorage.getItem('state')) {
 			const stateObj = JSON.parse(localStorage.getItem('state'))
 			Object.entries(stateObj).forEach(([key, value]) => {
@@ -77,7 +86,7 @@ const App = () => {
 			return
 		}
 		dispatch({ type: SET_SAVED_STATE, payload: true })
-		saveState(state)
+		saveState(state, false)
 	}, [savedState, offline])
 
 	const windowHandler = (e) => {

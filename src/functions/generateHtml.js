@@ -5,10 +5,6 @@ import he from 'he'
 import { urlRE, IMG_URL_PREFIX } from "../constants"
 
 export const tweetJsx = (tweet) => {
-    console.log('generating jsx for: ')
-    console.log(tweet)
-    console.log('twtMedia: ')
-    console.log(tweet.twtMedia)
     const date = new Date(Date.parse(tweet.twtDate)).toLocaleDateString(
 			undefined,
 			{

@@ -24,7 +24,7 @@ export const BB_URL = isDev
 	: 'https://betterbookmarks.herokuapp.com'
 
 export const SHARE_PREFIX = isDev
-	? 'http://localhost:3000/better-bookmarks/?share='
+	? 'http://localhost:3000/?share='
 	: 'https://bookmarks.jonahsaltzman.dev/?share='
 
 

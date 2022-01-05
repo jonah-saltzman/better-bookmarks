@@ -20,31 +20,14 @@ const Tweet = (props) => {
 	const tweetDOMId = `twt-${tweet.twtId}` + randomBytes(8).toString('hex')
 	const divDOMId = `div-${tweet.twtId}` + randomBytes(8).toString('hex')
 
-	// const onLoad = (event) => {
-	// 	if (event.target.children.length === 0) {
-	// 		return
-	// 	}
-	// 	if (event.target.children[0].dataset.tweetId === tweet.twtId) {
-	// 		setLoaded(true)
-	// 	}
-	// }
-
     const done = (result) => {
         if (result) {
             setLoaded(true)
             setDeleted(false)
         } else {
             setDeleted(true)
-            console.log(`tweet ${tweet.twtId} is deleted`)
         }
     }
-
-	// useEffect(() => {
-	// 	window.twttr.events.bind('rendered', onLoad)
-	// 	return () => {
-	// 		window.twttr.events.unbind('rendered', onLoad)
-	// 	}
-	// }, [])
 
 	useEffect(() => {
 		if (enteredView || enterCount > 1 || !inViewport) {

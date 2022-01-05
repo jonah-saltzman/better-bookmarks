@@ -25,8 +25,6 @@ const Folder = (props) => {
     const [editedFolder, setEditedFolder] = useState(null)
 
     const selectFolder = (folderId) => {
-        console.log(`selecting ${folderId}`)
-        console.log(typeof select)
         select(folderId)
     }
 
@@ -116,17 +114,18 @@ const Folder = (props) => {
 	}, [callingAPI])
 
     useEffect(() => {
-        console.log('edited folder useeffect')
         if (editedFolder) {
-            console.log(editedFolder)
             selectFolder(editedFolder)
         }
     }, [editedFolder])
 
-    // const viewFolder = (folderId) => {
-    //     console.log('viewing folder: ', folderId)
-    //     selectFunction(folderId)
-    // }
+    const folderNameClick = () => {
+        if (newFolder) {
+            editName()
+        } else {
+            select(folder.folderId)
+        }
+    }
 
 	const nameForm = (
 		<Form onSubmit={handleNewFolder}>
@@ -174,17 +173,7 @@ const Folder = (props) => {
 							letterSpacing: '1px',
 						}}>
 						<span
-							onClick={
-								newFolder
-									? (e) => {
-											console.log('target: ', e.target)
-											editName()
-									  }
-									: (e) => {
-											console.log('target: ', e.target)
-											select(folder.folderId)
-									  }
-							}
+							onClick={folderNameClick}
 							className={
 								'link folder-name ' + (selected ? 'selected-text' : '')
 							}>

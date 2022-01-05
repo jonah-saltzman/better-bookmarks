@@ -1,6 +1,7 @@
-const saveState = (state) => {
+const saveState = (state, twitter) => {
 	const stateString = JSON.stringify({...state, savedState: true})
-    localStorage.setItem('state', stateString)
+    localStorage.setItem(twitter === true ? 'twitter' : 'state', stateString)
+    return
 }
 
 export default saveState

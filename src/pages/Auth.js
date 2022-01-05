@@ -50,8 +50,8 @@ const Auth = () => {
 	const [passwordConfirm, setPasswordConfirm] = useState("")
 	const [staySignedIn, setStaySignedIn] = useState(false)
 
-	const [clickedLogin, setClickedLogin] = useState(false)
-	const [leftPage, setLeftPage] = useState(false)
+	// const [clickedLogin, setClickedLogin] = useState(false)
+	// const [leftPage, setLeftPage] = useState(false)
 	const [twtState, setTwtState] = useState(null)
 
 	useEffect(() => {
@@ -67,8 +67,10 @@ const Auth = () => {
 		const dynamicURL = getTwtUrl(null, challenge.challenge, twtState, {
 			offline: staySignedIn,
 		})
-		window.open(dynamicURL)
-		setClickedLogin(true)
+		window.location.href = dynamicURL
+        localStorage.setItem('twtState', twtState)
+        localStorage.setItem('offline', staySignedIn ? 'true' : 'false')
+		// setClickedLogin(true)
 	}
 
 	// Toggle betweein sign-in and register forms
@@ -156,44 +158,44 @@ const Auth = () => {
 		localStorage.removeItem('token')
 	}
 
-	const checkForToken = async () => {
-		const token = localStorage.getItem('token')
-		setIsLoading(true)
-		if (token) {
-			(async () => {
-				const authResult = await twitterLogin(token)
-				if (authResult.error) {
-					toast(authResult.error, { type: 'error' })
-				} else {
-					toast(authResult.success, { type: 'success' })
-					setCredentials(null, authResult)
-				}
-				setIsLoading(false)
-			})()
-		} else {
-			toast('Twitter login failed, try refreshing', { type: 'error' })
-			setIsLoading(false)
-		}
-	}
+	// const checkForToken = async () => {
+	// 	const token = localStorage.getItem('token')
+	// 	setIsLoading(true)
+	// 	if (token) {
+	// 		(async () => {
+	// 			const authResult = await twitterLogin(token)
+	// 			if (authResult.error) {
+	// 				toast(authResult.error, { type: 'error' })
+	// 			} else {
+	// 				toast(authResult.success, { type: 'success' })
+	// 				setCredentials(null, authResult)
+	// 			}
+	// 			setIsLoading(false)
+	// 		})()
+	// 	} else {
+	// 		toast('Twitter login failed, try refreshing', { type: 'error' })
+	// 		setIsLoading(false)
+	// 	}
+	// }
 
-	const onVisibilityChange = () => {
-		if (document.visibilityState === 'visible') {
-			if (leftPage && clickedLogin) {
-				checkForToken()
-				setLeftPage(false)
-				setClickedLogin(false)
-			}
-		} else {
-			setLeftPage(true)
-		}
-	}
+	// const onVisibilityChange = () => {
+	// 	if (document.visibilityState === 'visible') {
+	// 		if (leftPage && clickedLogin) {
+	// 			checkForToken()
+	// 			setLeftPage(false)
+	// 			setClickedLogin(false)
+	// 		}
+	// 	} else {
+	// 		setLeftPage(true)
+	// 	}
+	// }
 
-	useEffect(() => {
-		document.addEventListener('visibilitychange', onVisibilityChange)
-		return () => {
-			document.removeEventListener('visibilitychange', onVisibilityChange)
-		}
-	})
+	// useEffect(() => {
+	// 	document.addEventListener('visibilitychange', onVisibilityChange)
+	// 	return () => {
+	// 		document.removeEventListener('visibilitychange', onVisibilityChange)
+	// 	}
+	// })
 
 	// Render spinner while waiting for API
 	if (isLoading) {

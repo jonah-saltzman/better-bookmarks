@@ -16,39 +16,40 @@ import { SET_SHARED_FOLDER } from '../context/action.types'
 
 import { AppContext } from '../context/Context'
 
+import { checkForToken, twtAuthLanding } from '../functions/authfunctions'
+
 // open(location, '_self').close()
 
 const Home = (props) => {
 	const { state, dispatch } = useContext(AppContext)
 	const history = useHistory()
-	const { loggedIn } = state
+	const { loggedIn, offline } = state
     const [showClose, setShowClose] = useState(false)
-
-    function closeWindow() {
-            console.log('clicked close')
-			window.open('', '_parent', '')
-			window.close()
-		}
 
     useEffect(() => {
         if (props.location.search === '?close') {
-                    console.log('attempting to close')
-					window.close()
-					closeWindow()
-					setShowClose(true)
-				} else if (tokenUrlRE.test(props.location.search)) {
-					const token = props.location.search.match(tokenRE)[0]
-					localStorage.setItem('token', token)
-                    console.log('attempting to close')
-					window.close()
-					closeWindow()
-					setShowClose(true)
-				} else if (shareUrlRE.test(props.location.search)) {
-					const share = props.location.search.match(shareRE)[0]
-					dispatch({ type: SET_SHARED_FOLDER, payload: share })
-					history.push('/shared')
-				}
-				fetch(BB_URL).catch(() => console.log('server appears to be down'))
+            const token = localStorage.getItem('token')
+            if (token) {
+                if (twtAuthLanding(token, dispatch)) {
+                    localStorage.removeItem('token')
+                    if (!offline) {
+                        localStorage.removeItem('state')
+                    }
+                    history.push('/folders/likes')
+                }
+            }
+        } else if (tokenUrlRE.test(props.location.search)) {
+            const token = props.location.search.match(tokenRE)[0]
+            localStorage.setItem('token', token)
+            if (checkForToken(dispatch)) {
+                history.push('/folders/view')
+            }
+        } else if (shareUrlRE.test(props.location.search)) {
+            const share = props.location.search.match(shareRE)[0]
+            dispatch({ type: SET_SHARED_FOLDER, payload: share })
+            history.push('/shared')
+        }
+        fetch(BB_URL).catch(() => console.log('server appears to be down'))
     }, [])
     
     const stdBody = (
@@ -80,7 +81,7 @@ const Home = (props) => {
 					<CardTitle className='text-large'>
 						{showClose ? 'Login Succeeded' : 'Welcome to Better Bookmarks'}
 					</CardTitle>
-					<CardBody onClick={() => closeWindow()}>
+					<CardBody>
 						{showClose ? 'You may return to the app to continue' : stdBody}
 					</CardBody>
 				</Card>

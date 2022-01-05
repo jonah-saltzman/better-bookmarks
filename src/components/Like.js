@@ -39,40 +39,25 @@ const Like = (props) => {
 				setLoading(false)
 				setDeleted(false)
 			} else {
-                console.log('fetching deleted tweet: ', tweet.twtId)
 				setDeleted(true)
                 setLoading(false)
-                console.log(tweet)
 			}
 		}
 
     useEffect(() => {
         if (!deleted || !loading) {
-            console.log('skipping useeffect')
             return
         }
         ;(async () => {
-            console.log('in async useeffect')
-            console.log(tweet)
-					if (deleted === true && loading) {
-                        console.log('calling API:', tweet, twtState, token)
-						const newTweet = await getDeleted(tweet, twtState, token)
-                        console.log(newTweet)
-						if (newTweet) {
-							console.log('retrieved deleted tweet')
-							setSavedJsx(tweetJsx(newTweet.tweet))
-							setLoading(false)
-						}
-					}
-				})()
+            if (deleted === true && loading) {
+                const newTweet = await getDeleted(tweet, twtState, token)
+                if (newTweet) {
+                    setSavedJsx(tweetJsx(newTweet.tweet))
+                    setLoading(false)
+                }
+            }
+        })()
     }, [deleted, loading])
-
-	// useEffect(() => {
-	// 	window.twttr.events.bind('rendered', onLoad)
-	// 	return () => {
-	// 		window.twttr.events.unbind('rendered', onLoad)
-	// 	}
-	// }, [])
 
 	useEffect(() => {
 		if (enteredView || enterCount > 1 || !inViewport) {

@@ -53,7 +53,6 @@ const Folders = () => {
     }
 
     const selectFolder = (folderId) => {
-        console.log(folderId)
         if (selectFolder.folderId === folderId) {
             return
         }
@@ -111,7 +110,6 @@ const Folders = () => {
 	}, [currentFolder])
 
 	useEffect(() => {
-        console.log('refreshing folders')
 		if (gotFolders) {
 			return
 		}
@@ -140,9 +138,6 @@ const Folders = () => {
 		if (foldersArr.length === 0) {
 			return
 		}
-        console.log('foldersArr useeffect:')
-        console.log(`editedFolder: `, editedFolder)
-        console.log(`prevFolder: `, prevFolder)
 		setCurrentFolder(
 			editedFolder
 				? foldersArr.find((folder) => folder.folderId === editedFolder) || foldersArr[0]

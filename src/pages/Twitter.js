@@ -13,6 +13,8 @@ import { SET_TWT_AUTH } from '../context/action.types'
 
 import getTwtUrl from '../functions/newtwturl'
 
+import saveState from '../functions/saveState'
+
 const Twitter = () => {
 
 	const { state, dispatch } = useContext(AppContext)
@@ -21,51 +23,54 @@ const Twitter = () => {
 
 	const [ showTwtAuth, setShowTwtAuth ] = useState(false)
 	const [ twtAuthUrl, setTwtAuthUrl ] = useState('')
-    const [ clickedLogin, setClickedLogin ] = useState(false)
-    const [ leftPage, setLeftPage ] = useState(false)
 
 	const twtPopup = () => {
-		window.open(twtAuthUrl)
+        localStorage.setItem('twtState', twtState)
+        localStorage.setItem('token', token)
+        saveState(state, true)
+        if (localStorage.getItem('twitter')) {
+            window.location.href = twtAuthUrl
+        }
 	}
 
-    const checkAuth = async () => {
-        const result = await checkTwtAuth(token, twtState)
-        if (result) {
-            toast('Signed in to Twitter!', { type: 'success' })
-            const authObj = {
-                authed: true,
-                twtId: null,
-                twtToken: null,
-                twtSecret: null
-            }
-            dispatch({
-                type: SET_TWT_AUTH,
-                payload: authObj
-            })
-            history.push('/folders/likes')
-        } else {
-            toast('Twitter sign-in failed, try again', { type: 'error' })
-        }
-    }
+    // const checkAuth = async () => {
+    //     const result = await checkTwtAuth(token, twtState)
+    //     if (result) {
+    //         toast('Signed in to Twitter!', { type: 'success' })
+    //         const authObj = {
+    //             authed: true,
+    //             twtId: null,
+    //             twtToken: null,
+    //             twtSecret: null
+    //         }
+    //         dispatch({
+    //             type: SET_TWT_AUTH,
+    //             payload: authObj
+    //         })
+    //         history.push('/folders/likes')
+    //     } else {
+    //         toast('Twitter sign-in failed, try again', { type: 'error' })
+    //     }
+    // }
 
-    const onVisibilityChange = () => {
-        if (document.visibilityState === 'visible') {
-            if (leftPage && clickedLogin) {
-                checkAuth()
-                setLeftPage(false)
-                setClickedLogin(false)
-            }
-        } else {
-            setLeftPage(true)
-        }
-    }
+    // const onVisibilityChange = () => {
+    //     if (document.visibilityState === 'visible') {
+    //         if (leftPage && clickedLogin) {
+    //             checkAuth()
+    //             setLeftPage(false)
+    //             setClickedLogin(false)
+    //         }
+    //     } else {
+    //         setLeftPage(true)
+    //     }
+    // }
 
-    useEffect(() => {
-        document.addEventListener('visibilitychange', onVisibilityChange)
-        return () => {
-            document.removeEventListener('visibilitychange', onVisibilityChange)
-        }
-    })
+    // useEffect(() => {
+    //     document.addEventListener('visibilitychange', onVisibilityChange)
+    //     return () => {
+    //         document.removeEventListener('visibilitychange', onVisibilityChange)
+    //     }
+    // })
 
 	useEffect(() => {
 		if (loggedIn && userId) {
@@ -96,7 +101,7 @@ const Twitter = () => {
 
     const handleClick = () => {
         twtPopup()
-        setClickedLogin(true)
+        // setClickedLogin(true)
     }
 
 	return (
