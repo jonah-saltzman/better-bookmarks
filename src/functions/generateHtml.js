@@ -5,6 +5,10 @@ import he from 'he'
 import { urlRE, IMG_URL_PREFIX } from "../constants"
 
 export const tweetJsx = (tweet) => {
+    console.log('generating jsx for: ')
+    console.log(tweet)
+    console.log('twtMedia: ')
+    console.log(tweet.twtMedia)
     const date = new Date(Date.parse(tweet.twtDate)).toLocaleDateString(
 			undefined,
 			{
@@ -13,9 +17,9 @@ export const tweetJsx = (tweet) => {
 				year: 'numeric',
 			}
 		)
-    const images = tweet.twtMedia.map((media) => (
+    const images = tweet.twtMedia.length > 0 ? tweet.twtMedia.map((media) => (
 			<img src={IMG_URL_PREFIX + media.key} className='gallery-image img-thumbnail img-fluid' />
-		))
+		)) : []
     let table;
     if (images.length === 1) {
         table = <Row><Col>{images[0]}</Col></Row>
@@ -53,7 +57,7 @@ export const tweetJsx = (tweet) => {
     }
     const gallery = table ? <Container className='tweet-gallery'>{table}</Container> : null
     return (
-			<blockquote data-dnt='true' data-theme='dark' className='twitter-tweet'>
+			<blockquote key={tweet.twtId + 'block'} data-dnt='true' data-theme='dark' className='twitter-tweet'>
 				<p lang='en' dir='ltr'>
 					{he.decode(tweet.twtText.replace(urlRE, ''))}
 				</p>

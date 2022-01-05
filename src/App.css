@@ -736,6 +736,16 @@ li {
     font-weight: 600;
 }
 
+.deleted-tweet {
+    position: absolute;
+    left:0;
+    right:0;
+    top:2px;
+    color: red;
+    font-weight: 500;
+    z-index: 8;
+}
+
 .add-tweet{
   padding:15px;
   text-align: center;

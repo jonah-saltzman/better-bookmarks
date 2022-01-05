@@ -133,7 +133,9 @@ const Likes = ({ folder, refresh }) => {
 		twtObjs.forEach((tweet, i) => {
 			i % 2 === 0
 				? colA.push(
-						<div className={'likecard mb-4 ' + (tweet.added ? 'added' : '')}>
+						<div
+							key={tweet.twtId + 'div'}
+							className={'likecard mb-4 ' + (tweet.added ? 'added' : '')}>
 							<Like
 								tweet={tweet.twtId}
 								key={tweet.twtId}
@@ -143,7 +145,9 @@ const Likes = ({ folder, refresh }) => {
 						</div>
 				  )
 				: colB.push(
-						<div className={'likecard mb-4 ' + (tweet.added ? 'added' : '')}>
+						<div
+							key={tweet.twtId + 'div'}
+							className={'likecard mb-4 ' + (tweet.added ? 'added' : '')}>
 							<Like
 								tweet={tweet.twtId}
 								key={tweet.twtId}
