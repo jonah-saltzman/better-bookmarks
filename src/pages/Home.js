@@ -48,7 +48,7 @@ const Home = (props) => {
 					dispatch({ type: SET_SHARED_FOLDER, payload: share })
 					history.push('/shared')
 				}
-				fetch(BB_URL)
+				fetch(BB_URL).catch(() => console.log('server appears to be down'))
     }, [])
     
     const stdBody = (

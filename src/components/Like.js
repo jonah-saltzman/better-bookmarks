@@ -39,6 +39,7 @@ const Like = (props) => {
 				setLoading(false)
 				setDeleted(false)
 			} else {
+                console.log('fetching deleted tweet: ', tweet.twtId)
 				setDeleted(true)
                 setLoading(false)
                 console.log(tweet)
