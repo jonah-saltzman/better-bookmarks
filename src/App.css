@@ -171,6 +171,22 @@ blockquote.twitter-tweet-jsx {
   text-align: left;
 }
 
+.expand-folder {
+    position: absolute;
+    left: 2%;
+    top: 17%;
+    font-size: 2.5rem;
+    color: white;
+}
+
+.toggle-view {
+    position: absolute;
+    left: 2%;
+    top: 17%;
+    font-size: 2.5rem;
+    color: white;
+}
+
 blockquote.twitter-tweet-jsx p {
   font-size: 16px;
   font-weight: 500;
@@ -258,6 +274,12 @@ blockquote.twitter-tweet-jsx a:focus {
 
 .center-spinner {
   margin: auto
+}
+
+.center-spinner-one {
+  position: absolute;
+  left: 50%;
+  top: 50%;
 }
 
 .sharing {

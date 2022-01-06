@@ -20,6 +20,7 @@ import Import from './Import'
 import Likes from './Likes'
 
 import { shareFolder } from '../api/folders'
+import Large from '../components/Large'
 
 const Folders = () => {
 	const { state, dispatch } = useContext(AppContext)
@@ -34,6 +35,9 @@ const Folders = () => {
 	const [prevFolder, setPrevFolder] = useState(null)
 	const [selectedFolder, setSelectedFolder] = useState({ folderId: null })
     const [editedFolder, setEditedFolder] = useState(null)
+    const [viewLarge, setViewLarge] = useState(false)
+    const [loadedTweets, setLoadedTweets] = useState({ colA: [], colB: [] })
+    const [didSaveComponents, setDidSaveComponents] = useState(false)
 
 	const refreshFolders = () => {
 		setGotFolders(false)
@@ -100,10 +104,14 @@ const Folders = () => {
 			) {
 				return
 			} else {
+                setLoadedTweets({ colA: [], colB: [] })
+                setDidSaveComponents(false)
 				setSelectedFolder(currentFolder)
 				setPrevFolder(currentFolder)
 			}
 		} else {
+            setLoadedTweets({ colA: [], colB: [] })
+            setDidSaveComponents(false)
 			setSelectedFolder(currentFolder)
 			setPrevFolder(currentFolder)
 		}
@@ -148,19 +156,18 @@ const Folders = () => {
         setEditedFolder(null)
 	}, [foldersArr])
 
-	if (!loggedIn) {
-		return <Redirect to='/auth' />
-	} else {
-		if (isLoading) {
-			return (
-				<div hidden={!isLoading} className='center-spinner'>
-					<Spinner color='primary' />
-					<div className='text-primary'>Loading...</div>
-				</div>
-			)
-		} else {
-			return (
-				<Container fluid className='main-view'>
+    const expand = (tweetCols) => {
+        setLoadedTweets(tweetCols)
+        setDidSaveComponents(true)
+        setViewLarge(true)
+    }
+
+    const minimize = () => {
+        setViewLarge(false)
+    }
+
+    const stdView = (
+        <Container fluid className='main-view'>
 					<Row className='main-row'>
 						<Col className='folders-col col-3'>
 							<Container
@@ -210,6 +217,8 @@ const Folders = () => {
 										refresh={refreshFolders}
 										folder={selectedFolder}
 										share={share}
+                                        viewLarge={expand}
+                                        loadedTweets={didSaveComponents ? loadedTweets : null}
 									/>
 								</Route>
 								<Route exact path='/folders/import'>
@@ -222,7 +231,26 @@ const Folders = () => {
 						</Col>
 					</Row>
 				</Container>
+    )
+
+	if (!loggedIn) {
+		return <Redirect to='/auth' />
+	} else {
+		if (isLoading) {
+			return (
+				<div hidden={!isLoading} className='center-spinner'>
+					<Spinner color='primary' />
+					<div className='text-primary'>Loading...</div>
+				</div>
 			)
+		} else {
+            console.log('viewLarge: ', viewLarge)
+			return viewLarge ? <Large 
+                sharedFolder={false}
+                oneFolder={loadedTweets}
+                name={selectedFolder.folderName}
+                back={minimize}
+            /> : stdView
 		}
 	}
 }

@@ -8,6 +8,7 @@ import {
 } from 'reactstrap'
 
 import { BsToggleOff, BsToggleOn} from 'react-icons/bs'
+import { FaExpandAlt } from 'react-icons/fa'
 
 import { AppContext } from '../context/Context'
 
@@ -23,7 +24,7 @@ import { SHARE_PREFIX, allActions as actions } from '../constants'
 
 import Tweet from '../components/Tweet'
 
-const OneFolder = ({ folder, share }) => {
+const OneFolder = ({ folder, share, viewLarge, loadedTweets }) => {
 	const { state, dispatch } = useContext(AppContext)
 	const { loggedIn, token } = state
 	const history = useHistory()
@@ -86,7 +87,7 @@ const OneFolder = ({ folder, share }) => {
 	}, [eraseTweet])
 
 	useEffect(() => {
-		if (!folder || folder.folderId === null) {
+		if ((!folder || folder.folderId === null) && !loadedTweets) {
 			setIsLoading(false)
 			setNoFolder(true)
 			return
@@ -95,26 +96,40 @@ const OneFolder = ({ folder, share }) => {
 			return {...obj, display: false}
 		}))
 		if (loggedIn) {
-			;(async () => {
-				const tweets = await getOneFolder(folder.folderId, token)
-				if (tweets.error) {
-					toast(`Error: ${tweets.error}`)
-					localStorage.removeItem('state')
-					actions.forEach((action) => dispatch({ type: action, payload: null }))
-					history.push('/')
-					setIsLoading(false)
-					return
-				}
-				if (tweets.tweets) {
-					setNoFolder(false)
-					setTweetsArr(tweets.tweets)
-					setIsLoading(false)
-				}
-			})()
+            if (!loadedTweets) {
+                setIsLoading(true)
+                ;(async () => {
+                    const tweets = await getOneFolder(folder.folderId, token)
+                    if (tweets.error) {
+                        toast(`Error: ${tweets.error}`)
+                        localStorage.removeItem('state')
+                        actions.forEach((action) =>
+                            dispatch({ type: action, payload: null })
+                        )
+                        history.push('/')
+                        setIsLoading(false)
+                        return
+                    }
+                    if (tweets.tweets) {
+                        setNoFolder(false)
+                        setTweetsArr(tweets.tweets)
+                        setIsLoading(false)
+                    }
+                })()
+            } else {
+                console.log('setting tweet cols to:')
+                console.log(loadedTweets)
+                setTweetCols(loadedTweets)
+                setIsLoading(false)
+            }
+			
 		}
 	}, [folder])
 
 	useEffect(() => {
+        if (loadedTweets) {
+            return
+        }
 		if (tweetsArr.length === 0) {
 			setTweetCols({ colA: [], colB: [] })
 			return
@@ -181,17 +196,23 @@ const OneFolder = ({ folder, share }) => {
 		return <Redirect to='/auth'></Redirect>
 	} else if (isLoading) {
 		return (
-			<div className='center-spinner'>
+			<div className='center-spinner-one'>
 				<Spinner color='primary' />
 				<div className='text-primary'>Loading...</div>
 			</div>
 		)
 	} else {
+        console.log('tweetcols:')
+        console.log(tweetCols)
 		return (
 			<>
 				{' '}
 				{!noFolder ? (
 					<Container className='folder-title'>
+                    <FaExpandAlt className='expand-folder' onClick={() => {
+                            viewLarge(tweetCols)
+                        }
+                    }/>
 						<Row className='justify-content-md-center'>
 							<Col md='auto'>
 								<div className='folderName'>{folder.folderName}</div>
@@ -211,7 +232,7 @@ const OneFolder = ({ folder, share }) => {
 					</Container>
 				) : null}
 				<Container scrollable={`true`} className='mt-4 mb-5 tweet-list'>
-					{tweetsArr.length === 0 && !isLoading ? (
+					{((tweetsArr.length === 0 && !isLoading) && !loadedTweets) ? (
 						<div
 							className='Center text-large cardtxt'
 							style={{
