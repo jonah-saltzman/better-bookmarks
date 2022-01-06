@@ -210,7 +210,7 @@ const OneFolder = ({ folder, share, viewLarge, loadedTweets }) => {
 			<>
 				{' '}
 				{!noFolder ? (
-					<Container className='folder-title'>
+					<Container fluid className='folder-title'>
 						<FaExpandAlt
 							className='expand-folder'
 							onClick={() => {

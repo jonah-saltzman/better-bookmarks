@@ -126,8 +126,8 @@ const Large = (props) => {
 	} else {
 		return (
 			<>
-				<Container className='folder-title'>
-					<div>
+				<Container style={{maxWidth: '95%'}} fluid className='folder-title'>
+					<div style={{alignSelf: 'center'}}>
 						<MdArrowBack
 							hidden={type === 'SHARED'}
 							onClick={back}
