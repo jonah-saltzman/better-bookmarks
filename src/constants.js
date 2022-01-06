@@ -16,15 +16,18 @@ const isDev = Boolean(
 		window.location.hostname === '[::1]' ||
 		window.location.hostname.match(
 			/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
+		) ||
+		window.location.hostname.match(
+			/^192(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
 		)
 )
 
 export const BB_URL = isDev
-	? 'http://127.0.0.1:4000'
+	? 'http://192.168.86.22:4000'
 	: 'https://betterbookmarks.herokuapp.com'
 
 export const SHARE_PREFIX = isDev
-	? 'http://localhost:3000/?share='
+	? 'http://192.168.86.22:3000/?share='
 	: 'https://bookmarks.jonahsaltzman.dev/?share='
 
 export const TWTAUTH_PREFIX =

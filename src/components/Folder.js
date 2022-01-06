@@ -179,9 +179,9 @@ const Folder = (props) => {
 							}>
 							{editable
 								? nameForm
-								: folder.folderName.length <= (selected ? 20 : 22)
+								: folder.folderName.length <= (20)
 								? folder.folderName
-								: folder.folderName.substring(0, selected ? 18 : 20) + '...'}
+								: folder.folderName.substring(0, 18) + '...'}
 						</span>
 					</div>
 					<div hidden={newFolder} className='folder-icons'>

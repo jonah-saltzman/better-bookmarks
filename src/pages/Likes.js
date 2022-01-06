@@ -176,7 +176,7 @@ const Likes = ({ folder, refresh }) => {
 	} else {
 		if (twtAuth.authed) {
 			return (
-				<Container scrollable={`true`} className='mt-4 mb-5 tweet-list'>
+				<Container fluid scrollable={`true`} className='mt-4 mb-5 tweet-list'>
 					{tweetsArr.length === 0 && !isLoading ? (
 						<div
 							className='Center text-large cardtxt'
@@ -188,9 +188,13 @@ const Likes = ({ folder, refresh }) => {
 							No Likes (yet)!
 						</div>
 					) : (
-						<Row>
-							<Col>{tweetCols.colA}</Col>
-							<Col>{tweetCols.colB}</Col>
+						<Row style={{ justifyContent: 'space-evenly' }}>
+							<Col style={{ maxWidth: '45%' }} align='center'>
+								{tweetCols.colA}
+							</Col>
+							<Col style={{ maxWidth: '45%' }} align='center'>
+								{tweetCols.colB}
+							</Col>
 						</Row>
 					)}
 				</Container>

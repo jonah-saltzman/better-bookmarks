@@ -9,12 +9,14 @@ import {
 
 import { BsToggleOff, BsToggleOn} from 'react-icons/bs'
 import { FaExpandAlt } from 'react-icons/fa'
+import { MdContentCopy } from 'react-icons/md'
 
 import { AppContext } from '../context/Context'
 
 import { toast } from 'react-toastify'
 
 import { Redirect, useHistory } from 'react-router-dom'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 import { getOneFolder } from '../api/folders'
 import { deleteTweet as remove } from '../api/tweets'
@@ -56,6 +58,10 @@ const OneFolder = ({ folder, share, viewLarge, loadedTweets }) => {
 		}
 		setDeletingTweet(twtId)
 	}
+
+    const copied = () => {
+        toast('Copied URL!', { type: 'success' })
+    }
 
 	useEffect(() => {
 		if (!deletingTweet) {
@@ -205,30 +211,32 @@ const OneFolder = ({ folder, share, viewLarge, loadedTweets }) => {
 				{' '}
 				{!noFolder ? (
 					<Container className='folder-title'>
-                    <FaExpandAlt className='expand-folder' onClick={() => {
-                            viewLarge(tweetCols)
-                        }
-                    }/>
-						<Row className='justify-content-md-center'>
-							<Col md='auto'>
-								<div className='folderName'>{folder.folderName}</div>
-							</Col>
-							<input hidden={!isShared} readOnly className='url-input url-container' value={shareUrl} />
-							<Container className='share-container'>
-								<div onClick={toggleShare} className='sharing'>
-									<span className='share-label'>{isShared ? 'Unshare' : 'Share'}</span>
-									{isShared ? (
-										<BsToggleOn className='share-icon' />
-									) : (
-										<BsToggleOff className='share-icon' />
-									)}
-								</div>
-							</Container>
-						</Row>
+						<FaExpandAlt
+							className='expand-folder'
+							onClick={() => {
+								viewLarge(tweetCols)
+							}}
+						/>
+						<span className='folder-title-text'>{folder.folderName}</span>
+						<div className='sharing share-container'>
+							<div className='share-toggle' onClick={toggleShare}>
+								<span className='share-label'>
+									{isShared ? 'Unshare' : 'Share'}
+								</span>
+								{isShared ? (
+									<BsToggleOn className='share-icon' />
+								) : (
+									<BsToggleOff className='share-icon' />
+								)}
+							</div>
+							<CopyToClipboard onCopy={copied} text={shareUrl}>
+								<MdContentCopy hidden={!isShared} className='copy-icon' />
+							</CopyToClipboard>
+						</div>
 					</Container>
 				) : null}
-				<Container scrollable={`true`} className='mt-4 mb-5 tweet-list'>
-					{((tweetsArr.length === 0 && !isLoading) && !loadedTweets) ? (
+				<Container fluid scrollable={`true`} className='mt-4 mb-5 tweet-list'>
+					{tweetsArr.length === 0 && !isLoading && !loadedTweets ? (
 						<div
 							className='Center text-large cardtxt'
 							style={{
@@ -239,9 +247,13 @@ const OneFolder = ({ folder, share, viewLarge, loadedTweets }) => {
 							No Tweets (yet)!
 						</div>
 					) : (
-						<Row>
-							<Col>{tweetCols.colA}</Col>
-							<Col>{tweetCols.colB}</Col>
+						<Row style={{ justifyContent: 'space-evenly' }}>
+							<Col style={{ maxWidth: '45%' }} align='center'>
+								{tweetCols.colA}
+							</Col>
+							<Col style={{ maxWidth: '45%' }} align='center'>
+								{tweetCols.colB}
+							</Col>
 						</Row>
 					)}
 				</Container>

@@ -91,23 +91,13 @@ article {
 
 .pages-col {
   height: 85vh;
+  width: 100%
 }
 
 .folders-col {
     height: 85vh;
-}
-
-.folder-name {
-    display: inline-block;
-    box-sizing: border-box;
-    position: relative;
-    padding-left: 0;
-    padding-right: 10rem;
-    margin-right: -10rem;
-    text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  z-index: 0;
+    width: 340px;
+    max-width: 340px;
 }
 
 .no-click {
@@ -121,9 +111,8 @@ article {
   border-radius: 10px;
   background: linear-gradient(110deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1));
   display: flex;
-  width: 90vw;
-  flex-wrap: wrap;
-  align-items: start;
+  justify-content: space-around;
+  width: 95%
 }
 
 .delete-tweet {
@@ -172,11 +161,11 @@ blockquote.twitter-tweet-jsx {
 }
 
 .expand-folder {
-    position: absolute;
-    left: 2%;
-    top: 17%;
+    align-self: center;
+    /* display: inline; */
     font-size: 2.5rem;
     color: white;
+    margin-left: 1rem;
 }
 
 .toggle-view {
@@ -206,16 +195,21 @@ blockquote.twitter-tweet-jsx a:focus {
 }
 
 .share-col-a {
-    padding-left: 0;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
 }
 
 .share-col-b {
-    padding-left: 0;
-    padding-right: 0;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
 }
 
 .share-col-c {
-    padding-right: 0;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
 }
 
 .tweet-gallery {
@@ -289,15 +283,19 @@ blockquote.twitter-tweet-jsx a:focus {
 }
 
 .share-container {
-  position: absolute;
-  left: 93%;
-  top: 1px;
+    align-self: center;
+    margin-right: 1rem;
+  /* position: absolute;
+  left: 78%;
+  top: 1px; */
 }
 
 .url-container {
-  position: absolute;
-  left: 65%;
-  top: 1px;
+    position: absolute;
+
+  /* position: absolute;
+  left: 60%;
+  top: 1px; */
 }
 
 .url-input {
@@ -332,8 +330,8 @@ blockquote.twitter-tweet-jsx a:focus {
 }
 
 .share-icon {
-  font-size: 35px;
-  font-weight: bold;
+  font-size: 2rem;
+  margin-left: 0.4rem;
 }
 
 blockquote {
@@ -355,17 +353,39 @@ blockquote {
   flex-direction: row;
 }
 
-.folderName {
-  display: flex;
+.folder-name {
+    align-self: center;
+  /* display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  flex-direction: column; */
   font-weight: 500;
   font-size: 20px;
   color: white;
   letter-spacing: 1px;
   font-weight: 700;
-  font-size: 32px;
+  font-size: 18px;
+  letter-spacing: 2px;
+  padding-right: 10rem;
+    margin-right: -10rem;
+    text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.folder-title-text {
+     align-self: center;
+  /* display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; */
+  font-weight: 500;
+  font-size: 20px;
+  color: white;
+  letter-spacing: 1px;
+  font-weight: 700;
+  font-size: 2rem;
   letter-spacing: 2px;
 }
 
@@ -434,6 +454,7 @@ blockquote {
 .folder-text {
   font-size: 30px;
   margin-bottom: -5px;
+  overflow: hidden;
 }
 
 .account-title {
@@ -462,6 +483,8 @@ blockquote {
 
 .folder-listcard {
   display: flex;
+  flex-wrap: nowrap;
+  overflow: hidden;
   background: white;
   background: linear-gradient(
     to right bottom,
@@ -481,6 +504,7 @@ blockquote {
   padding-left: 20px;
   padding-right: 0;
   width: 100%;
+  font-size: 1rem;
 }
 
 .selected-folder {
@@ -519,6 +543,36 @@ blockquote {
   padding-top: 5px;
   padding-bottom: 5px;
   position: relative;
+  max-width: 550px;
+}
+
+.likecard {
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background-clip: padding-box;
+  border-radius: 10px !important;
+  z-index: 2;
+  padding: 5px;
+  transition: filter 0.3s;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  position: relative;
+  max-width: 550px;
+}
+
+.share-toggle {
+    display: block;
+}
+
+.copy-icon {
+    margin: 0 auto;
+    font-size: 1.5rem;
+    position: relative;
+    color:rgba(95, 250, 255, 0.651);
 }
 
 .share-tweetcard {
@@ -536,18 +590,6 @@ blockquote {
   position: relative;
   width:100%;
   margin-top:10px
-}
-
-.likecard {
-  border-top: 1px solid rgba(255, 255, 255, 0.3);
-  border-left: 1px solid rgba(255, 255, 255, 0.3);
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  background-clip: padding-box;
-  border-radius: 10px !important;
-  z-index: 2;
-  padding: 5px;
-  transition: filter 0.3s;
 }
 
 .likecard:hover {
@@ -584,6 +626,8 @@ blockquote {
 }
 
 .folder-title {
+  display: flex;
+  justify-content: space-between;
   background: white;
   background: linear-gradient(
     to right bottom,
@@ -790,6 +834,7 @@ li {
 .add-tweet{
   padding:15px;
   text-align: center;
+  max-width: 550px;
 }
 
 .input {
@@ -1088,11 +1133,16 @@ background: linear-gradient(
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  flex-wrap: nowrap;
+  overflow: hidden;
 }
 
 .folder-icons {
   margin-right: 10px;
   z-index: 2;
+  overflow: hidden;
+  display: flex;
+  flex-wrap: nowrap;
 }
 
 .flex-v {

@@ -127,12 +127,17 @@ const Large = (props) => {
 		return (
 			<>
 				<Container className='folder-title'>
-                <MdArrowBack hidden={type === 'SHARED'} onClick={back} className='toggle-view' />
-					<Row className='justify-content-md-center'>
-						<Col md='auto'>
-							<div className='folderName'>{type === 'SHARED' ? folder.folderName : name}</div>
-						</Col>
-					</Row>
+					<div>
+						<MdArrowBack
+							hidden={type === 'SHARED'}
+							onClick={back}
+							className='expand-folder'
+						/>
+					</div>
+					<span className='folder-title-text'>
+						{type === 'SHARED' ? folder.folderName : name}
+					</span>
+					<div></div>
 				</Container>
 				<Container
 					fluid
