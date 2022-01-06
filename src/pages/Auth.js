@@ -14,24 +14,16 @@ import {
 
 import { AppContext } from '../context/Context'
 
-import {
-	SET_USER,
-	SET_TOKEN,
-	SET_LOGIN,
-	SET_USER_ID,
-	SET_TWT_CHALLENGE,
-	SET_TWT_STATE,
-	SET_OFFLINE,
-	SET_SAVED_STATE
-} from '../context/action.types'
-
 import twitterButton from '../twitter_button.png'
 
 import { toast } from 'react-toastify'
 
 import { Redirect } from 'react-router-dom'
 
-import { authenticate, twitterLogin, newTwtLogin } from '../api/auth'
+import { authenticate, newTwtLogin } from '../api/auth'
+
+import { setCredentials } from '../functions/authfunctions'
+
 import getTwtUrl from '../functions/newtwturl'
 
 const Auth = () => {
@@ -48,7 +40,7 @@ const Auth = () => {
 	const [email, setEmail] = useState("")
 	const [password, setPassword] = useState("")
 	const [passwordConfirm, setPasswordConfirm] = useState("")
-	const [staySignedIn, setStaySignedIn] = useState(false)
+	const [staySignedIn, setStaySignedIn] = useState(true)
 
 	// const [clickedLogin, setClickedLogin] = useState(false)
 	// const [leftPage, setLeftPage] = useState(false)
@@ -110,92 +102,12 @@ const Auth = () => {
 				toast(authResult.error, { type: 'error' })
 			} else {
 				toast(authResult.success, { type: 'success' })
-				setCredentials(email, authResult, false)
+				setCredentials(email, authResult, staySignedIn, twtState, dispatch)
 			}
 			setIsLoading(false)
 			setIsSubmitting(false)
 		})()
 	}, [isSubmitting])
-
-	// Set credential variables in parent state
-	const setCredentials = (email, authResult) => {
-		dispatch({
-			type: SET_USER,
-			payload: {
-				userName: email ? email : authResult.twtUser,
-				displayName: email ? email : authResult.twtName,
-				twt: authResult.twt
-			},
-		})
-		dispatch({
-			type: SET_TWT_STATE,
-			payload: twtState,
-		})
-		dispatch({
-			type: SET_TOKEN,
-			payload: authResult.token,
-		})
-		dispatch({
-			type: SET_USER_ID,
-			payload: authResult.userId
-		})
-		dispatch({
-			type: SET_TWT_CHALLENGE,
-			payload: authResult.twtChallenge
-		})
-		dispatch({
-			type: SET_LOGIN,
-			payload: true,
-		})
-		dispatch({
-			type: SET_OFFLINE,
-			payload: staySignedIn
-		})
-		dispatch({
-			type: SET_SAVED_STATE,
-			payload: false
-		})
-		localStorage.removeItem('token')
-	}
-
-	// const checkForToken = async () => {
-	// 	const token = localStorage.getItem('token')
-	// 	setIsLoading(true)
-	// 	if (token) {
-	// 		(async () => {
-	// 			const authResult = await twitterLogin(token)
-	// 			if (authResult.error) {
-	// 				toast(authResult.error, { type: 'error' })
-	// 			} else {
-	// 				toast(authResult.success, { type: 'success' })
-	// 				setCredentials(null, authResult)
-	// 			}
-	// 			setIsLoading(false)
-	// 		})()
-	// 	} else {
-	// 		toast('Twitter login failed, try refreshing', { type: 'error' })
-	// 		setIsLoading(false)
-	// 	}
-	// }
-
-	// const onVisibilityChange = () => {
-	// 	if (document.visibilityState === 'visible') {
-	// 		if (leftPage && clickedLogin) {
-	// 			checkForToken()
-	// 			setLeftPage(false)
-	// 			setClickedLogin(false)
-	// 		}
-	// 	} else {
-	// 		setLeftPage(true)
-	// 	}
-	// }
-
-	// useEffect(() => {
-	// 	document.addEventListener('visibilitychange', onVisibilityChange)
-	// 	return () => {
-	// 		document.removeEventListener('visibilitychange', onVisibilityChange)
-	// 	}
-	// })
 
 	// Render spinner while waiting for API
 	if (isLoading) {

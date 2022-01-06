@@ -18,30 +18,22 @@ import { AppContext } from '../context/Context'
 
 import { checkForToken, twtAuthLanding } from '../functions/authfunctions'
 
-// open(location, '_self').close()
-
 const Home = (props) => {
 	const { state, dispatch } = useContext(AppContext)
 	const history = useHistory()
-	const { loggedIn, offline } = state
-    const [showClose, setShowClose] = useState(false)
+	const { loggedIn, offline, twtAuth } = state
 
     useEffect(() => {
         if (props.location.search === '?close') {
-            const token = localStorage.getItem('token')
-            if (token) {
-                if (twtAuthLanding(token, dispatch)) {
-                    localStorage.removeItem('token')
+            if (twtAuthLanding(dispatch)) {
                     if (!offline) {
                         localStorage.removeItem('state')
                     }
                     history.push('/folders/likes')
                 }
-            }
         } else if (tokenUrlRE.test(props.location.search)) {
             const token = props.location.search.match(tokenRE)[0]
-            localStorage.setItem('token', token)
-            if (checkForToken(dispatch)) {
+            if (checkForToken(token, dispatch)) {
                 history.push('/folders/view')
             }
         } else if (shareUrlRE.test(props.location.search)) {
@@ -67,7 +59,7 @@ const Home = (props) => {
 							alt='Login with Twitter'
 							style={{ width: '20vw' }}
 							onClick={() => {
-								history.push('/auth')
+								history.push(twtAuth.authed ? '/twitter' : '/auth')
 							}}
 						/>
 					) : null}
@@ -79,10 +71,10 @@ const Home = (props) => {
 			<div className='center-home'>
 				<Card className='homecard card-fab'>
 					<CardTitle className='text-large'>
-						{showClose ? 'Login Succeeded' : 'Welcome to Better Bookmarks'}
+						{'Welcome to Better Bookmarks'}
 					</CardTitle>
 					<CardBody>
-						{showClose ? 'You may return to the app to continue' : stdBody}
+						{stdBody}
 					</CardBody>
 				</Card>
 			</div>

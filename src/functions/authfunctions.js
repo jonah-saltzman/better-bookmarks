@@ -1,7 +1,3 @@
-import React, {useContext} from 'react'
-
-import { AppContext } from '../context/Context'
-
 import {
 	SET_USER,
 	SET_TOKEN,
@@ -18,9 +14,10 @@ import { twitterLogin, checkTwtAuth } from '../api/auth'
 
 import { toast } from 'react-toastify'
 
-export const twtAuthLanding = async (token, dispatch) => {
+export const twtAuthLanding = async (dispatch) => {
+    const token = localStorage.getItem('token')
     const twtState = localStorage.getItem('twtState')
-    if (twtState) {
+    if (twtState && token) {
         const result = await checkTwtAuth(token, twtState)
         if (result) {
             const authObj = {
@@ -33,18 +30,22 @@ export const twtAuthLanding = async (token, dispatch) => {
                 type: SET_TWT_AUTH,
                 payload: authObj
             })
-            
             toast('Twitter authentication succeeded!', { type: 'success'})
+            localStorage.removeItem('token')
+            localStorage.removeItem('twtState')
             return true
         } else {
             toast('Twitter authentication failed, please try again', { type: 'error' })
+            localStorage.removeItem('token')
+            localStorage.removeItem('twtState')
             return false
         }
+    } else {
+        return false
     }
 }
 
-export const checkForToken = async (dispatch) => {
-	const token = localStorage.getItem('token')
+export const checkForToken = async (token, dispatch) => {
     const offline = localStorage.getItem('offline')
     const staySignedIn = offline === 'true'
     const twtState = localStorage.getItem('twtState')
@@ -64,7 +65,7 @@ export const checkForToken = async (dispatch) => {
     }
 }
 
-const setCredentials = (email, authResult, staySignedIn, twtState, dispatch) => {
+export const setCredentials = (email, authResult, staySignedIn, twtState, dispatch) => {
 	dispatch({
 		type: SET_USER,
 		payload: {
