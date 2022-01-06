@@ -26,11 +26,11 @@ const Home = (props) => {
     useEffect(() => {
         if (props.location.search === '?close') {
             if (twtAuthLanding(dispatch)) {
-                    if (!offline) {
-                        localStorage.removeItem('state')
-                    }
-                    history.push('/folders/likes')
+                if (!offline) {
+                    localStorage.removeItem('state')
                 }
+                history.push('/folders/likes')
+            }
         } else if (tokenUrlRE.test(props.location.search)) {
             const token = props.location.search.match(tokenRE)[0]
             if (checkForToken(token, dispatch)) {

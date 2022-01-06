@@ -8,7 +8,6 @@ import { Card, CardBody, CardTitle } from 'reactstrap'
 
 import { AppContext } from '../context/Context'
 import { checkTwtAuth } from '../api/auth'
-import { toast } from 'react-toastify'
 import { SET_TWT_AUTH } from '../context/action.types'
 
 import getTwtUrl from '../functions/newtwturl'
@@ -33,59 +32,14 @@ const Twitter = () => {
         }
 	}
 
-    // const checkAuth = async () => {
-    //     const result = await checkTwtAuth(token, twtState)
-    //     if (result) {
-    //         toast('Signed in to Twitter!', { type: 'success' })
-    //         const authObj = {
-    //             authed: true,
-    //             twtId: null,
-    //             twtToken: null,
-    //             twtSecret: null
-    //         }
-    //         dispatch({
-    //             type: SET_TWT_AUTH,
-    //             payload: authObj
-    //         })
-    //         history.push('/folders/likes')
-    //     } else {
-    //         toast('Twitter sign-in failed, try again', { type: 'error' })
-    //     }
-    // }
-
-    // const onVisibilityChange = () => {
-    //     if (document.visibilityState === 'visible') {
-    //         if (leftPage && clickedLogin) {
-    //             checkAuth()
-    //             setLeftPage(false)
-    //             setClickedLogin(false)
-    //         }
-    //     } else {
-    //         setLeftPage(true)
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     document.addEventListener('visibilitychange', onVisibilityChange)
-    //     return () => {
-    //         document.removeEventListener('visibilitychange', onVisibilityChange)
-    //     }
-    // })
-
 	useEffect(() => {
 		if (loggedIn && userId) {
             (async () => {
                 const result = await checkTwtAuth(token, twtState)
                 if (result) {
-                    const authObj = {
-                        authed: true,
-                        twtId: null,
-                        twtToken: null,
-                        twtSecret: null
-                    }
                     dispatch({
                         type: SET_TWT_AUTH,
-                        payload: authObj
+                        payload: { authed: true }
                     })
                     history.push('/folders/likes')
                 }
@@ -99,11 +53,6 @@ const Twitter = () => {
 		}
 	}, [loggedIn])
 
-    const handleClick = () => {
-        twtPopup()
-        // setClickedLogin(true)
-    }
-
 	return (
 		<div className='center-home'>
 			<Card className='homecard card-fab center-fab'>
@@ -113,7 +62,7 @@ const Twitter = () => {
 						<img
 							src={twitterLogin}
 							alt='Login with Twitter'
-							onClick={handleClick}
+							onClick={twtPopup}
 						/>
 					) : null}
 				</CardBody>

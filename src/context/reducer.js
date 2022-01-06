@@ -43,15 +43,7 @@ export default (state, action) => {
 		case SET_TWT_AUTH:
 			return action.payload !== null
 				? { ...state, twtAuth: action.payload }
-				: {
-						...state,
-						twtAuth: {
-							authed: false,
-							twtId: null,
-							twtToken: null,
-							twtSecret: null,
-						},
-				  }
+				: { ...state, twtAuth: { authed: false } }
 		case SET_TWT_CHALLENGE:
 			return action.payload === null
 				? { ...state, twtChallenge: null }

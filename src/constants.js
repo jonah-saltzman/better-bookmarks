@@ -27,7 +27,6 @@ export const SHARE_PREFIX = isDev
 	? 'http://localhost:3000/?share='
 	: 'https://bookmarks.jonahsaltzman.dev/?share='
 
-
 export const TWTAUTH_PREFIX =
 	'https://twitter.com/i/oauth2/authorize?response_type=code&client_id=YnEzOGs2Y2pLMWRUTXM2X3dYU1g6MTpjaQ&redirect_uri=' +
 	BB_URL + '/twtauth?data=auth.'
@@ -50,14 +49,11 @@ export const IMG_URL_PREFIX = BB_URL + '/img/'
 
 export const twtREOne = new RegExp(/(?:\/)(\d+)(?:\/|\?|$)/)
 export const twtRETwo = new RegExp(/^\d+$/)
-
 export const twtEmbedRE = new RegExp(/(?<=a href=")[^ ]+\/[^ ]*?status[^ ]+(?=\?ref)/i)
-
 export const tokenUrlRE = new RegExp(/\?token=/i)
 export const shareUrlRE = new RegExp(/\?share=/i)
 export const tokenRE = new RegExp(/(?<=^\?token=).+/i)
 export const shareRE = new RegExp(/(?<=^\?share=).+/i)
-
 export const urlRE = new RegExp(/(?:https?):\/\/[\n\S]+/g)
 
 export const allActions = [
@@ -71,5 +67,3 @@ export const allActions = [
 	SET_TWT_STATE,
 	SET_OFFLINE,
 ]
-
-//export const twtEmbedRE = new RegExp(/(?<=a href=)[^ ]+(?=\?ref)/)

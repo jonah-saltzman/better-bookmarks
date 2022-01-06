@@ -49,15 +49,6 @@ const OneFolder = ({ folder, share }) => {
 		share(folder.folderId, !folder.shared)
 	}
 
-	// useEffect(() => {
-	// 	window.twttr.events.bind('rendered', (event) => {
-	// 		if (event.target.children.length === 0) {
-	// 			return
-	// 		}
-	// 		setLoadedTweet(event.target.children[0].dataset.tweetId)
-	// 	})
-	// })
-
 	const deleteTweet = (twtId) => {
 		if (deletingTweet) {
 			return
@@ -93,25 +84,6 @@ const OneFolder = ({ folder, share }) => {
 			setEraseTweet(false)
 		}
 	}, [eraseTweet])
-
-	// useEffect(() => {
-	// 	if (loadedTweets.includes(loadedTweet) || loadedTweet === '') {
-	// 		return
-	// 	} else {
-	// 		const newArr = [...loadedTweets]
-	// 		newArr.push(loadedTweet)
-	// 		setLoadedTweets(newArr)
-	// 	}
-	// }, [loadedTweet])
-
-	// useEffect(() => {
-	// 	const newObjs = [...twtObjs].map((obj) =>
-	// 		loadedTweets.some((twtId) => obj.twtId === twtId)
-	// 			? { ...obj, loaded: true }
-	// 			: obj
-	// 	)
-	// 	setTwtObjs(newObjs)
-	// }, [loadedTweets])
 
 	useEffect(() => {
 		if (!folder || folder.folderId === null) {

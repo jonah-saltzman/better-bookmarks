@@ -3,6 +3,8 @@
 
 [Better Bookmarks](https://jonah-saltzman.github.io/better-bookmarks/) is an app for managing Twitter Tweets. While bookmark functionality is built-in to Twitter's own apps, Twitter only provides one "folder" that stores all your bookmarked Tweets. With Better Bookmarks, you can create any number of folders to store Tweets for later, and a Twitter account is not required to do so. If you choose to connect your Twitter account to Better Bookmarks, you can easily add Tweets that you've "liked" to your Better Bookmarks folders; otherwise, an import feature lets you add any Tweet just by copy/pasting its URL. And even if a Tweet you've bookmarked gets deleted, Better Bookmarks allows you to view an archived version of the Tweet that lasts forever.
 
+![Many Tweets](https://i.imgur.com/2uePfZe.png)
+
 ## Update 1/4/22 - Image archiving!
 ![Image archiving](https://i.imgur.com/6euuApL.png)
 
@@ -16,7 +18,7 @@ The client for Better Bookmarks is a single-page application built with React. U
 ## Folders
 ![One folder](https://i.imgur.com/0h8hoSU.png)
 
-The central feature of Better Bookmarks is the folders into which you may save Tweets. A user can have an unlimited number of folders, a folder can hold an unlimited number of Tweets, and a user may save the same Tweet into any number of folders. Folders can be re-named and deleted, and Tweets can be added to and removed from their folders. In a future update, color-coding of folders will be added. Selecting a folder will cause the Tweets it contains to be rendered in a scrollable container; by default, the actual, live Tweet will be displayed by implementing Twitter's [JavaScript API](https://developer.twitter.com/en/docs/twitter-for-websites/javascript-api/guides/scripting-factory-functions).
+The central feature of Better Bookmarks is the folders into which you may save Tweets. A user can have an unlimited number of folders, a folder can hold an unlimited number of Tweets, and a user may save the same Tweet into any number of folders. Folders can be re-named and deleted, and Tweets can be added to and removed from their folders. In a future update, color-coding of folders will be added. Selecting a folder will cause the Tweets it contains to be rendered in a scrollable container; by default, the actual, live Tweet will be displayed by implementing Twitter's [JavaScript API](https://developer.twitter.com/en/docs/twitter-for-websites/javascript-api/guides/scripting-factory-functions). Media, including GIFs and videos, are fully playable once a Tweet has been added to a folder.
 
 ## Sharing
 ![Share a folder](https://i.imgur.com/urY6FFz.png)

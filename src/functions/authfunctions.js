@@ -20,15 +20,9 @@ export const twtAuthLanding = async (dispatch) => {
     if (twtState && token) {
         const result = await checkTwtAuth(token, twtState)
         if (result) {
-            const authObj = {
-                authed: true,
-                twtId: null,
-                twtToken: null,
-                twtSecret: null
-            }
             dispatch({
                 type: SET_TWT_AUTH,
-                payload: authObj
+                payload: { authed: true }
             })
             toast('Twitter authentication succeeded!', { type: 'success'})
             localStorage.removeItem('token')

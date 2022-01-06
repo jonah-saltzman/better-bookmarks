@@ -4,7 +4,7 @@ import { randomBytes } from 'crypto'
 
 import { AppContext } from '../context/Context'
 import { getDeleted } from '../api/tweets'
-import { tweetJsx } from '../functions/generateHtml'
+import tweetJsx from '../functions/tweetJsx'
 
 import { useInViewport } from 'react-in-viewport'
 
@@ -24,25 +24,6 @@ const Like = (props) => {
 	const divRef = createRef()
 	const config = { disconnectOnLeave: false }
 	const { inViewport, enterCount } = useInViewport(divRef, config, props)
-
-	// const onLoad = (event) => {
-	// 	if (event.target.children.length === 0) {
-	// 			return
-	// 		}
-	// 	if (event.target.children[0].dataset.tweetId === tweet) {
-	// 		setLoading(false)
-	// 	}
-	// }
-
-    const done = (result) => {
-			if (result) {
-				setLoading(false)
-				setDeleted(false)
-			} else {
-				setDeleted(true)
-                setLoading(false)
-			}
-		}
 
     useEffect(() => {
         if (!deleted || !loading) {
@@ -83,17 +64,13 @@ const Like = (props) => {
 		}
 	}, [enteredView])
 
-    const fire = (value) => {
-        if ((value && hover) || (!value && !hover)) {
-            return
-        }
-        if (value && !hover) {
-            setHover(true)
-            return
-        }
-        if (!value && hover) {
-            setHover(false)
-            return
+    const done = (result) => {
+        if (result) {
+            setLoading(false)
+            setDeleted(false)
+        } else {
+            setLoading(false)
+            setDeleted(true)
         }
     }
 

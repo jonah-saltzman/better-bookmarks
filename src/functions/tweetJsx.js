@@ -4,7 +4,7 @@ import he from 'he'
 
 import { urlRE, IMG_URL_PREFIX } from "../constants"
 
-export const tweetJsx = (tweet) => {
+const tweetJsx = (tweet) => {
     const date = new Date(Date.parse(tweet.twtDate)).toLocaleDateString(
 			undefined,
 			{
@@ -53,7 +53,7 @@ export const tweetJsx = (tweet) => {
     }
     const gallery = table ? <Container className='tweet-gallery'>{table}</Container> : null
     return (
-			<blockquote key={tweet.twtId + 'block'} data-dnt='true' data-theme='dark' className='twitter-tweet'>
+			<blockquote key={tweet.twtId + 'block'} className='twitter-tweet'>
 				<p lang='en' dir='ltr'>
 					{he.decode(tweet.twtText.replace(urlRE, ''))}
 				</p>
@@ -66,3 +66,5 @@ export const tweetJsx = (tweet) => {
 			</blockquote>
 		)
 }
+
+export default tweetJsx
