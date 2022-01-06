@@ -81,10 +81,6 @@ const App = (props) => {
   }, [])
 
   useEffect(() => {
-		console.log('WIDGET CHECK init')
-		console.log(window.twttr.init)
-		console.log('bbtwt')
-		console.log(window.bbtwt)
 		if (window.twttr.init) {
 			state.widgets = true
 		} else {

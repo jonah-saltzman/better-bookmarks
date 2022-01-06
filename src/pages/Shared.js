@@ -82,7 +82,8 @@ const Shared = () => {
 							key={tweet.twtId}
 							like={false}
 							shared={true}
-                            widget={window.bbtwt}
+                            widget={window.twttr.init}
+                            // or window.bbtwt
 						/>
 					</div>
 				))
