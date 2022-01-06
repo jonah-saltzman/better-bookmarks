@@ -163,7 +163,6 @@ const Likes = ({ folder, refresh }) => {
 	if (!loggedIn) {
 		return <Redirect to='/auth'></Redirect>
 	} else if (!window.twttr.init) {
-        console.log('widgets disabled')
         return (
             <div className='widgets-warning'>Your browser is blocking Twitter widgets, which are required in order to view Liked Tweets.</div>
         )

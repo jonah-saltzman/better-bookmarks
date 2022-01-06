@@ -173,7 +173,6 @@ const Folders = () => {
 
     const minimize = () => {
         if (viewLarge) {
-            console.log('minimizing')
             setViewLarge(false)
         }
     }
@@ -256,7 +255,6 @@ const Folders = () => {
 				</div>
 			)
 		} else {
-            console.log('viewLarge: ', viewLarge)
 			return viewLarge ? <Large 
                 sharedFolder={false}
                 oneFolder={loadedTweets}

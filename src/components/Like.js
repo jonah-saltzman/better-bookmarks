@@ -29,12 +29,10 @@ const Like = (props) => {
         if (!deleted) {
             return
         }
-        console.log('fetching private')
         ;(async () => {
             if (deleted === true && loading) {
                 const newTweet = await getDeleted(tweet, twtState, token)
                 if (newTweet) {
-                    console.log('got tweet')
                     setSavedJsx(tweetJsx(newTweet.tweet))
                     setLoading(false)
                 }

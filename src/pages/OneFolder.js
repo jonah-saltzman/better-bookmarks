@@ -117,8 +117,6 @@ const OneFolder = ({ folder, share, viewLarge, loadedTweets }) => {
                     }
                 })()
             } else {
-                console.log('setting tweet cols to:')
-                console.log(loadedTweets)
                 setTweetCols(loadedTweets)
                 setIsLoading(false)
             }
@@ -202,8 +200,6 @@ const OneFolder = ({ folder, share, viewLarge, loadedTweets }) => {
 			</div>
 		)
 	} else {
-        console.log('tweetcols:')
-        console.log(tweetCols)
 		return (
 			<>
 				{' '}

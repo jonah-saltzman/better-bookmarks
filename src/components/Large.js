@@ -57,14 +57,12 @@ const Large = (props) => {
         } else {
             setType('BIG')
             const tweetsArr = [...oneFolder.colA, ...oneFolder.colB]
-            console.log(tweetsArr)
             const cols = [[], [], []]
             let i = 0
             for (const component of tweetsArr) {
                 cols[i].push(component)
                 i = i === 2 ? 0 : i + 1
             }
-            console.log('SETTING COMPONENTS')
             setComponents(cols)
         }
 	}, [gotFolder])
@@ -89,8 +87,6 @@ const Large = (props) => {
 		if (twtObjs.length === 0) {
 			return
 		}
-        console.log('twtObjs:')
-        console.log(twtObjs)
 		const compArray = twtObjs
 			.sort(
 				(twtA, twtB) =>
@@ -128,8 +124,6 @@ const Large = (props) => {
 			</div>
 		)
 	} else {
-        console.log('name:')
-        console.log(name)
 		return (
 			<>
 				<Container className='folder-title'>

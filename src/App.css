@@ -1142,6 +1142,11 @@ background: linear-gradient(
   color: white;
 }
 
+.widgets-warning {
+    position: absolute;
+    left: 45%;
+}
+
 .btn {
   font-weight: 400;
   outline: none !important;
