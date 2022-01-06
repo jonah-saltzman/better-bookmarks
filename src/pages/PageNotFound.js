@@ -7,5 +7,4 @@ const PageNotFound = () => {
   );
 };
 
-//FIXME: missing keywords
 export default PageNotFound;

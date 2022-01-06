@@ -26,19 +26,21 @@ const Like = (props) => {
 	const { inViewport, enterCount } = useInViewport(divRef, config, props)
 
     useEffect(() => {
-        if (!deleted || !loading) {
+        if (!deleted) {
             return
         }
+        console.log('fetching private')
         ;(async () => {
             if (deleted === true && loading) {
                 const newTweet = await getDeleted(tweet, twtState, token)
                 if (newTweet) {
+                    console.log('got tweet')
                     setSavedJsx(tweetJsx(newTweet.tweet))
                     setLoading(false)
                 }
             }
         })()
-    }, [deleted, loading])
+    }, [deleted])
 
 	useEffect(() => {
 		if (enteredView || enterCount > 1 || !inViewport) {
@@ -69,12 +71,11 @@ const Like = (props) => {
             setLoading(false)
             setDeleted(false)
         } else {
-            setLoading(false)
             setDeleted(true)
         }
     }
 
-    if (deleted === true && savedJsx) {
+    if (deleted === true && !loading) {
         return (
 					<>
 						<div
