@@ -43,6 +43,15 @@ const Folders = () => {
 		setGotFolders(false)
 	}
 
+    const onHistoryChange = () => {
+        setViewLarge(false)
+    }
+
+    useEffect(() => {
+        const unlisten = history.listen(() => onHistoryChange())
+        return () => unlisten()
+    }, [])
+
     const editFolder = (folderId, deleted) => {
         if (deleted) {
             const deleted = foldersArr.findIndex(folder => folder.folderId === folderId)
@@ -163,75 +172,78 @@ const Folders = () => {
     }
 
     const minimize = () => {
-        setViewLarge(false)
+        if (viewLarge) {
+            console.log('minimizing')
+            setViewLarge(false)
+        }
     }
 
     const stdView = (
-        <Container fluid className='main-view'>
-					<Row className='main-row'>
-						<Col className='folders-col col-3'>
-							<Container
-								scrollable={`true`}
-								className='folder-list pt-4 container-fluid no-padding'>
-								<>
-									<div className='folder-listcard mb-4'>
+			<Container fluid className='main-view'>
+				<Row className='main-row'>
+					<Col className='folders-col col-3'>
+						<Container
+							scrollable={`true`}
+							className='folder-list pt-4 container-fluid no-padding'>
+							<>
+								<div className='folder-listcard mb-4'>
+									<Folder
+										folder={{ folderName: 'New Folder' }}
+										edit={editFolder}
+										key='newFolder'
+										newFolder={true}
+										select={selectFolder}
+										refresh={refreshFolders}
+									/>
+								</div>
+								{foldersArr.map((folder) => (
+									<div
+										className={
+											'mb-4 ' +
+											(folder.folderId === selectedFolder.folderId
+												? 'selected-folder'
+												: 'folder-listcard')
+										}
+										id={folder.folderId}
+										onClick={() => {
+											selectFolder(folder.folderId)
+										}}>
 										<Folder
-											folder={{ folderName: 'New Folder' }}
+											folder={folder}
 											edit={editFolder}
-											key='newFolder'
-											newFolder={true}
-											select={selectFolder}
+											key={folder.folderId}
+											newFolder={false}
 											refresh={refreshFolders}
+											select={selectFolder}
+											selected={folder.folderId === selectedFolder.folderId}
 										/>
 									</div>
-									{foldersArr.map((folder) => (
-										<div
-											className={
-												'mb-4 ' +
-												(folder.folderId === selectedFolder.folderId
-													? 'selected-folder'
-													: 'folder-listcard')
-											}
-											id={folder.folderId}
-											onClick={() => {
-												selectFolder(folder.folderId)
-											}}>
-											<Folder
-												folder={folder}
-												edit={editFolder}
-												key={folder.folderId}
-												newFolder={false}
-												refresh={refreshFolders}
-												select={selectFolder}
-												selected={folder.folderId === selectedFolder.folderId}
-											/>
-										</div>
-									))}
-								</>
-							</Container>
-						</Col>
-						<Col className='pages-col'>
-							<Switch>
-								<Route exact path='/folders/view'>
-									<OneFolder
-										refresh={refreshFolders}
-										folder={selectedFolder}
-										share={share}
-                                        viewLarge={expand}
-                                        loadedTweets={didSaveComponents ? loadedTweets : null}
-									/>
-								</Route>
-								<Route exact path='/folders/import'>
-									<Import refresh={refreshFolders} folder={selectedFolder} />
-								</Route>
-								<Route exact path='/folders/likes'>
-									<Likes refresh={refreshFolders} folder={selectedFolder} />
-								</Route>
-							</Switch>
-						</Col>
-					</Row>
-				</Container>
-    )
+								))}
+							</>
+						</Container>
+					</Col>
+					<Col className='pages-col'>
+						<Switch>
+							<Route exact path='/folders/view'>
+								<OneFolder
+									refresh={refreshFolders}
+									folder={selectedFolder}
+									share={share}
+									viewLarge={expand}
+									loadedTweets={didSaveComponents ? loadedTweets : null}
+								/>
+							</Route>
+							<Route exact path='/folders/import'>
+								<Import refresh={refreshFolders} folder={selectedFolder} />
+							</Route>
+							<Route exact path='/folders/likes'>
+								<Likes refresh={refreshFolders} folder={selectedFolder} />
+							</Route>
+						</Switch>
+					</Col>
+				</Row>
+			</Container>
+		)
 
 	if (!loggedIn) {
 		return <Redirect to='/auth' />
