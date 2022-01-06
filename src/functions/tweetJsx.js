@@ -53,7 +53,7 @@ const tweetJsx = (tweet) => {
     }
     const gallery = table ? <Container className='tweet-gallery'>{table}</Container> : null
     return (
-			<blockquote key={tweet.twtId + 'block'} className='twitter-tweet'>
+			<blockquote key={tweet.twtId + 'block'} className='twitter-tweet-jsx'>
 				<p lang='en' dir='ltr'>
 					{he.decode(tweet.twtText.replace(urlRE, ''))}
 				</p>

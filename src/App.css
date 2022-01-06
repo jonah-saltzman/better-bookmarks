@@ -152,7 +152,7 @@ article {
   padding:0;
 }
 
-blockquote.twitter-tweet {
+blockquote.twitter-tweet-jsx {
   display: inline-block;
   /* font-family: "Helvetica Neue", Roboto, "Segoe UI", Calibri, sans-serif; */
   font-size: 12px;
@@ -164,29 +164,42 @@ blockquote.twitter-tweet {
   border-style: solid;
   border-width: 2px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
-  margin: 10px 5px;
+  /* margin: 10px 5px; */
   padding: 16px 16px 16px 16px;
   background-color: rgb(20, 133, 226);
   width: 100%;
   text-align: left;
 }
 
-blockquote.twitter-tweet p {
+blockquote.twitter-tweet-jsx p {
   font-size: 16px;
   font-weight: 500;
   line-height: 20px;
 }
 
-blockquote.twitter-tweet a {
+blockquote.twitter-tweet-jsx a {
   color: inherit;
   font-weight: normal;
   text-decoration: none;
   outline: 0 none;
 }
 
-blockquote.twitter-tweet a:hover,
-blockquote.twitter-tweet a:focus {
+blockquote.twitter-tweet-jsx a:hover,
+blockquote.twitter-tweet-jsx a:focus {
   text-decoration: underline;
+}
+
+.share-col-a {
+    padding-left: 0;
+}
+
+.share-col-b {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.share-col-c {
+    padding-right: 0;
 }
 
 .tweet-gallery {
@@ -499,7 +512,8 @@ blockquote {
   padding-top: 5px;
   padding-bottom: 5px;
   position: relative;
-  width:33%;
+  width:100%;
+  margin-top:10px
 }
 
 .likecard {
@@ -534,6 +548,11 @@ blockquote {
 .twitter-tweet-rendered {
   margin-top: 0;
   margin-bottom: 0;
+}
+
+.twitter-tweet-jsx {
+  margin: 0;
+  margin-left: -5px;
 }
 
 .added {

@@ -43,7 +43,7 @@ const OneFolder = ({ folder, share }) => {
 		if (folder.shared) {
 			setShareUrl(SHARE_PREFIX + folder.url)
 		}
-	}, [folder.shared])
+	}, [folder.shared, folder])
 
 	const toggleShare = () => {
 		share(folder.folderId, !folder.shared)
@@ -157,6 +157,7 @@ const OneFolder = ({ folder, share }) => {
 									remove={deleteTweet}
 									display={tweet.display}
 									like={false}
+                                    widget={window.bbtwt}
 								/>
 							</div>
 					  )
@@ -168,6 +169,7 @@ const OneFolder = ({ folder, share }) => {
 									remove={deleteTweet}
 									display={tweet.display}
 									like={false}
+                                    widget={window.bbtwt}
 								/>
 							</div>
 					  )

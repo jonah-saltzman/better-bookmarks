@@ -16,7 +16,7 @@ import { allActions as actions } from '../constants'
 
 const Likes = ({ folder, refresh }) => {
 	const { state, dispatch } = useContext(AppContext)
-	const { loggedIn, token, twtAuth } = state
+	const { loggedIn, token, twtAuth, widgets } = state
 	const history = useHistory()
 
 	const [isLoading, setIsLoading] = useState(false)
@@ -162,7 +162,12 @@ const Likes = ({ folder, refresh }) => {
 
 	if (!loggedIn) {
 		return <Redirect to='/auth'></Redirect>
-	} else if (isLoading) {
+	} else if (!window.twttr.init) {
+        console.log('widgets disabled')
+        return (
+            <div className='widgets-warning'>Your browser is blocking Twitter widgets, which are required in order to view Liked Tweets.</div>
+        )
+    } else if (isLoading) {
 		return (
 			<div className='Center'>
 				<Spinner color='primary' />

@@ -28,8 +28,6 @@ import { AppContext } from './context/Context'
 import { SET_SAVED_STATE, SET_SHARED_FOLDER } from './context/action.types'
 import saveState from './functions/saveState'
 
-import { shareUrlRE, shareRE } from './constants'
-
 const initialState = {
 	showLogout: false,
 	inAuth: false,
@@ -54,7 +52,8 @@ const initialState = {
 	folderIdToUpdate: null,
 	bigScreen: false,
 	savedState: true,
-	sharedFolder: null
+	sharedFolder: null,
+    widgets: false
 }
 
 const App = (props) => {
@@ -80,6 +79,17 @@ const App = (props) => {
 			dispatch({ type: SET_SAVED_STATE, payload: false })
 		}
   }, [])
+
+  useEffect(() => {
+		console.log('WIDGET CHECK init')
+		console.log(window.twttr.init)
+		console.log('bbtwt')
+		console.log(window.bbtwt)
+		if (window.twttr.init) {
+			state.widgets = true
+		} else {
+		}
+	}, [])
 
 	useEffect(() => {
 		if (savedState || !offline) {

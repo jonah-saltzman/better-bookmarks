@@ -19,9 +19,18 @@ const Shared = () => {
 
 	const [isLoading, setIsLoading] = useState(true)
 	const [twtObjs, setTwtObjs] = useState([])
-    const [components, setComponents] = useState([])
+    const [components, setComponents] = useState([[], [], []])
     const [folder, setFolder] = useState(null)
     const [gotFolder, setGotFolder] = useState(false)
+    const [loadingWidget, setLoadingWidget] = useState(true)
+
+    useEffect(() => {
+        console.log('bbtwt in shared')
+        console.log(window.bbtwt)
+        window.twttr.ready(() => {
+            setLoadingWidget(false)
+        })
+    },[])
 
 	useEffect(() => {
         if (!sharedFolder) {
@@ -63,20 +72,30 @@ const Shared = () => {
 		if (twtObjs.length === 0) {
 			return
 		}
-        const compArray = twtObjs.map((tweet) => (
+        console.log(twtObjs.map(tweet => tweet.tweet.twtDate))
+        const compArray = twtObjs
+            .sort((twtA, twtB) => Date.parse(twtB.tweet.twtDate) - Date.parse(twtA.tweet.twtDate))
+            .map((tweet) => (
 					<div className='share-tweetcard'>
 						<Tweet
 							tweet={tweet.tweet}
 							key={tweet.twtId}
 							like={false}
 							shared={true}
+                            widget={window.bbtwt}
 						/>
 					</div>
 				))
-        setComponents(compArray)
+        const cols = [[], [], []]
+        let i = 0
+        for (const component of compArray) {
+            cols[i].push(component)
+            i = i === 2 ? 0 : i + 1
+        }
+        setComponents(cols)
     }, [twtObjs])
 
-	if (isLoading) {
+	if (isLoading || loadingWidget) {
 		return (
 			<div className='center-spinner'>
 				<Spinner color='primary' />
@@ -84,6 +103,8 @@ const Shared = () => {
 			</div>
 		)
 	} else {
+        console.log('loading widget:')
+        console.log(loadingWidget)
 		return (
 			<>
 				<Container className='folder-title'>
@@ -93,8 +114,21 @@ const Shared = () => {
 						</Col>
 					</Row>
 				</Container>
-				<Container fluid scrollable={`true`} className='mt-4 mb-5 share share-list'>
-					{components}
+				<Container
+					fluid
+					scrollable={`true`}
+					className='mt-4 mb-5 share share-list'>
+					<Row>
+						<Col className='share-col-a' md={4}>
+							{components[0]}
+						</Col>
+						<Col className='share-col-b' md={4}>
+							{components[1]}
+						</Col>
+						<Col className='share-col-c' md={4}>
+							{components[2]}
+						</Col>
+					</Row>
 				</Container>
 			</>
 		)

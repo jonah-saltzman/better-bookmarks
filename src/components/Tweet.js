@@ -8,7 +8,7 @@ import { useInViewport } from 'react-in-viewport'
 import tweetJsx from '../functions/tweetJsx'
 
 const Tweet = (props) => {
-	const { tweet, remove, display, shared } = props
+	const { tweet, remove, display, shared, widget } = props
 	const [enteredView, setEnteredView] = useState(false)
 	const [loaded, setLoaded] = useState(false)
     const [deleted, setDeleted] = useState(null)
@@ -43,14 +43,16 @@ const Tweet = (props) => {
 			return
 		}
 		if (enteredView) {
-			window.twttr.widgets.createTweet(
-				tweet.twtId,
-				document.getElementById(tweetDOMId),
-				{
-					theme: 'dark',
-				}
-			).then(done)
-			return
+            if (widget) {
+                window.twttr.widgets.createTweet(
+				    tweet.twtId,
+                    document.getElementById(tweetDOMId),
+                    {
+                        theme: 'dark',
+                    }
+                ).then(done)
+			    return
+            }
 		}
 	}, [enteredView])
 
@@ -66,7 +68,7 @@ const Tweet = (props) => {
 			<>
 				<div ref={divRef}>
 					<MdHistory
-						hidden={deleted}
+						hidden={deleted || !widget}
 						onClick={manualToggle}
 						className='show-text'
 					/>
