@@ -104,9 +104,6 @@ const Large = (props) => {
 					/>
 				</div>
 			))
-
-
-        
 		const cols = [[], [], []]
 		let i = 0
 		for (const component of compArray) {

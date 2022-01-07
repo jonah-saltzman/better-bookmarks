@@ -2,8 +2,6 @@ import React, { useContext } from 'react'
 
 import { AppContext } from '../context/Context'
 
-import { useHistory } from 'react-router-dom'
-
 import Large from '../components/Large'
 
 const Shared = () => {

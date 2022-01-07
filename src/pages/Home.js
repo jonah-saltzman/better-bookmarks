@@ -21,7 +21,7 @@ import { checkForToken, twtAuthLanding } from '../functions/authfunctions'
 const Home = (props) => {
 	const { state, dispatch } = useContext(AppContext)
 	const history = useHistory()
-	const { loggedIn, offline, twtAuth } = state
+	const { loggedIn, offline } = state
 
     useEffect(() => {
         if (props.location.search === '?close') {
@@ -59,7 +59,7 @@ const Home = (props) => {
 							alt='Login with Twitter'
 							style={{ width: '20vw' }}
 							onClick={() => {
-								history.push(twtAuth.authed ? '/twitter' : '/auth')
+								history.push('/twitter')
 							}}
 						/>
 					) : null}
