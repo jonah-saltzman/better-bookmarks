@@ -389,6 +389,23 @@ blockquote {
   letter-spacing: 2px;
 }
 
+.example {
+     align-self: center;
+  /* display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; */
+  font-weight: 500;
+  color: white;
+  letter-spacing: 1px;
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+}
+.example:hover{
+  color: white;
+}
+
 .center-home {
   display: flex;
   justify-content: center;

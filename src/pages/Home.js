@@ -63,7 +63,7 @@ const Home = (props) => {
 								navigate('/twitter')
 							}}
 						/>
-					) : null}
+					) : (<a className='link example' href='https://bookmarks.jonahsaltzman.dev/?share=4HUUImhgC-TXl3H'>Check out a Shared Folder!</a>)}
 				</div>
 			</>
 		)
