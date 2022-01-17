@@ -24,7 +24,7 @@ const isDev = Boolean(
 
 export const BB_URL = isDev
 	? 'http://192.168.86.22:4000'
-	: 'https://betterbookmarks.herokuapp.com'
+	: 'https://api.bookmarks.jonahsaltzman.dev'
 
 export const SHARE_PREFIX = isDev
 	? 'http://192.168.86.22:3000/?share='
