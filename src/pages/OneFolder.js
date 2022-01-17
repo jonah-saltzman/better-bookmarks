@@ -42,6 +42,13 @@ const OneFolder = ({ folder, share, viewLarge, loadedTweets }) => {
 	const [shareUrl, setShareUrl] = useState('')
 
 	useEffect(() => {
+		if (!loggedIn) {
+			navigate('/auth')
+			return
+		}
+	}, [loggedIn])
+
+	useEffect(() => {
 		setIsShared(folder.shared)
 		if (folder.shared) {
 			setShareUrl(SHARE_PREFIX + folder.url)
@@ -198,9 +205,7 @@ const OneFolder = ({ folder, share, viewLarge, loadedTweets }) => {
 		setTweetCols({ colA: colA, colB: colB })
 	}, [twtObjs])
 
-	if (!loggedIn) {
-		navigate('/auth')
-	} else if (isLoading) {
+	if (isLoading) {
 		return (
 			<div className='center-spinner-one'>
 				<Spinner color='primary' />

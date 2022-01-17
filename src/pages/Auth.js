@@ -50,7 +50,7 @@ const Auth = () => {
 
 	useEffect(() => {
 		if (loggedIn) {
-			navigate('/')
+			navigate('/folders/view')
 		}
 	}, [loggedIn])
 

@@ -31,6 +31,17 @@ const Likes = ({ folder, refresh }) => {
 	const [blur, setBlur] = useState([])
 
 	useEffect(() => {
+		if (!loggedIn) {
+			navigate('/auth')
+			return
+		}
+		if (!twtAuth.authed) {
+			navigate('/twitter')
+			return
+		}
+	}, [loggedIn, twtAuth])
+
+	useEffect(() => {
 		if (!folder) {
 			refresh()
 			return
@@ -162,21 +173,18 @@ const Likes = ({ folder, refresh }) => {
 		setTweetCols({ colA: colA, colB: colB })
 	}, [twtObjs])
 
-	if (!loggedIn) {
-		navigate('/auth')
-	} else if (!window.twttr.init) {
+	if (!window.twttr.init) {
         return (
             <div className='widgets-warning'>Your browser is blocking Twitter widgets, which are required in order to view Liked Tweets.</div>
         )
     } else if (isLoading) {
-		return (
-			<div className='Center'>
-				<Spinner color='primary' />
-				<div className='text-primary'>Loading...</div>
-			</div>
-		)
+				return (
+					<div className='Center'>
+						<Spinner color='primary' />
+						<div className='text-primary'>Loading...</div>
+					</div>
+				)
 	} else {
-		if (twtAuth.authed) {
 			return (
 				<Container fluid scrollable={`true`} className='mt-4 mb-5 tweet-list'>
 					{tweetsArr.length === 0 && !isLoading ? (
@@ -201,9 +209,6 @@ const Likes = ({ folder, refresh }) => {
 					)}
 				</Container>
 			)
-		} else {
-			navigate('/twitter')
-		}
 	}
 }
 
