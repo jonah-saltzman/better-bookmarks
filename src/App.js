@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useReducer } from 'react'
 
-import { Container } from 'reactstrap'
+import { Container } from 'react-bootstrap'
 
 // react-router-dom3
-import { BrowserRouter as Router, Switch, Route, useHistory, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Routes as Switch, Route } from 'react-router-dom'
 
 // react toastify stuffs
 import { ToastContainer } from 'react-toastify'
@@ -105,18 +105,18 @@ const App = (props) => {
 
 
 	return (
-		<Router >
+		<Router>
 			<AppContext.Provider value={{ state, dispatch }}>
 				<ToastContainer theme='dark' />
 				<Header />
 				<Container fluid className='app'>
 					<Switch>
-						<Route exact path='/shared' component={Shared} />
-						<Route exact path='/auth' component={Auth} />
-						<Route path='/folders' component={Folders} />
-						<Route exact path='/twitter' component={Twitter} />
-						<Route exact path='/' component={Home} />
-						<Route exact path='*' component={PageNotFound} />
+						<Route exact path='/shared' element={<Shared />} />
+						<Route exact path='/auth' element={<Auth />} />
+						<Route path='/folders/*' element={<Folders />} />
+						<Route exact path='/twitter' element={<Twitter />} />
+						<Route exact path='/' element={<Home />} />
+						<Route path='*' element={<PageNotFound />} />
 					</Switch>
 				</Container>
 				{/* <Footer /> */}

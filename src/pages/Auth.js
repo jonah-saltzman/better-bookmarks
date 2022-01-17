@@ -1,6 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react'
 
-import { randomBytes } from 'crypto'
+import { useNavigate } from 'react-router-dom'
+
+import randomBytes from 'randombytes'
 
 import {
 	Container,
@@ -18,8 +20,6 @@ import twitterButton from '../twitter_button.png'
 
 import { toast } from 'react-toastify'
 
-import { Redirect } from 'react-router-dom'
-
 import { authenticate, newTwtLogin } from '../api/auth'
 
 import { setCredentials } from '../functions/authfunctions'
@@ -30,6 +30,8 @@ const Auth = () => {
 	// Get context and destructure loggedIn from state
 	const { state, dispatch } = useContext(AppContext)
 	const { loggedIn } = state
+
+	const navigate = useNavigate()
 
 	// State for handling loading & triggering API calls
 	const [isSubmitting, setIsSubmitting] = useState(false)
@@ -45,6 +47,12 @@ const Auth = () => {
 	// const [clickedLogin, setClickedLogin] = useState(false)
 	// const [leftPage, setLeftPage] = useState(false)
 	const [twtState, setTwtState] = useState(null)
+
+	useEffect(() => {
+		if (loggedIn) {
+			navigate('/')
+		}
+	}, [loggedIn])
 
 	useEffect(() => {
 		setTwtState(randomBytes(24).toString('hex'))
@@ -119,10 +127,6 @@ const Auth = () => {
 		)
 	}
 
-	// If logged in, redirect to /folders, else, render auth forms
-	if (loggedIn) {
-		return <Redirect to='/folders/view'></Redirect>
-	} else {
 		return (
 			<Container fluid className='flex mt-1'>
 				<Form className='formcard flex-v auth-form' onSubmit={handleSubmit}>
@@ -216,7 +220,6 @@ const Auth = () => {
 				</Form>
 			</Container>
 		)
-	}
 }
 
 export default Auth

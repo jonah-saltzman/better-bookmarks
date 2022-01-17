@@ -1,6 +1,5 @@
 import React, { useEffect, useState, createRef, useContext } from 'react'
-import { Spinner } from 'reactstrap'
-import { randomBytes } from 'crypto'
+import { Spinner } from 'react-bootstrap'
 
 import { AppContext } from '../context/Context'
 import { getDeleted } from '../api/tweets'
@@ -9,17 +8,17 @@ import tweetJsx from '../functions/tweetJsx'
 import { useInViewport } from 'react-in-viewport'
 
 const Like = (props) => {
-	const { tweet, add, folder } = props
-    const { state } = useContext(AppContext)
-    const { twtState, token } = state
+	const { tweet, add, folder, id } = props
+	const { state } = useContext(AppContext)
+	const { twtState, token } = state
 
 	const [enteredView, setEnteredView] = useState(false)
 	const [loading, setLoading] = useState(false)
-    const [hover, setHover] = useState(false)
-    const [deleted, setDeleted] = useState(null)
-    const [savedJsx, setSavedJsx] = useState(null)
-    const [tweetDOMId, setTweetDOMId] = useState(`twt-${tweet}` + randomBytes(8).toString('hex'))
-    const [divDOMId, setDivDOMId] = useState(`div-${tweet}` + randomBytes(8).toString('hex'))
+	const [hover, setHover] = useState(false)
+	const [deleted, setDeleted] = useState(null)
+	const [savedJsx, setSavedJsx] = useState(null)
+	const [tweetDOMId, setTweetDOMId] = useState(`twt-${tweet}` + id)
+	const [divDOMId, setDivDOMId] = useState(`div-${tweet}` + id)
 
 	const divRef = createRef()
 	const config = { disconnectOnLeave: false }

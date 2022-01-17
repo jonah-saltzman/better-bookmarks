@@ -10,7 +10,7 @@ import {
 	Form,
 	Button
 } from 'react-bootstrap'
-import { NavLink, Link, useHistory } from 'react-router-dom'
+import { NavLink, Link, useNavigate } from 'react-router-dom'
 import { AppContext } from '../context/Context'
 
 import { allActions as actions } from '../constants'
@@ -28,14 +28,14 @@ const Header = () => {
 	const [newPass, setNewPass] = useState('')
 	const [newPassConf, setNewPassConf] = useState('')
 	const [showChangePass, setShowChangePass] = useState(false)
-	const history = useHistory()
+	const navigate = useNavigate()
 
 	const signout = async () => {
 		if (!token) {
 			toast('No user to logout!', { type: 'error' })
 			localStorage.removeItem('state')
 			actions.forEach((action) => dispatch({ type: action, payload: null }))
-			history.push('/')
+			navigate('/')
 			return
 		}
 		const signoutResult = await logout(token)
@@ -46,7 +46,7 @@ const Header = () => {
 		}
 		actions.forEach((action) => dispatch({ type: action, payload: null }))
 		localStorage.removeItem('state')
-		history.push('/')
+		navigate('/')
 	}
 
 	const closeAccModal = () => {

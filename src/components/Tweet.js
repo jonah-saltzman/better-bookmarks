@@ -1,5 +1,4 @@
 import React, { useEffect, useState, createRef } from 'react'
-import { randomBytes } from 'crypto'
 
 import { MdDelete, MdHistory } from 'react-icons/md'
 
@@ -8,12 +7,12 @@ import { useInViewport } from 'react-in-viewport'
 import tweetJsx from '../functions/tweetJsx'
 
 const Tweet = (props) => {
-	const { tweet, remove, display, shared, widget } = props
+	const { tweet, remove, display, shared, widget, id } = props
 	const [enteredView, setEnteredView] = useState(false)
 	const [loaded, setLoaded] = useState(false)
-    const [deleted, setDeleted] = useState(null)
-    const [tweetDOMId, setTweetDOMId] = useState(`twt-${tweet}` + randomBytes(8).toString('hex'))
-    const [divDOMId, setDivDOMId] = useState(`div-${tweet}` + randomBytes(8).toString('hex'))
+	const [deleted, setDeleted] = useState(null)
+	const [tweetDOMId, setTweetDOMId] = useState(`twt-${tweet}` + id)
+	const [divDOMId, setDivDOMId] = useState(`div-${tweet}` + id)
 
 	const divRef = createRef()
 	const config = { disconnectOnLeave: false }

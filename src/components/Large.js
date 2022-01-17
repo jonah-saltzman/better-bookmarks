@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 
-import { Container, Spinner, Row, Col } from 'reactstrap'
+import { Container, Spinner, Row, Col } from 'react-bootstrap'
 
 import { toast } from 'react-toastify'
 
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import { getSharedFolder } from '../api/folders'
 
@@ -14,7 +14,7 @@ import Tweet from '../components/Tweet'
 
 const Large = (props) => {
 	const { sharedFolder, oneFolder, back, name } = props
-	const history = useHistory()
+	const navigate = useNavigate()
 
 	const [isLoading, setIsLoading] = useState(false)
 	const [twtObjs, setTwtObjs] = useState([])
@@ -22,8 +22,7 @@ const Large = (props) => {
 	const [folder, setFolder] = useState(null)
 	const [gotFolder, setGotFolder] = useState(false)
 	const [loadingWidget, setLoadingWidget] = useState(true)
-    const [tweetsArr, setTweetsArr] = useState([])
-    const [type, setType] = useState('')
+	const [type, setType] = useState('')
 
 	useEffect(() => {
 		window.twttr.ready(() => {
@@ -33,7 +32,7 @@ const Large = (props) => {
 
 	useEffect(() => {
 		if (!sharedFolder && !oneFolder) {
-			history.push('/')
+			navigate('/')
 			return
 		}
 		if (gotFolder) {
@@ -46,7 +45,7 @@ const Large = (props) => {
                 const result = await getSharedFolder(sharedFolder)
                 if (result.error) {
                     toast(result.error, { type: 'error' })
-                    history.push('/')
+                    navigate('/')
                     return
                 }
                 setType('SHARED')
@@ -92,7 +91,7 @@ const Large = (props) => {
 				(twtA, twtB) =>
 					Date.parse(twtB.tweet.twtDate) - Date.parse(twtA.tweet.twtDate)
 			)
-			.map((tweet) => (
+			.map((tweet, i) => (
 				<div className='share-tweetcard'>
 					<Tweet
 						tweet={tweet.tweet}
@@ -100,6 +99,7 @@ const Large = (props) => {
 						like={false}
 						shared={tweet.share}
 						widget={window.twttr.init}
+						id={tweet.twtId + i}
 						// or window.bbtwt
 					/>
 				</div>

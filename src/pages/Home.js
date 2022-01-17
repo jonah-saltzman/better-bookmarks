@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 
-import { useHistory } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 import {
     Card,
@@ -20,26 +20,27 @@ import { checkForToken, twtAuthLanding } from '../functions/authfunctions'
 
 const Home = (props) => {
 	const { state, dispatch } = useContext(AppContext)
-	const history = useHistory()
+	const navigate = useNavigate()
 	const { loggedIn, offline } = state
+	const location = useLocation()
 
     useEffect(() => {
-        if (props.location.search === '?close') {
+        if (location.search === '?close') {
             if (twtAuthLanding(dispatch)) {
                 if (!offline) {
                     localStorage.removeItem('state')
                 }
-                history.push('/folders/likes')
+                navigate('/folders/likes')
             }
-        } else if (tokenUrlRE.test(props.location.search)) {
-            const token = props.location.search.match(tokenRE)[0]
+        } else if (tokenUrlRE.test(location.search)) {
+            const token = location.search.match(tokenRE)[0]
             if (checkForToken(token, dispatch)) {
-                history.push('/folders/view')
+                navigate('/folders/view')
             }
-        } else if (shareUrlRE.test(props.location.search)) {
-            const share = props.location.search.match(shareRE)[0]
+        } else if (shareUrlRE.test(location.search)) {
+            const share = location.search.match(shareRE)[0]
             dispatch({ type: SET_SHARED_FOLDER, payload: share })
-            history.push('/shared')
+            navigate('/shared')
         }
         fetch(BB_URL).catch(() => console.log('server appears to be down'))
     }, [])
@@ -59,7 +60,7 @@ const Home = (props) => {
 							alt='Login with Twitter'
 							style={{ width: '20vw' }}
 							onClick={() => {
-								history.push('/twitter')
+								navigate('/twitter')
 							}}
 						/>
 					) : null}

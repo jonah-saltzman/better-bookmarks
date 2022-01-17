@@ -1,15 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Switch, Route, useHistory } from 'react-router-dom'
+import { Routes as Switch, Route, useNavigate, useLocation } from 'react-router-dom'
 
 import { SET_LOGIN } from '../context/action.types'
 
-import { Container, Spinner, Row, Col } from 'reactstrap'
+import { Container, Spinner, Row, Col } from 'react-bootstrap'
 
 import { AppContext } from '../context/Context'
 
 import { toast } from 'react-toastify'
-
-import { Redirect } from 'react-router-dom'
 
 import { getFolders } from '../api/folders'
 
@@ -24,9 +22,11 @@ import Large from '../components/Large'
 
 const Folders = () => {
 	const { state, dispatch } = useContext(AppContext)
-	const history = useHistory()
+	const navigate = useNavigate()
 
 	const { loggedIn, token } = state
+
+	const location = useLocation()
 
 	const [isLoading, setIsLoading] = useState(true)
 	const [gotFolders, setGotFolders] = useState(false)
@@ -34,45 +34,57 @@ const Folders = () => {
 	const [currentFolder, setCurrentFolder] = useState(null)
 	const [prevFolder, setPrevFolder] = useState(null)
 	const [selectedFolder, setSelectedFolder] = useState({ folderId: null })
-    const [editedFolder, setEditedFolder] = useState(null)
-    const [viewLarge, setViewLarge] = useState(false)
-    const [loadedTweets, setLoadedTweets] = useState({ colA: [], colB: [] })
-    const [didSaveComponents, setDidSaveComponents] = useState(false)
+	const [editedFolder, setEditedFolder] = useState(null)
+	const [viewLarge, setViewLarge] = useState(false)
+	const [loadedTweets, setLoadedTweets] = useState({ colA: [], colB: [] })
+	const [didSaveComponents, setDidSaveComponents] = useState(false)
+	const [loc, setLoc] = useState('VIEW')
 
 	const refreshFolders = () => {
 		setGotFolders(false)
 	}
 
-    const onHistoryChange = () => {
-        setViewLarge(false)
-    }
+	useEffect(() => {
+			setViewLarge(false)
+			console.log(location)
+			switch(location.pathname) {
+				case '/folders/view':
+					setLoc('VIEW')
+					break
+				case '/folders/likes':
+					setLoc('LIKES')
+					break
+				case '/folders/import':
+					setLoc('IMPORT')
+					break
+				default:
+					return loc === 'VIEW'
+						? null
+						: setLoc('VIEW')
+			}
+	}, [location])
 
-    useEffect(() => {
-        const unlisten = history.listen(() => onHistoryChange())
-        return () => unlisten()
-    }, [])
+	const editFolder = (folderId, deleted) => {
+			if (deleted) {
+					const deleted = foldersArr.findIndex(folder => folder.folderId === folderId)
+					setCurrentFolder(foldersArr[(deleted === 0 ? 0 : deleted - 1)])
+					refreshFolders()
+					return
+			} else {
+					setEditedFolder(folderId)
+					setCurrentFolder(foldersArr.find(folder => folder.folderId === folderId))
+					refreshFolders()
+			}
+	}
 
-    const editFolder = (folderId, deleted) => {
-        if (deleted) {
-            const deleted = foldersArr.findIndex(folder => folder.folderId === folderId)
-            setCurrentFolder(foldersArr[(deleted === 0 ? 0 : deleted - 1)])
-            refreshFolders()
-            return
-        } else {
-            setEditedFolder(folderId)
-            setCurrentFolder(foldersArr.find(folder => folder.folderId === folderId))
-            refreshFolders()
-        }
-    }
-
-    const selectFolder = (folderId) => {
-        if (selectFolder.folderId === folderId) {
-            return
-        }
-        if (foldersArr.some(folder => folder.folderId === folderId)) {
-            setCurrentFolder(foldersArr.find(folder => folder.folderId === folderId))
-        }
-    }
+	const selectFolder = (folderId) => {
+			if (selectFolder.folderId === folderId) {
+					return
+			}
+			if (foldersArr.some(folder => folder.folderId === folderId)) {
+					setCurrentFolder(foldersArr.find(folder => folder.folderId === folderId))
+			}
+	}
 
 	const share = async (folderId, value) => {
 		const result = await shareFolder(folderId, token, value)
@@ -113,17 +125,17 @@ const Folders = () => {
 			) {
 				return
 			} else {
-                setLoadedTweets({ colA: [], colB: [] })
-                setDidSaveComponents(false)
+					setLoadedTweets({ colA: [], colB: [] })
+					setDidSaveComponents(false)
+					setSelectedFolder(currentFolder)
+					setPrevFolder(currentFolder)
+				}
+		} else {
+				setLoadedTweets({ colA: [], colB: [] })
+				setDidSaveComponents(false)
 				setSelectedFolder(currentFolder)
 				setPrevFolder(currentFolder)
 			}
-		} else {
-            setLoadedTweets({ colA: [], colB: [] })
-            setDidSaveComponents(false)
-			setSelectedFolder(currentFolder)
-			setPrevFolder(currentFolder)
-		}
 	}, [currentFolder])
 
 	useEffect(() => {
@@ -139,7 +151,7 @@ const Folders = () => {
 					setGotFolders(true)
 					setIsLoading(false)
 					dispatch({ type: SET_LOGIN, payload: false })
-					history.push('/')
+					navigate('/')
 					return
 				}
 				if (folders?.folders) {
@@ -177,6 +189,13 @@ const Folders = () => {
         }
     }
 
+		useEffect(() => {
+			if (!loggedIn) {
+				navigate('/auth')
+				return
+			}
+		}, [loggedIn])
+
     const stdView = (
 			<Container fluid className='main-view'>
 				<Row className='main-row'>
@@ -185,7 +204,7 @@ const Folders = () => {
 							scrollable={`true`}
 							className='folder-list pt-4 container-fluid no-padding'>
 							<>
-								<div className='folder-listcard mb-4'>
+								<div key={'newFolder-div'} className='folder-listcard mb-4'>
 									<Folder
 										folder={{ folderName: 'New Folder' }}
 										edit={editFolder}
@@ -204,6 +223,7 @@ const Folders = () => {
 												: 'folder-listcard')
 										}
 										id={folder.folderId}
+										key={folder.folderId + '-div'}
 										onClick={() => {
 											selectFolder(folder.folderId)
 										}}>
@@ -222,31 +242,24 @@ const Folders = () => {
 						</Container>
 					</Col>
 					<Col className='pages-col'>
-						<Switch>
-							<Route exact path='/folders/view'>
-								<OneFolder
-									refresh={refreshFolders}
-									folder={selectedFolder}
-									share={share}
-									viewLarge={expand}
-									loadedTweets={didSaveComponents ? loadedTweets : null}
-								/>
-							</Route>
-							<Route exact path='/folders/import'>
-								<Import refresh={refreshFolders} folder={selectedFolder} />
-							</Route>
-							<Route exact path='/folders/likes'>
-								<Likes refresh={refreshFolders} folder={selectedFolder} />
-							</Route>
-						</Switch>
+						{
+							loc === 'VIEW'
+								? (<OneFolder
+										refresh={refreshFolders}
+										folder={selectedFolder}
+										share={share}
+										viewLarge={expand}
+										loadedTweets={didSaveComponents ? loadedTweets : null}
+									/>)
+								: loc === 'IMPORT'
+								? (<Import refresh={refreshFolders} folder={selectedFolder} />)
+								: (<Likes refresh={refreshFolders} folder={selectedFolder} />)
+						}
 					</Col>
 				</Row>
 			</Container>
 		)
-
-	if (!loggedIn) {
-		return <Redirect to='/auth' />
-	} else {
+	
 		if (isLoading) {
 			return (
 				<div hidden={!isLoading} className='center-spinner'>
@@ -262,7 +275,7 @@ const Folders = () => {
                 back={minimize}
             /> : stdView
 		}
-	}
+	
 }
 
 export default Folders

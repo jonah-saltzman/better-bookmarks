@@ -5,7 +5,7 @@ import {
 	Spinner,
 	Row,
 	Col,
-} from 'reactstrap'
+} from 'react-bootstrap'
 
 import { BsToggleOff, BsToggleOn} from 'react-icons/bs'
 import { FaExpandAlt } from 'react-icons/fa'
@@ -15,7 +15,7 @@ import { AppContext } from '../context/Context'
 
 import { toast } from 'react-toastify'
 
-import { Redirect, useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 import { getOneFolder } from '../api/folders'
@@ -29,7 +29,7 @@ import Tweet from '../components/Tweet'
 const OneFolder = ({ folder, share, viewLarge, loadedTweets }) => {
 	const { state, dispatch } = useContext(AppContext)
 	const { loggedIn, token } = state
-	const history = useHistory()
+	const navigate = useNavigate()
 
 	const [isLoading, setIsLoading] = useState(true)
 	const [tweetsArr, setTweetsArr] = useState([])
@@ -112,7 +112,7 @@ const OneFolder = ({ folder, share, viewLarge, loadedTweets }) => {
                         actions.forEach((action) =>
                             dispatch({ type: action, payload: null })
                         )
-                        history.push('/')
+                        navigate('/')
                         setIsLoading(false)
                         return
                     }
@@ -176,7 +176,8 @@ const OneFolder = ({ folder, share, viewLarge, loadedTweets }) => {
 									remove={deleteTweet}
 									display={tweet.display}
 									like={false}
-                                    widget={window.bbtwt}
+									widget={window.bbtwt}
+									id={tweet.twtId + i}
 								/>
 							</div>
 					  )
@@ -188,7 +189,8 @@ const OneFolder = ({ folder, share, viewLarge, loadedTweets }) => {
 									remove={deleteTweet}
 									display={tweet.display}
 									like={false}
-                                    widget={window.bbtwt}
+									widget={window.bbtwt}
+									id={tweet.twtId + i}
 								/>
 							</div>
 					  )
@@ -197,7 +199,7 @@ const OneFolder = ({ folder, share, viewLarge, loadedTweets }) => {
 	}, [twtObjs])
 
 	if (!loggedIn) {
-		return <Redirect to='/auth'></Redirect>
+		navigate('/auth')
 	} else if (isLoading) {
 		return (
 			<div className='center-spinner-one'>

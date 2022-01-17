@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 
-import { Container, Spinner, Row, Col } from 'reactstrap'
+import { Container, Spinner, Row, Col } from 'react-bootstrap'
 
 import { AppContext } from '../context/Context'
 
 import { toast } from 'react-toastify'
 
-import { Redirect, useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import Like from '../components/Like'
 import getLikes from '../api/likes'
@@ -17,7 +17,7 @@ import { allActions as actions } from '../constants'
 const Likes = ({ folder, refresh }) => {
 	const { state, dispatch } = useContext(AppContext)
 	const { loggedIn, token, twtAuth, widgets } = state
-	const history = useHistory()
+	const navigate = useNavigate()
 
 	const [isLoading, setIsLoading] = useState(false)
 	const [tweetsArr, setTweetsArr] = useState([])
@@ -100,7 +100,7 @@ const Likes = ({ folder, refresh }) => {
 					toast(`Error: ${tweets.error}`)
 					localStorage.removeItem('state')
 					actions.forEach((action) => dispatch({ type: action, payload: null }))
-					history.push('/')
+					navigate('/')
 					setIsLoading(false)
 					return
 				}
@@ -141,6 +141,7 @@ const Likes = ({ folder, refresh }) => {
 								key={tweet.twtId}
 								add={addTweet}
 								folder={folder.folderName}
+								id={tweet.twtId + i}
 							/>
 						</div>
 				  )
@@ -153,6 +154,7 @@ const Likes = ({ folder, refresh }) => {
 								key={tweet.twtId}
 								add={addTweet}
 								folder={folder.folderName}
+								id={tweet.twtId + i}
 							/>
 						</div>
 				  )
@@ -161,7 +163,7 @@ const Likes = ({ folder, refresh }) => {
 	}, [twtObjs])
 
 	if (!loggedIn) {
-		return <Redirect to='/auth'></Redirect>
+		navigate('/auth')
 	} else if (!window.twttr.init) {
         return (
             <div className='widgets-warning'>Your browser is blocking Twitter widgets, which are required in order to view Liked Tweets.</div>
@@ -200,7 +202,7 @@ const Likes = ({ folder, refresh }) => {
 				</Container>
 			)
 		} else {
-			return <Redirect to='/twitter' />
+			navigate('/twitter')
 		}
 	}
 }

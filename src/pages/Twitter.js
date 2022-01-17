@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
 
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import twitterLogin from '../sign-in-with-twitter-gray.png.twimg.1920.png'
 
@@ -18,38 +18,38 @@ const Twitter = () => {
 
 	const { state, dispatch } = useContext(AppContext)
 	const { loggedIn, userId, twtChallenge, twtState, token } = state
-    const history = useHistory()
+	const navigate = useNavigate()
 
 	const [ showTwtAuth, setShowTwtAuth ] = useState(false)
 	const [ twtAuthUrl, setTwtAuthUrl ] = useState('')
 
 	const twtPopup = () => {
-        localStorage.setItem('twtState', twtState)
-        localStorage.setItem('token', token)
-        saveState(state, true)
-        if (localStorage.getItem('twitter')) {
-            window.location.href = twtAuthUrl
-        }
+		localStorage.setItem('twtState', twtState)
+		localStorage.setItem('token', token)
+		saveState(state, true)
+		if (localStorage.getItem('twitter')) {
+				window.location.href = twtAuthUrl
+		}
 	}
 
 	useEffect(() => {
 		if (loggedIn && userId) {
-            (async () => {
-                const result = await checkTwtAuth(token, twtState)
-                if (result) {
-                    dispatch({
-                        type: SET_TWT_AUTH,
-                        payload: { authed: true }
-                    })
-                    history.push('/folders/likes')
-                }
-            })()
+			(async () => {
+					const result = await checkTwtAuth(token, twtState)
+					if (result) {
+							dispatch({
+									type: SET_TWT_AUTH,
+									payload: { authed: true }
+							})
+							navigate('/folders/likes')
+					}
+			})()
 			setTwtAuthUrl(getTwtUrl(userId, twtChallenge, twtState, null))
 			setShowTwtAuth(true)
 		} else {
 			setTwtAuthUrl('')
 			setShowTwtAuth(false)
-            history.push('/auth')
+			navigate('/auth')
 		}
 	}, [loggedIn])
 

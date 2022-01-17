@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { AppContext } from '../context/Context'
-import { FormGroup, Form, Container, Button, Spinner } from 'reactstrap'
+import { FormGroup, Form, Container, Button, Spinner } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import { bookmarkTweets } from '../api/tweets'
 import { NavLink } from 'react-router-dom'

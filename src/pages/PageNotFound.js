@@ -1,9 +1,11 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const PageNotFound = () => {
+  const navigate = useNavigate()
+  navigate('/')
   return (
-    <Redirect to='/'></Redirect>
+    <></>
   );
 };
 
