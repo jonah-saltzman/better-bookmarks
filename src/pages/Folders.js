@@ -46,7 +46,6 @@ const Folders = () => {
 
 	useEffect(() => {
 			setViewLarge(false)
-			console.log(location)
 			switch(location.pathname) {
 				case '/folders/view':
 					setLoc('VIEW')
