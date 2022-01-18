@@ -15,7 +15,6 @@ import './App.css'
 
 // components
 import Header from './layout/Header'
-import Footer from './layout/Footer'
 import PageNotFound from './pages/PageNotFound'
 import Auth from './pages/Auth'
 import Home from './pages/Home'
@@ -25,7 +24,7 @@ import Shared from './pages/Shared'
 
 import reducer from './context/reducer'
 import { AppContext } from './context/Context'
-import { SET_SAVED_STATE, SET_SHARED_FOLDER } from './context/action.types'
+import { SET_SAVED_STATE } from './context/action.types'
 import saveState from './functions/saveState'
 
 const initialState = {
@@ -56,7 +55,7 @@ const initialState = {
     widgets: false
 }
 
-const App = (props) => {
+const App = () => {
 	const [state, dispatch] = useReducer(reducer, initialState)
 	const { offline, savedState } = state
 	const [ bigWindow, setBigWindow ] = useState({

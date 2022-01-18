@@ -42,7 +42,6 @@ const Home = (props) => {
             dispatch({ type: SET_SHARED_FOLDER, payload: share })
             navigate('/shared')
         }
-        fetch(BB_URL).catch(() => console.log('server appears to be down'))
     }, [])
     
     const stdBody = (
@@ -63,7 +62,7 @@ const Home = (props) => {
 								navigate('/twitter')
 							}}
 						/>
-					) : (<a className='link example' href='https://bookmarks.jonahsaltzman.dev/?share=4HUUImhgC-TXl3H'>Check out a Shared Folder!</a>)}
+					) : (<a className='link example' href='https://bookmarks.jonahsaltzman.dev/?share=4HUUImhgC-TXl3H'>Preview a shared folder now</a>)}
 				</div>
 			</>
 		)
