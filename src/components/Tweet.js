@@ -37,6 +37,10 @@ const Tweet = (props) => {
 		}
 	}, [inViewport])
 
+    useEffect(() => {
+        console.log(tweet)
+    }, [])
+
 	useEffect(() => {
 		if (!enteredView) {
 			return
