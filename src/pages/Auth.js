@@ -129,12 +129,14 @@ const Auth = () => {
 
 		return (
 			<Container fluid className='flex mt-1'>
+                
 				<Form className='formcard flex-v auth-form' onSubmit={handleSubmit}>
-					<img
+                <img
 						src={twitterButton}
 						alt='Sign up or login with Twitter'
 						onClick={startTwitterAuth}
-						className='center-item twt-btn'></img>
+						className='login-twt'
+                        ></img>
 					<FormGroup className='mt-4'>
 						<input
 							className='input'

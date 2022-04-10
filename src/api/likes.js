@@ -1,6 +1,7 @@
 import { BB_URL as URL } from '../constants'
 
 const getLikes = async (token) => {
+    console.log(token)
 	const getFoldersURL = URL + '/user/likes'
 	try {
 		const response = await fetch(getFoldersURL, {
@@ -11,6 +12,8 @@ const getLikes = async (token) => {
 			},
 		})
 		const status = response.status
+        console.log('status')
+        console.log(status)
 		const data = await response.json()
 		if (status === 200) {
 			return {

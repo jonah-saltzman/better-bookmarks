@@ -23,11 +23,11 @@ const isDev = Boolean(
 )
 
 export const BB_URL = isDev
-	? 'http://192.168.86.22:4000'
+	? 'http://localhost:4000'
 	: 'https://api.bookmarks.jonahsaltzman.dev'
 
 export const SHARE_PREFIX = isDev
-	? 'http://192.168.86.22:3000/?share='
+	? 'http://localhost:3000/?share='
 	: 'https://bookmarks.jonahsaltzman.dev/?share='
 
 export const TWTAUTH_PREFIX =

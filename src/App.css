@@ -104,16 +104,7 @@ article {
    pointer-events: none;
 }
 
-.share {
-  height: 85vh;
-  overflow-y: scroll;
-  padding: 20px;
-  border-radius: 10px;
-  background: linear-gradient(110deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1));
-  display: flex;
-  justify-content: space-around;
-  width: 95%
-}
+
 
 .delete-tweet {
   position: absolute;
@@ -239,6 +230,17 @@ blockquote.twitter-tweet-jsx a:focus {
   height: 100%;
   border-radius: 10px;
 }
+
+.share {
+    height: 85vh;
+    overflow-y: scroll;
+    padding: 20px;
+    border-radius: 10px;
+    background: linear-gradient(110deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1));
+    display: flex;
+    justify-content: space-around;
+    width: 95%
+  }
 
 .input-list {
   overflow: scroll;
@@ -1170,6 +1172,11 @@ background: linear-gradient(
 .twt-btn {
   max-width: 50%;
   height: auto
+}
+
+.login-twt {
+    max-width: 50%;
+    align-self: center;
 }
 
 .btn-primary {

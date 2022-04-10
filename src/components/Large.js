@@ -14,6 +14,7 @@ import Tweet from '../components/Tweet'
 
 const Large = (props) => {
 	const { sharedFolder, oneFolder, back, name } = props
+    console.log(sharedFolder)
 	const navigate = useNavigate()
 
 	const [isLoading, setIsLoading] = useState(false)
@@ -50,6 +51,7 @@ const Large = (props) => {
                 }
                 setType('SHARED')
                 setFolder(result.folder)
+                console.log(result.folder)
                 setGotFolder(true)
                 setIsLoading(false)
             })()
@@ -121,6 +123,7 @@ const Large = (props) => {
 			</div>
 		)
 	} else {
+        console.log(components)
 		return (
 			<>
 				<Container style={{maxWidth: '95%'}} fluid className='folder-title'>
@@ -139,7 +142,7 @@ const Large = (props) => {
 				<Container
 					fluid
 					scrollable={`true`}
-					className='mt-4 mb-5 share share-list'>
+					className='mt-4 mb-5 share'>
 					<Row>
 						<Col className='share-col-a' md={4}>
 							{components[0]}
